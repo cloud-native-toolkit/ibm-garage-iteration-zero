@@ -1,0 +1,7 @@
+resource_group_name           = ""
+private_vlan_number           = ""
+private_vlan_router_hostname  = ""
+public_vlan_number            = ""
+public_vlan_router_hostname   = ""
+vlan_datacenter               = ""
+vlan_region                   = ""
