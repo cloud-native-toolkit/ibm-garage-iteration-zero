@@ -25,25 +25,30 @@ This section discusses deploying IBM Cloud resources with Terraform. This sectio
 
 ### Overview
 
-This repo contains Terraform templates as well as a couple of scripts to expedite the deployment process of the IBM Terraform Docker container. The templates are located in `src/tf/templates` and the scripts are in `src/scripts/tf`.
+This repo contains Terraform templates as well as a couple of scripts to expedite the deployment process of the IBM Terraform Docker container. The templates are located in `src/templates` and the scripts are in `src/scripts/tf`.
 
 ### Getting Started
 
 Once you have followed the steps in the [Basic Setup](#basic-setup) section, clone this repository to your local filesystem and cd into the src/ directory.
 
-```
-$ git clone git@github.ibm.com:garage-catalyst/ibmcloud-public-dev-setup.git
+```bash
+$ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
 
-$ cd ibmcloud-public-dev-setup/src
+$ cd iteration-zero-terraform
 ```
-
-**Note: The scripts assume that you are running them from the `ibmcloud-public-dev-setup/src` directory.**
 
 Next, deploy the IBM Terraform Docker Container. You will need your API Keys as defined in the [Getting API Keys](#getting-api-keys) section. Replace the `BM_API_KEY`, `SL_USERNAME` and `SL_API_KEY` parameters accordingly.
 
-```
-$ ./scripts/tf/launch.sh BM_API_KEY SL_USERNAME SL_API_KEY
+```bash
+$ ./scripts/launch.sh BM_API_KEY SL_USERNAME SL_API_KEY
 $ cd tf
+```
+
+**Alternately** you can update the `BM_API_KEY`, `SL_USERNAME` and `SL_API_KEY` values in package.json and run
+the script from package.json with
+
+```bash
+$ npm run start
 ```
 
 You will be given a shell inside the container. All commands that should be run inside this container will be prefixed with `[TF]`. Commands that should be run on your dev/host system will be prefixed with `[DV]`.
@@ -57,12 +62,12 @@ First, copy the AppID Terraform template to the `src/tf` directory.
 
 ```
 [DV] $ cd ibmcloud-public-dev-setup/src
-[DV] $ cp tf/templates/appid.tf.template tf/main.tf
+[DV] $ cp src/templates/appid.tf.template src/main.tf
 ```
 
-Your `tf/main.tf` file should look like the following:
+Your `src/main.tf` file should look like the following:
 ~~~
-# tf/main.tf
+# src/main.tf
 data "ibm_resource_group" "appid_resource_group" {
   name = "${var.resource_group_name}"
 }
@@ -78,18 +83,18 @@ resource "ibm_resource_instance" "appid_instance" {
 
 You can see two variables and one resource above, where the resource references the two variables. These variables can be defined when you run the `terraform apply` command, but they can also be specified in a file.
 
-We will proceed with defining the variables in a file. Create the `tf/terraform.tfvars` file and open for editing.
+We will proceed with defining the variables in a file. Create the `src/terraform.tfvars` file and open for editing.
 ```
-[DV] $ touch tf/terraform.tfvars
+[DV] $ touch src/terraform.tfvars
 ```
 
 Then, paste the in the following:
 ~~~
-# tf/terraform.tfvars
+# src/terraform.tfvars
 resource_group_name = "RG_NAME"
 ~~~
 
-Variables used here will be the values for variables referenced in `tf/main.tf`. Change `RG_NAME` to an appropriate value. Where `RG_NAME` is the name of the Resource Group where you would like to deploy AppID.
+Variables used here will be the values for variables referenced in `src/main.tf`. Change `RG_NAME` to an appropriate value. Where `RG_NAME` is the name of the Resource Group where you would like to deploy AppID.
 
 Next, run the `terraform plan` command to see what Terraform will create.
 ```
