@@ -1,4 +1,8 @@
 #!/bin/bash
+
+SCRIPT_DIR=$(dirname $0)
+SRC_DIR="${SCRIPT_DIR}/../src"
+
 helpFunction()
 {
    echo ""
@@ -6,8 +10,18 @@ helpFunction()
    exit 1 # Exit script after printing help
 }
 
+if [[ -n "$1" ]]; then
+   BM_API_KEY="$1"
+fi
+if [[ -n "$2" ]]; then
+   SL_USERNAME="$2"
+fi
+if [[ -n "$3" ]]; then
+   SL_API_KEY="$3"
+fi
+
 # Print helpFunction in case parameters are empty
-if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
+if [[ -z "${BM_API_KEY}" ]] || [[ -z "${SL_USERNAME}" ]] || [[ -z "${SL_API_KEY}" ]]
 then
    echo "Some or all of the parameters are empty";
    helpFunction
@@ -20,7 +34,15 @@ docker kill ibm-kube-terraform  > /dev/null 2>&1
 docker rm ibm-kube-terraform  > /dev/null 2>&1
 
 echo "Initializing..."
-docker run -itd --name ibm-kube-terraform -v $(pwd)/tf:/root/tf -v $(pwd)/.kube:/root/.kube -v $(pwd)/.helm:/root/.helm -e BM_API_KEY=$(echo $1) -e SL_USERNAME=$(echo $2) -e SL_API_KEY=$(echo $3) ${DOCKER_IMAGE} /bin/bash  > /dev/null 2>&1
+docker run -itd --name ibm-kube-terraform \
+   -v $SRC_DIR:/root/tf \
+   -v $(pwd)/.kube:/root/.kube \
+   -v $(pwd)/.helm:/root/.helm \
+   -e BM_API_KEY="${BM_API_KEY}" \
+   -e SL_USERNAME="${SL_USERNAME}" \
+   -e SL_API_KEY="${SL_API_KEY}" \
+   ${DOCKER_IMAGE} \
+   /bin/bash  > /dev/null 2>&1
 docker exec -it --workdir /root/tf ibm-kube-terraform terraform init > /dev/null 2>&1
 
 echo "Attaching..."
