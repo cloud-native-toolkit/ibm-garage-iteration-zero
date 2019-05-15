@@ -1,3 +1,10 @@
+# Terraform Vars
+variable "user_home_dir" {
+  type        = "string"
+  description = "Home directory for run user. Kubeconfig will be downloaded here."
+  default     = "/home/devops"
+}
+
 # Resource Group Variables
 variable "resource_group_name" {
   type        = "string"

@@ -1,20 +1,9 @@
-data "ibm_resource_group" "iks_resource_group" {
-  name = "${var.resource_group_name}"
-}
-
-data "ibm_container_cluster_config" "iks_cluster" {
-  cluster_name_id = "${var.iks_cluster_id}"
-  resource_group_id = "${data.ibm_resource_group.iks_resource_group.id}"
-  config_dir      = "/root/.kube"
-  region          = "${var.iks_cluster_region}"
-}
-
 provider "helm" {
   namespace = "${var.tiller_namespace}"
   service_account = "${var.tiller_service_account_name}"
 
   kubernetes {
-    config_path = "${data.ibm_container_cluster_config.iks_cluster.config_file_path}"
+    config_path = "${var.iks_cluster_config_file}"
   }
 }
 
@@ -35,7 +24,7 @@ resource "helm_release" "jenkins_release" {
   ]
 
   set {
-    name = "Master.ingress.hostName"
+    name = "master.ingress.hostName"
     value = "jenkins.${var.iks_ingress_hostname}"
   }
 }

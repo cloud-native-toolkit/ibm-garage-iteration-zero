@@ -1,3 +1,21 @@
 .idea/
 *.iml
 node_modules/
+
+# Local .kube directories
+**/.kube/*
+
+# Local .helm directories
+**/.helm/*
+
+# Local .terraform directories
+**/.terraform/*
+
+# Terraform files
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

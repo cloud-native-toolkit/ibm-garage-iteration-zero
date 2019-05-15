@@ -9,3 +9,9 @@ output "tiller_service_account_name" {
   description = "Name of the Tiller Service Account."
   depends_on  = ["kubernetes_cluster_role_binding.tiller_admin_binding"]
 }
+
+output "iks_cluster_config_file" {
+  value       = "${data.ibm_container_cluster_config.iks_cluster.config_file_path}"
+  description = "Directory for Kube configuration"
+  depends_on  = ["kubernetes_cluster_role_binding.tiller_admin_binding"]
+}

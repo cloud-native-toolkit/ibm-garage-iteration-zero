@@ -13,10 +13,12 @@ module "dev_iks_cluster" {
 module "dev_iks_helm_install" {
   source = "./iks_helm_install"
 
-  resource_group_name = "${var.resource_group_name}"
-  iks_cluster_id      = "${module.dev_iks_cluster.iks_cluster_id}"
-  iks_cluster_region  = "${module.dev_iks_cluster.iks_cluster_region}"
+  resource_group_name     = "${var.resource_group_name}"
+  iks_cluster_id          = "${module.dev_iks_cluster.iks_cluster_id}"
+  iks_cluster_region      = "${module.dev_iks_cluster.iks_cluster_region}"
+  kubeconfig_download_dir = "${var.user_home_dir}"
 }
+
 
 module "dev_tools_ibmcloud" {
   source = "./tools_ibmcloud"
@@ -28,10 +30,10 @@ module "dev_tools_ibmcloud" {
 module "dev_tools_helm_releases" {
   source = "./tools_helm_releases"
 
-  resource_group_name                           = "${var.resource_group_name}"
   iks_cluster_id                                = "${module.dev_iks_cluster.iks_cluster_id}"
   iks_cluster_region                            = "${module.dev_iks_cluster.iks_cluster_region}"
   iks_ingress_hostname                          = "${module.dev_iks_cluster.iks_ingress_hostname}"
+  iks_cluster_config_file                       = "${module.dev_iks_helm_install.iks_cluster_config_file}"
   tiller_namespace                              = "${module.dev_iks_helm_install.tiller_namespace}"
   tiller_service_account_name                   = "${module.dev_iks_helm_install.tiller_service_account_name}"
   sonarqube_postgresql_service_account_username = "${module.dev_tools_ibmcloud.postgresql_service_account_username}"
