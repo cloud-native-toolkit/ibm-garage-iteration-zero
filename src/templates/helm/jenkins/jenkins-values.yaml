@@ -1,7 +1,0 @@
-Master:
-  NumExecutors: 5
-  ingress:
-    enabled: true
-
-Persistence:
-  StorageClass: "ibmc-file-gold"

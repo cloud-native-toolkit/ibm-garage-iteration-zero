@@ -1,9 +1,0 @@
-ingress:
-  enabled: true
-  # hosts: []
-
-persistence:
-  enabled: true
-  storageClass: "ibmc-file-gold"
-  accessMode: ReadWriteOnce
-  size: 2Gi
