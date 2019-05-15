@@ -1,3 +1,10 @@
+# Terraform Variables
+variable "user_home_dir" {
+  type        = "string"
+  description = "Home directory of run user. This is where Kube config will be downloaded."
+  default     = "/home/devops"
+}
+
 # Resource Group Variables
 variable "resource_group_name" {
   type        = "string"
@@ -15,19 +22,19 @@ variable "private_vlan_router_hostname" {
 }
 variable "public_vlan_number" {
   type        = "string"
-  description = "Existing private VLAN number for IKS Cluster creation."
+  description = "Existing public VLAN number for IKS Cluster creation."
 }
 variable "public_vlan_router_hostname" {
   type        = "string"
-  description = "Router hostname for private VLAN defined in public_vlan_number."
+  description = "Router hostname for public VLAN defined in public_vlan_number."
 }
 variable "vlan_datacenter" {
   type        = "string"
   description = "Datacenter for VLANs defined in private_vlan_number and public_vlan_number."
-  default     = "dal10"
+  # default     = "dal10"
 }
 variable "vlan_region" {
   type        = "string"
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
-  default     = "us-south"
+  # default     = "us-south"
 }
