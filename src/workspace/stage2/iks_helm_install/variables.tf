@@ -12,8 +12,3 @@ variable "iks_cluster_region" {
   type        = "string"
   description = "Region of existing IKS cluster to which Helm will be installed on."
 }
-
-variable "kubeconfig_download_dir" {
-  type        = "string"
-  description = "Directory to download kubeconfig."
-}

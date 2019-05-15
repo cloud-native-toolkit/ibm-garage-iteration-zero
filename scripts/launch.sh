@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR=$(dirname $0)
-SRC_DIR="${SCRIPT_DIR}/../src"
+SRC_DIR="$( cd "${SCRIPT_DIR}/../src" ; pwd -P )"
 
 helpFunction()
 {
@@ -35,15 +35,15 @@ docker rm ibm-kube-terraform  > /dev/null 2>&1
 
 echo "Initializing..."
 docker run -itd --name ibm-kube-terraform \
-   -v $SRC_DIR:/root/tf \
-   -v $(pwd)/.kube:/root/.kube \
-   -v $(pwd)/.helm:/root/.helm \
+   -v $SRC_DIR:/home/devops/src \
+   -v $(pwd)/.kube:/home/devops/.kube \
+   -v $(pwd)/.helm:/home/devops/.helm \
    -e BM_API_KEY="${BM_API_KEY}" \
    -e SL_USERNAME="${SL_USERNAME}" \
    -e SL_API_KEY="${SL_API_KEY}" \
    ${DOCKER_IMAGE} \
    /bin/bash  > /dev/null 2>&1
-docker exec -it --workdir /root/tf ibm-kube-terraform terraform init > /dev/null 2>&1
+docker exec -it --workdir /home/devops/src/workspace ibm-kube-terraform terraform init > /dev/null 2>&1
 
 echo "Attaching..."
 docker attach ibm-kube-terraform
