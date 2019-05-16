@@ -15,3 +15,21 @@ output "iks_cluster_config_file" {
   description = "Directory for Kube configuration"
   depends_on  = ["kubernetes_cluster_role_binding.tiller_admin_binding"]
 }
+
+output "tools_namespace_name" {
+  value       = "${kubernetes_namespace.tools_namespace.id}"
+  description = "Tools namespace name"
+  depends_on  = ["kubernetes_cluster_role_binding.tiller_admin_binding"]
+}
+
+output "prod_namespace_name" {
+  value       = "${kubernetes_namespace.prod_namespace.id}"
+  description = "Production namespace name"
+  depends_on  = ["kubernetes_cluster_role_binding.tiller_admin_binding"]
+}
+
+output "dev_namespace_name" {
+  value       = "${kubernetes_namespace.dev_namespace.id}"
+  description = "Development namespace name"
+  depends_on  = ["kubernetes_cluster_role_binding.tiller_admin_binding"]
+}

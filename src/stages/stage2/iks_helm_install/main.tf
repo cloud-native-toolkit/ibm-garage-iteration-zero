@@ -19,6 +19,18 @@ resource "kubernetes_namespace" "tools_namespace" {
   }
 }
 
+resource "kubernetes_namespace" "dev_namespace" {
+  metadata {
+    name = "dev"
+  }
+}
+
+resource "kubernetes_namespace" "prod_namespace" {
+  metadata {
+    name = "prod"
+  }
+}
+
 resource "kubernetes_service_account" "tiller_service_account" {
   metadata {
     name = "tiller"
