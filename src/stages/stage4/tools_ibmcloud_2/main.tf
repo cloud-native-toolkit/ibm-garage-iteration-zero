@@ -3,7 +3,7 @@ data "ibm_resource_group" "tools_resouce_group" {
 }
 
 resource "ibm_resource_instance" "appid_instance" {
-  name              = "${data.ibm_resource_group.tools_resouce_group.name}-appid"
+  name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-appid"
   service           = "appid"
   plan              = "graduated-tier"
   location          = "${var.resource_location}"
@@ -45,7 +45,7 @@ resource "ibm_container_bind_service" "appid_service_binding_dev" {
 }
 
 resource "ibm_resource_instance" "cos_instance" {
-  name              = "${data.ibm_resource_group.tools_resouce_group.name}-cloud-object-storage"
+  name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-cloud-object-storage"
   service           = "cloud-object-storage"
   plan              = "standard"
   location          = "global"
@@ -89,7 +89,7 @@ resource "ibm_container_bind_service" "cos_binding_prod" {
 }
 
 resource "ibm_resource_instance" "cloudant_instance" {
-  name              = "${data.ibm_resource_group.tools_resouce_group.name}-cloudant"
+  name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-cloudant"
   service           = "cloudantnosqldb"
   plan              = "lite"
   location          = "${var.resource_location}"

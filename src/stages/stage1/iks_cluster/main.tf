@@ -13,7 +13,7 @@ data "ibm_network_vlan" "iks_public_vlan" {
 }
 
 resource "ibm_container_cluster" "iks_cluster" {
-  name              = "${data.ibm_resource_group.iks_resource_group.name}-cluster"
+  name              = "${replace(data.ibm_resource_group.iks_resource_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-cluster"
   datacenter        = "${var.vlan_datacenter}"
   machine_type      = "u3c.2x4"
   hardware          = "shared"

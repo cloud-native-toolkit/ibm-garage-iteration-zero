@@ -3,7 +3,7 @@ data "ibm_resource_group" "tools_resouce_group" {
 }
 
 resource "ibm_resource_instance" "postgresql_instance" {
-  name              = "${data.ibm_resource_group.tools_resouce_group.name}-postgresql"
+  name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-postgresql"
   service           = "databases-for-postgresql"
   plan              = "standard"
   location          = "${var.resource_location}"
