@@ -1,4 +1,4 @@
-# startkit-terraform
+# iteration-zero-terraform
 This repository contains tools to help setup an IBM Cloud Public development environment.
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
