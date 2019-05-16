@@ -8,8 +8,8 @@ This section will guide you through basic setup of the environment deployment. Y
 
 ### Pre-requisites
 - An IBM Cloud account with the ability to provision resources.
+- A resource group, public VLAN, and private VLAN in IBM Cloud.
 - Docker installed on your local development machine.
-- The IBM Cloud CLI installed on your local development machine.
 
 ### Getting API Keys
 There are two different API Keys that you will need to generate in order to deploy everything in this guide, one for IBM Cloud resources and another set for Classic Infrastructure resources.
@@ -21,11 +21,19 @@ To generate these keys, please visit the following links:
 The IBM Cloud API Key will later be referred to as: `BM_API_KEY`. The Classic Infrastructure Key will later be referred to as: `SL_API_KEY` and the Classic Infrastructure username for that Infrastructure Key is `SL_USERNAME`.
 
 ## Deploying with Terraform
-This section discusses deploying IBM Cloud resources with Terraform. This section uses the [IBM Terraform Docker image](https://hub.docker.com/r/ibmterraform/terraform-provider-ibm-docker/) to run the Terraform client.
+This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://hub.docker.com/r/garagecatalyst/ibm-kube-terraform) to run the Terraform client.
 
 ### Overview
 
-This repo contains Terraform templates as well as a couple of scripts to expedite the deployment process of the IBM Terraform Docker container. The templates are located in `src/templates` and the scripts are in `src/scripts/tf`.
+This repo contains Terraform resources that will deploy the following:
+
+- IBM Container Service Cluster (3 nodes), with:
+  - SonarQube
+  - Jenkins
+- PostgreSQL
+- AppID
+- Cloudant
+- Cloud Object Storage
 
 ### Getting Started
 
@@ -37,73 +45,47 @@ $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
 $ cd iteration-zero-terraform
 ```
 
-Next, deploy the IBM Terraform Docker Container. You will need your API Keys as defined in the [Getting API Keys](#getting-api-keys) section. Replace the `BM_API_KEY`, `SL_USERNAME` and `SL_API_KEY` parameters accordingly.
-
-```bash
-$ ./scripts/launch.sh BM_API_KEY SL_USERNAME SL_API_KEY
-$ cd tf
+Next, modify the `pacakage.json` file to add your `BM_API_KEY`, `SL_USERNAME` and `SL_API_KEY`.
+```json
+...
+"config": {
+  "BM_API_KEY": "<YOUR_BM_API_KEY>",
+  "SL_USERNAME": "<YOUR_SL_USERNAME>",
+  "SL_API_KEY": "<YOUR_SL_API_KEY>"
+},
+...
 ```
 
-**Alternately** you can update the `BM_API_KEY`, `SL_USERNAME` and `SL_API_KEY` values in package.json and run
-the script from package.json with
-
+Then, run the following command to launch a Garage Catalyst Tools Docker container.
 ```bash
 $ npm run start
 ```
 
-You will be given a shell inside the container. All commands that should be run inside this container will be prefixed with `[TF]`. Commands that should be run on your dev/host system will be prefixed with `[DV]`.
+***NOTE:*** You will run the rest of the commands from inside this container. The container will mount the `./src/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container.
 
-The container will mount the `src/tf` directory as `/bin/go/tf`. This is helpful in sharing files between your host filesystem and your container.
+### Deploying the Iteration Zero resources
 
-### Example: Deploy an AppID instance with Terraform
-This section describes how to deploy an AppID instance using Terraform.
-
-First, copy the AppID Terraform template to the `src/tf` directory.
-
-```
-[DV] $ cd ibmcloud-public-dev-setup/src
-[DV] $ cp src/templates/appid.tf.template src/main.tf
+Inside the container, you should find the Terraform parameters file as `/home/devops/src/workspace/terraform.tfvars`. Open this file for edit and fill out the parameters with appropriate values.
+```bash
+$ vi /home/devops/src/workspace/terraform.tfvars
 ```
 
-Your `src/main.tf` file should look like the following:
-~~~
-# src/main.tf
-data "ibm_resource_group" "appid_resource_group" {
-  name = "${var.resource_group_name}"
-}
-
-resource "ibm_resource_instance" "appid_instance" {
-  name              = "${data.ibm_resource_group.appid_resource_group.name}-appid"
-  service           = "appid"
-  plan              = "lite"
-  location          = "us-south"
-  resource_group_id = "${data.ibm_resource_group.appid_resource_group.id}"
-}
-~~~
-
-You can see two variables and one resource above, where the resource references the two variables. These variables can be defined when you run the `terraform apply` command, but they can also be specified in a file.
-
-We will proceed with defining the variables in a file. Create the `src/terraform.tfvars` file and open for editing.
-```
-[DV] $ touch src/terraform.tfvars
+For example, we have a resource group `catalyst-team` with private VLAN `2372`, public VLAN `1849` in the DAL10 datacenter. Our `terraform.tfvars` would look accordingly:
+```terraform
+resource_group_name           = "catalyst-team"
+private_vlan_number           = "2372"
+private_vlan_router_hostname  = "bcr01a.dal10"
+public_vlan_number            = "1849"
+public_vlan_router_hostname   = "fcr01a.dal10"
+vlan_datacenter               = "dal10"
+vlan_region                   = "us-south"
 ```
 
-Then, paste the in the following:
-~~~
-# src/terraform.tfvars
-resource_group_name = "RG_NAME"
-~~~
-
-Variables used here will be the values for variables referenced in `src/main.tf`. Change `RG_NAME` to an appropriate value. Where `RG_NAME` is the name of the Resource Group where you would like to deploy AppID.
-
-Next, run the `terraform plan` command to see what Terraform will create.
-```
-[TF] $ terraform plan
+Save the file, then run the following commands:
+```bash
+$ cd /home/devops/src/workspace; \
+  chmod +x runInstall.sh; \
+  ./runInstall.sh
 ```
 
-You should see that Terraform will create the new AppID instance. Then, you can run the `terraform apply` command to actually create the AppID instance.
-```
-[TF] $ terraform apply
-```
-
-
+The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured!
