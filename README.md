@@ -1,5 +1,26 @@
-# iteration-zero-terraform
-This repository contains tools to help setup an IBM Cloud Public development environment.
+# IBM Cloud Garage
+## Iteration Zero Terraform 
+This repository contains tools and terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development environment ready for cloud native application development with IBM Cloud Kubernetes service. 
+
+### Overview
+
+This repo contains Terraform resources that will deploy the following development tools infrastructure and tools:
+
+- IBM Container Service Cluster (3 nodes)
+- Create *dev*,*test*,*prod* and *tools* namespaces
+- Install the following tools:
+  - [SonarQube](https://www.sonarqube.org/) 
+  - [Jenkins](https://jenkins.io/)
+  - [Pack Broker](https://docs.pact.io/)
+  - [Artefactory](https://jfrog.com/open-source/)
+  - [Hashi Corp Vault](https://www.vaultproject.io/)
+- Create and Bind he the following Cloud Services to your Cluster:
+  - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid?topic=appid-service-access-management) 
+  - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant?topic=cloudant-getting-started)
+  - [Cloud Object Storage Storage](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-getting-started)
+  - [LogDNA Logging](https://cloud.ibm.com/docs/services/Log-Analysis-with-LogDNA?topic=LogDNA-getting-started)
+  - [SysDig Monitoring](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig?topic=Sysdig-getting-started)
+  - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql?topic=databases-for-postgresql-about)
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
@@ -7,33 +28,30 @@ This repository contains tools to help setup an IBM Cloud Public development env
 This section will guide you through basic setup of the environment deployment. You will need access an account with the ability to provision on IBM Cloud Public before proceeding.
 
 ### Pre-requisites
-- An IBM Cloud account with the ability to provision resources.
-- A resource group, public VLAN, and private VLAN in IBM Cloud.
-- Docker installed on your local development machine.
+The following pre-requisties are required before following the setup instructions. 
+
+- An IBM Cloud account with the ability to provision resources
+- A IBM Cloud [resource group](https://cloud.ibm.com/account/resource-groups) for you development resources
+- Public VLAN, and Private VLAN in IBM Cloud
+- Docker installed on your local machine
+- Node installed on your local machine
+
+**Warning: This has only been tested on MacOS.**
+
+### Creating Resource Group
+The first step is to create a dedicated Resource Group for your cluster and services. Using the Cloud Console create a unique [Resource Group](https://cloud.ibm.com/account/resource-groups) for your development team to use. 
 
 ### Getting API Keys
-There are two different API Keys that you will need to generate in order to deploy everything in this guide, one for IBM Cloud resources and another set for Classic Infrastructure resources.
+There are two different API Keys that you will need to generate in order to deploy everything in this guide, one for IBM Cloud resources and another set for Classic IaaS Infrastructure resources.
 
 To generate these keys, please visit the following links:
 - [IBM Cloud](https://console.bluemix.net/docs/iam/userid_keys.html#creating-an-api-key "Creating an API key")
-- [Classic Infrastructure](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
+- [Classic IaaS Infrastructure](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
 
-The IBM Cloud API Key will later be referred to as: `BM_API_KEY`. The Classic Infrastructure Key will later be referred to as: `SL_API_KEY` and the Classic Infrastructure username for that Infrastructure Key is `SL_USERNAME`.
+The IBM Cloud API Key will later be referred to as: `IBMCLOUD_API_KEY`. The Classic IaaS Infrastructure Key will later be referred to as: `IAAS_API_KEY` and the Classic IaaS Infrastructure username for that Infrastructure Key is `IAAS_USERNAME`.
 
 ## Deploying with Terraform
 This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://hub.docker.com/r/garagecatalyst/ibm-kube-terraform) to run the Terraform client.
-
-### Overview
-
-This repo contains Terraform resources that will deploy the following:
-
-- IBM Container Service Cluster (3 nodes), with:
-  - SonarQube
-  - Jenkins
-- PostgreSQL
-- AppID
-- Cloudant
-- Cloud Object Storage
 
 ### Getting Started
 
@@ -45,23 +63,25 @@ $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
 $ cd iteration-zero-terraform
 ```
 
-Next, modify the `pacakage.json` file to add your `BM_API_KEY`, `SL_USERNAME` and `SL_API_KEY`.
+Next, modify the `pacakage.json` file to add your `IBMCLOUD_API_KEY`, `IAAS_USERNAME` and `IAAS_API_KEY`.
 ```json
 ...
 "config": {
-  "BM_API_KEY": "<YOUR_BM_API_KEY>",
-  "SL_USERNAME": "<YOUR_SL_USERNAME>",
-  "SL_API_KEY": "<YOUR_SL_API_KEY>"
+    "IBMCLOUD_API_KEY": "<YOUR_IBMCLOUD_API_KEY>",
+    "IAAS_USERNAME": "<IAAS_USERNAME>",
+    "IAAS_API_KEY": "<IAAS_API_KEY>"  
 },
 ...
 ```
 
-Then, run the following command to launch a Garage Catalyst Tools Docker container.
+Then, run the following command to launch a Garage Catalyst CLI Tools Docker container.
 ```bash
 $ npm run start
 ```
 
-***NOTE:*** You will run the rest of the commands from inside this container. The container will mount the `./src/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container.
+***NOTE:*** This will install the docker image and exec shell into the container. You will run the rest of the commands from inside this container. The container will mount the `./src/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container.
+
+This will also help if you want to modify any of the terraform code to tailor it for you projects.
 
 ### Deploying the Iteration Zero resources
 
@@ -89,3 +109,8 @@ $ cd /home/devops/src/workspace; \
 ```
 
 The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured!
+
+### Contact
+...
+
+
