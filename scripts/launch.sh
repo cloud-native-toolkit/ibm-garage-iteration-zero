@@ -47,7 +47,7 @@ docker run -itd --name ibm-garage-cli-tools \
    -e SL_USERNAME="${IAAS_USERNAME}" \
    -e SL_API_KEY="${IAAS_API_KEY}" \
    ${DOCKER_IMAGE} \
-   /bin/bash  >
+   /bin/bash  
 docker exec -it --workdir /home/devops/src/workspace ibm-kube-terraform terraform init 
 
 echo "Attaching..."
