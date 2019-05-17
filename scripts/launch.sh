@@ -35,20 +35,19 @@ fi
 DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:latest"
 
 echo "Running Cleanup..."
-docker kill ibm-garage-cli-tools  
-docker rm ibm-garage-cli-tools 
+docker kill ibm-garage-cli-tools
+docker rm ibm-garage-cli-tools
 
 echo "Initializing..."
 docker run -itd --name ibm-garage-cli-tools \
    -v $SRC_DIR:/home/devops/src \
    -v $(pwd)/.kube:/home/devops/.kube \
    -v $(pwd)/.helm:/home/devops/.helm \
-   -e IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}" \
-   -e IAAS_USERNAME="${IAAS_USERNAME}" \
-   -e IAAS_API_KEY="${IAAS_API_KEY}" \
-   ${DOCKER_IMAGE} \
-   /bin/bash  
-docker exec -it --workdir /home/devops/src/workspace ibm-garage-cli-tools terraform init 
+   -e BM_API_KEY="${IBMCLOUD_API_KEY}" \
+   -e SL_USERNAME="${IAAS_USERNAME}" \
+   -e SL_API_KEY="${IAAS_API_KEY}" \
+   ${DOCKER_IMAGE}
+docker exec -it --workdir /home/devops/src/workspace ibm-garage-cli-tools terraform init
 
 echo "Attaching..."
 docker attach ibm-garage-cli-tools
