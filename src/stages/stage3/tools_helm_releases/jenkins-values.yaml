@@ -51,7 +51,7 @@ master:
 agent:
   enabled: true
   image: jenkins/jnlp-slave
-  imageTag: lts
+  imageTag: latest
   component: "jenkins-slave"
   privileged: false
   cpu: "200m"
