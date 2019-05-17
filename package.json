@@ -1,15 +1,15 @@
 {
   "name": "iteration-zero-terraform",
   "version": "1.0.0",
-  "description": "This repository contains tools to help setup an IBM Cloud Public development environment and install corrisponding tools.",
+  "description": "This repository contains tools to help setup an IBM Cloud Public development environment and install corresponding tools.",
   "main": "index.js",
   "config": {
     "IBMCLOUD_API_KEY": "",
-    "IAAS_USERNAME": "",
-    "IAAS_API_KEY": ""
+    "CLASSIC_USERNAME": "",
+    "CLASSIC_API_KEY": ""
   },
   "scripts": {
-    "start": "./scripts/launch.sh $npm_package_config_IBMCLOUD_API_KEY $npm_package_config_IAAS_USERNAME $npm_package_config_IAAS_API_KEY"
+    "start": "./scripts/launch.sh $npm_package_config_IBMCLOUD_API_KEY $npm_package_config_CLASSIC_USERNAME $npm_package_config_CLASSIC_API_KEY"
   },
   "repository": {
     "type": "git",
