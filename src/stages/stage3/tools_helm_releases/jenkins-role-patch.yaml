@@ -1,0 +1,5 @@
+# kubectl patch role/jenkins-schedule-agents --namespace {namespace} --patch "$(cat jenkins-role-patch.yaml)"
+rules:
+  - apiGroups: [""]
+    resources: ["pods","pods/exec","pods/log","secrets"]
+    verbs: ["*"]
