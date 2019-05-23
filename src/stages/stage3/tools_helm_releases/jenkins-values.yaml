@@ -31,6 +31,7 @@ master:
   # List of plugins to be install during Jenkins master start
   installPlugins:
     - kubernetes
+    - kubernetes-credentials-provider
     - workflow-aggregator
     - workflow-job
     - credentials-binding
