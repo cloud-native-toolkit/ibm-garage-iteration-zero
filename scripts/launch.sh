@@ -47,8 +47,8 @@ docker run -itd --name ibm-garage-cli-tools \
    -e SL_USERNAME="${CLASSIC_USERNAME}" \
    -e SL_API_KEY="${CLASSIC_API_KEY}" \
    ${DOCKER_IMAGE} \
-   /bin/bash  > /dev/null 2>&1
-docker exec -it --workdir /home/devops/src/workspace ibm-kube-terraform terraform init > /dev/null 2>&1
+   /bin/bash 
+docker exec -it --workdir /home/devops/src/workspace ibm-garage-cli-tools terraform init 
 
 echo "Attaching..."
 docker attach ibm-garage-cli-tools
