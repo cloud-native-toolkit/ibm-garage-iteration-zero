@@ -9,7 +9,7 @@ provider "helm" {
 
 data "helm_repository" "incubator" {
     name = "incubator"
-    url  = "https://kubernetes-charts-incubator.storage.googleapis.com/"
+    url  = "https://seansund.github.io/charts/"
 }
 
 resource "helm_release" "jenkins_release" {
@@ -27,6 +27,39 @@ resource "helm_release" "jenkins_release" {
     name = "master.ingress.hostName"
     value = "jenkins.${var.iks_ingress_hostname}"
   }
+}
+
+resource "helm_release" "ibmcloud_apikey_release" {
+  name       = "ibmcloud-apikey"
+  chart      = "${path.module}/ibmcloud-apikey"
+  namespace  = "${var.releases_namespace}"
+  timeout    = 1200
+
+  set {
+    name = "ibmcloud.apikey"
+    value = "${var.ibmcloud_api_key}"
+  }
+}
+
+resource "null_resource" "jenkins-gen-token" {
+  depends_on = ["helm_release.jenkins_release"]
+
+  provisioner "local-exec" {
+    command = "gen-token --url jenkins.${var.iks_ingress_hostname} --password $(kubectl get secret -n ${var.releases_namespace} jenkins -o jsonpath=\"{.data.jenkins-admin-password}\" | base64 --decode) --yaml > jenkins-access-values.yaml"
+  }
+}
+
+resource "helm_release" "jenkins-access" {
+  depends_on = ["null_resource.jenkins-gen-token"]
+
+  name       = "jenkins-access"
+  chart      = "${path.module}/jenkins-access"
+  namespace  = "${var.releases_namespace}"
+  timeout    = 1200
+
+  values = [
+    "${file("${path.module}/jenkins-access-values.yaml")}"
+  ]
 }
 
 resource "helm_release" "sonarqube_release" {
