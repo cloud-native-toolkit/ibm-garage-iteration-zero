@@ -48,7 +48,7 @@ To generate these keys, please visit the following links:
 - [IBM Cloud](https://console.bluemix.net/docs/iam/userid_keys.html#creating-an-api-key "Creating an API key")
 - [Classic IaaS Infrastructure](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
 
-The IBM Cloud API Key will later be referred to as: `IBMCLOUD_API_KEY`. The Classic IaaS Infrastructure Key will later be referred to as: `IAAS_API_KEY` and the Classic IaaS Infrastructure username for that Infrastructure Key is `IAAS_USERNAME`.
+The IBM Cloud API Key will later be referred to as: `IBMCLOUD_API_KEY`. The Classic IaaS Infrastructure Key will later be referred to as: `CLASSIC_API_KEY` and the Classic IaaS Infrastructure username for that Infrastructure Key is `CLASSIC_USERNAME`.
 
 ## Deploying with Terraform
 This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://hub.docker.com/r/garagecatalyst/ibm-kube-terraform) to run the Terraform client.
@@ -63,13 +63,13 @@ $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
 $ cd iteration-zero-terraform
 ```
 
-Next, modify the `pacakage.json` file to add your `IBMCLOUD_API_KEY`, `IAAS_USERNAME` and `IAAS_API_KEY`.
+Next, modify the `pacakage.json` file to add your `IBMCLOUD_API_KEY`, `CLASSIC_USERNAME` and `CLASSIC_API_KEY`.
 ```json
 ...
 "config": {
     "IBMCLOUD_API_KEY": "<YOUR_IBMCLOUD_API_KEY>",
-    "IAAS_USERNAME": "<IAAS_USERNAME>",
-    "IAAS_API_KEY": "<IAAS_API_KEY>"  
+    "CLASSIC_USERNAME": "<IAAS_USERNAME>",
+    "CLASSIC_API_KEY": "<IAAS_API_KEY>"  
 },
 ...
 ```
