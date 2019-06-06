@@ -6,7 +6,7 @@ data "ibm_resource_group" "tools_resouce_group" {
 resource "ibm_resource_instance" "logdna_instance" {
   name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-logdna"
   service           = "logdna"
-  plan              = "lite"
+  plan              = "7-day"
   location          = "${var.resource_location}"
   resource_group_id = "${data.ibm_resource_group.tools_resouce_group.id}"
 
@@ -21,7 +21,7 @@ resource "ibm_resource_instance" "logdna_instance" {
 resource "ibm_resource_instance" "sysdig_instance" {
   name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-sysdig"
   service           = "sysdig-monitor"
-  plan              = "lite"
+  plan              = "graduated-tier"
   location          = "${var.resource_location}"
   resource_group_id = "${data.ibm_resource_group.tools_resouce_group.id}"
 
