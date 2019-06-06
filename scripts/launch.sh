@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# IBM Cloud Garage, Catalyst Team
+
 SCRIPT_DIR=$(dirname $0)
 SRC_DIR="$( cd "${SCRIPT_DIR}/../src" ; pwd -P )"
 

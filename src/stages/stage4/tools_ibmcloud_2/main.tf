@@ -2,6 +2,37 @@ data "ibm_resource_group" "tools_resouce_group" {
   name = "${var.resource_group_name}"
 }
 
+// LogDNA - Logging
+resource "ibm_resource_instance" "logdna_instance" {
+  name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-logdna"
+  service           = "logdna"
+  plan              = "lite"
+  location          = "${var.resource_location}"
+  resource_group_id = "${data.ibm_resource_group.tools_resouce_group.id}"
+
+  timeouts {
+    create = "15m"
+    update = "15m"
+    delete = "15m"
+  }
+}
+
+// SysDig - Monitoring
+resource "ibm_resource_instance" "sysdig_instance" {
+  name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-sysdig"
+  service           = "sysdig-monitor"
+  plan              = "lite"
+  location          = "${var.resource_location}"
+  resource_group_id = "${data.ibm_resource_group.tools_resouce_group.id}"
+
+  timeouts {
+    create = "15m"
+    update = "15m"
+    delete = "15m"
+  }
+}
+
+// AppID - App Authentication
 resource "ibm_resource_instance" "appid_instance" {
   name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-appid"
   service           = "appid"
@@ -44,6 +75,7 @@ resource "ibm_container_bind_service" "appid_service_binding_dev" {
   }
 }
 
+// COS Cloud Object Storage
 resource "ibm_resource_instance" "cos_instance" {
   name              = "${replace(data.ibm_resource_group.tools_resouce_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-cloud-object-storage"
   service           = "cloud-object-storage"

@@ -16,6 +16,6 @@
     "url": "git@github.ibm.com:garage-catalyst/starterkit-terraform.git"
   },
   "keywords": [],
-  "author": "IBM Cloud Garage Team, ATX",
+  "author": "IBM Cloud Garage Team, Catalyst Team, ATX",
   "license": "ISC"
 }
