@@ -1,9 +1,6 @@
-= Jenkins setup
-Sean Sundberg <seansund@us.ibm.com>
-v1.0, 2019-05-24
-:toc:
-:imagesdir: images
-:homepage: https://www.ibm.com/cloud/garage/
+= Registering code into a Jenkins pipeline
+
+*add good description*
 
 == TODO
 

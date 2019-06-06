@@ -4,7 +4,7 @@ This repository contains tools and terraform infrastructure as code (IasC) to he
 
 ### Overview
 
-This repo contains Terraform resources that will deploy the following development tools infrastructure and tools:
+This repo contains Terraform resources that will deploy the following development tools into your Kubernetes infrastructure:
 
 - IBM Container Service Cluster (3 nodes)
 - Create *dev*,*test*,*prod* and *tools* namespaces
@@ -12,8 +12,8 @@ This repo contains Terraform resources that will deploy the following developmen
   - [SonarQube](https://www.sonarqube.org/) 
   - [Jenkins](https://jenkins.io/)
   - [Pack Broker](https://docs.pact.io/)
-  - [Artefactory](https://jfrog.com/open-source/)
-  - [Hashi Corp Vault](https://www.vaultproject.io/)
+  - [Artefactory*](https://jfrog.com/open-source/)
+  - [Hashi Corp Vault*](https://www.vaultproject.io/)
 - Create and Bind he the following Cloud Services to your Cluster:
   - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid?topic=appid-service-access-management) 
   - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant?topic=cloudant-getting-started)
@@ -30,23 +30,24 @@ This section will guide you through basic setup of the environment deployment. Y
 ### Pre-requisites
 The following pre-requisties are required before following the setup instructions. 
 
-- An IBM Cloud account with the ability to provision resources
-- A IBM Cloud [resource group](https://cloud.ibm.com/account/resource-groups) for you development resources
+- An IBM Cloud account with the ability to provision resources to support Kubernetes environment
+- A IBM Cloud [Resource Group](https://cloud.ibm.com/account/resource-groups) for you development resources
 - Public VLAN, and Private VLAN in IBM Cloud
-- Docker installed on your local machine
-- Node installed on your local machine
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on your local machine
+- [Node](https://nodejs.org/en/) installed on your local machine
 
 **Warning: This has only been tested on MacOS.**
 
 ### Creating Resource Group
-The first step is to create a dedicated Resource Group for your cluster and services. Using the Cloud Console create a unique [Resource Group](https://cloud.ibm.com/account/resource-groups) for your development team to use. 
+The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your development cluster and supporting cloud services. Using the Cloud Console create a unique [Resource Group](https://cloud.ibm.com/account/resource-groups). 
 
 ### Getting API Keys
-There are two different API Keys that you will need to generate in order to deploy everything in this guide, one for IBM Cloud resources and another set for Classic IaaS Infrastructure resources.
+
+The IasC requires two API Keys from the platform to enable it to provision the necessary resources. The first Key is for the  IBM Cloud resources and the second key is for Classic IaaS Infrastructure resources.
 
 To generate these keys, please visit the following links:
-- [IBM Cloud](https://console.bluemix.net/docs/iam/userid_keys.html#creating-an-api-key "Creating an API key")
-- [Classic IaaS Infrastructure](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
+- [IBM Cloud API Key](https://console.bluemix.net/docs/iam/userid_keys.html#creating-an-api-key "Creating an API key")
+- [Classic IaaS Infrastructure API Key](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
 
 The IBM Cloud API Key will later be referred to as: `IBMCLOUD_API_KEY`. The Classic IaaS Infrastructure Key will later be referred to as: `CLASSIC_API_KEY` and the Classic IaaS Infrastructure username for that Infrastructure Key is `CLASSIC_USERNAME`.
 
@@ -68,27 +69,48 @@ Next, modify the `pacakage.json` file to add your `IBMCLOUD_API_KEY`, `CLASSIC_U
 ...
 "config": {
     "IBMCLOUD_API_KEY": "<YOUR_IBMCLOUD_API_KEY>",
-    "CLASSIC_USERNAME": "<IAAS_USERNAME>",
-    "CLASSIC_API_KEY": "<IAAS_API_KEY>"  
+    "CLASSIC_USERNAME": "<CLASSIC_USERNAME>",
+    "CLASSIC_API_KEY": "<CLASSIC_API_KEY>"  
 },
 ...
 ```
 
 Then, run the following command to launch a Garage Catalyst CLI Tools Docker container.
 ```bash
+./start.sh
+```
+or 
+```bash
 $ npm run start
 ```
 
-***NOTE:*** This will install the docker image and exec shell into the container. You will run the rest of the commands from inside this container. The container will mount the `./src/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container.
+***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the rest of the commands from inside this container. The container will mount the `./src/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container.
 
 This will also help if you want to modify any of the terraform code to tailor it for you projects.
 
+The tools docker image contains the following tools that will help you with cloud native development. 
+
+ * terraform (with helm, kube, and ibm provider plugins)
+ * calicoctl
+ * ibmcloud (with container-service, container-registry, and cloud-databases plugins)
+ * kubectl
+ * helm
+ * docker
+ * git
+ * nvm
+ * node (v11.12.0 currently installed)
+ * yo
+
 ### Deploying the Iteration Zero resources
 
-Inside the container, you should find the Terraform parameters file as `/home/devops/src/workspace/terraform.tfvars`. Open this file for edit and fill out the parameters with appropriate values.
+Inside the running container, you should find the Terraform parameters file as `/home/devops/src/workspace/terraform.tfvars`. Open this file for edit and fill out the parameters with appropriate values.
 ```bash
 $ vi /home/devops/src/workspace/terraform.tfvars
 ```
+
+#### Instructions for obtaining VLAN information
+
+
 
 For example, we have a resource group `catalyst-team` with private VLAN `2372`, public VLAN `1849` in the DAL10 datacenter. Our `terraform.tfvars` would look accordingly:
 ```terraform
