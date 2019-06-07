@@ -4,9 +4,9 @@
   "description": "This repository contains tools to help setup an IBM Cloud Public development environment and install corresponding tools.",
   "main": "index.js",
   "config": {
-    "IBMCLOUD_API_KEY": "",
-    "CLASSIC_USERNAME": "",
-    "CLASSIC_API_KEY": ""
+    "IBMCLOUD_API_KEY": "515ZHF8aU0dmLrrS5KVKy43ulJRdf2ItwRvz5rrCu_gV",
+    "CLASSIC_USERNAME": "282165_mjperrin@us.ibm.com",
+    "CLASSIC_API_KEY": "4327b365c4f5037a19e1f021d4c019cfab4624fab67127ea772f8433e4f32a2b"
   },
   "scripts": {
     "start": "./scripts/launch.sh $npm_package_config_IBMCLOUD_API_KEY $npm_package_config_CLASSIC_USERNAME $npm_package_config_CLASSIC_API_KEY"
