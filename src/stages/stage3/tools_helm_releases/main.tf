@@ -69,3 +69,16 @@ resource "helm_release" "sonarqube_release" {
     value = "${var.sonarqube_postgresql_service_account_password}"
   }
 }
+
+resource "helm_release" "catalystdashboard_release" {
+  name       = "catalyst-dashboard"
+  chart      = "${path.module}/catalyst-dashboard"
+  namespace  = "${var.releases_namespace}"
+  timeout    = 1200
+
+  set {
+    name = "ingress.hosts.0"
+    value = "dashboard.${var.iks_ingress_hostname}"
+  }
+
+}

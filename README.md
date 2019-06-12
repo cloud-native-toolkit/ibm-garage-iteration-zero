@@ -132,7 +132,20 @@ $ cd /home/devops/src/workspace; \
 
 The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured!
 
-### Contact
-...
+### Development Cluster Dashboard
+
+To make it easy to navigate to the installed tools, there is a simple dashboard that has been deployed that can help you navigate to the consoles for each of the tools.
+
+To access the dashboard take the the ingress subdomain from the Cluster and prefix it with the word `dashboard`. 
+
+```bash
+https://dashboard.catalyst-dev-cluster.us-south.containers.appdomain.cloud
+
+````
+This will present you with the following dashboard.
+
+![Dashboard](./docs/images/devcluster.png)
+
+
 
 
