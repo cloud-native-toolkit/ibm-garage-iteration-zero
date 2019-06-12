@@ -1,4 +1,4 @@
-resource_group_name           = "catalyst-dev"
+resource_group_name           = "<resource group name>"
 private_vlan_number           = "2372"
 private_vlan_router_hostname  = "bcr01a.dal10"
 public_vlan_number            = "1849"
