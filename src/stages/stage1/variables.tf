@@ -11,6 +11,11 @@ variable "resource_group_name" {
   description = "Existing resource group where the IKS cluster will be provisioned."
 }
 
+variable "ibmcloud_api_key" {
+  type        = "string"
+  description = "The api key for IBM Cloud access"
+}
+
 # IKS Cluster Variables
 variable "private_vlan_number" {
   type        = "string"

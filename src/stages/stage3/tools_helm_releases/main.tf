@@ -41,11 +41,12 @@ resource "helm_release" "ibmcloud_apikey_release" {
   }
 }
 
+/* Sean to work on automating these steps
 resource "null_resource" "jenkins-gen-token" {
   depends_on = ["helm_release.jenkins_release"]
 
   provisioner "local-exec" {
-    command = "gen-token --url jenkins.${var.iks_ingress_hostname} --password $(kubectl get secret -n ${var.releases_namespace} jenkins -o jsonpath=\"{.data.jenkins-admin-password}\" | base64 --decode) --yaml > jenkins-access-values.yaml"
+    command = "gen-token --url jenkins.${var.iks_ingress_hostname} --password $(kubectl get secret -n ${var.releases_namespace} jenkins -o jsonpath=\"{.data.jenkins-admin-password}\" | base64 --decode) --yaml > ${path.module}/jenkins-access-values.yaml"
   }
 }
 
@@ -61,6 +62,7 @@ resource "helm_release" "jenkins-access" {
     "${file("${path.module}/jenkins-access-values.yaml")}"
   ]
 }
+*/
 
 resource "helm_release" "sonarqube_release" {
   name       = "sonarqube"
