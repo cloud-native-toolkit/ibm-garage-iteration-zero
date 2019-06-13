@@ -14,7 +14,7 @@ This repo contains Terraform resources that will deploy the following developmen
   - [Pack Broker](https://docs.pact.io/)
   - [Artefactory*](https://jfrog.com/open-source/)
   - [Hashi Corp Vault*](https://www.vaultproject.io/)
-- Create and Bind he the following Cloud Services to your Cluster:
+- Create and bind the following Cloud Services to your Cluster:
   - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid?topic=appid-service-access-management) 
   - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant?topic=cloudant-getting-started)
   - [Cloud Object Storage Storage](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-getting-started)
