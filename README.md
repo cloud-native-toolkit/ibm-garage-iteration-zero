@@ -146,6 +146,21 @@ This will present you with the following dashboard.
 
 ![Dashboard](./docs/images/devcluster.png)
 
+### Destroying
+Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
+
+It is is possible to destory the development environment following these steps.
+
+Run the following command to launch a Garage Catalyst CLI Tools Docker container.
+```bash
+./start.sh
+```
+from the default directory run the following command
+```bash
+terraform destroy
+```
+This will remove the development cluster and all the services that were created previously.
+
 
 
 
