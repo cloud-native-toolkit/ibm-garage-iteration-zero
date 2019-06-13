@@ -36,6 +36,11 @@ variable "iks_ingress_hostname" {
   description = "Ingress hostname of the IKS cluster."
 }
 
+variable "ibmcloud_api_key" {
+  type        = "string"
+  description = "The api key for IBM Cloud access"
+}
+
 variable "sonarqube_postgresql_service_account_username" {
   type        = "string"
   description = "Username for the Databases for PostgreSQL service account to use for SonarQube."
