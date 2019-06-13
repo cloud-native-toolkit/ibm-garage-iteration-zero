@@ -55,19 +55,22 @@ deployment is done with Helm directly.
 
 ```bash
 helm install \
-  jenkins-access
+  jenkins-access \
+  --name jenkins-access \
   --namespace {namespace} \
   --set jenkins.password={password},jenkins.api_token={api_token},jenkins.url={jenkins_ingress}
 ```
 
-## Run the registration script
+## Register a pipeline for a project/repo
 
-1. Open a terminal and navigate to the directory of the repository that will be registered.
-2. Run `{iteration-zero-terraform root}/scripts/launch.sh {IBM Cloud API key} 1 2`
-3. Start the registration process for the repo with `./bin/reg-pipeline.sh`. An interactive script
-will collect/confirm the values for the git repo and register the pipeline.
+1. Install the IBM Garage Cloud cli: `npm i -g @garage-catalyst/ibm-garage-cloud-cli`
+2. Open a terminal and change to the directory into which the repository was cloned.
+3. Use the cli to register the pipeline:
+```bash
+igc register --apiKey {API_KEY} --cluster {CLUSTER} -g {RESOURCE_GROUP} -r {REGION} -n {NAMESPACE}
+```
 
-== TODO
+## TODO
 
 * Automate creation of Git webhook and include with Jenkins pipeline registration
 * Incorporate additional Jenkins configuration into terraform build
