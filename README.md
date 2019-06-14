@@ -70,7 +70,6 @@ You can cut and paste the `API user name` and use this for the `CLASSIC_USERNAME
 
 Final part is create an  `Create an IBM Cloud API Key` Enter a name and description. Once it is created save the value and use it for `IBMCLOUD_API_KEY`
 
-
 ## Deploying with Terraform
 This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://hub.docker.com/r/garagecatalyst/ibm-kube-terraform) to run the Terraform client.
 
@@ -138,9 +137,7 @@ You can create you public and private VLANs by accessing the `Classic Infrastruc
 
 Save the file, then run the following commands:
 ```bash
-$ cd src/workspace
-$ chmod +x runTerraform.sh
-$ ./runTerraform.sh
+$ ./src/runTerraform.sh
 ```
 This will start the Terraform Apply process and and begin to create the infrastructure and services for your Development Enviroment.
 
@@ -181,7 +178,3 @@ cd src/workspace
 terraform destroy
 ```
 This will remove the development cluster and all the services that were created previously.
-
-
-
-
