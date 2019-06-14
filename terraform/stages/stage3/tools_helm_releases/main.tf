@@ -122,3 +122,25 @@ resource "helm_release" "catalystdashboard_release" {
   }
 
 }
+
+resource "helm_release" "pact_broker" {
+  name       = "pact-broker"
+  chart      = "${path.module}/pact-broker"
+  namespace  = "${var.releases_namespace}"
+  timeout    = 1200
+
+  set_string {
+    name = "database.type"
+    value = "sqlite"
+  }
+
+  set_string {
+    name = "database.name"
+    value = "pactbroker.sqlite"
+  }
+
+  set {
+    name = "ingress.hosts.0.host"
+    value = "pact.${var.iks_ingress_hostname}"
+  }
+}
