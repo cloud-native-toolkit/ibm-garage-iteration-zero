@@ -36,8 +36,13 @@ resource "helm_release" "ibmcloud_apikey_release" {
   timeout    = 1200
 
   set {
-    name = "ibmcloud.apikey"
+    name = "apikey"
     value = "${var.ibmcloud_api_key}"
+  }
+
+  set {
+    name = "resource_group"
+    value = "${var.resource_group_name}"
   }
 }
 

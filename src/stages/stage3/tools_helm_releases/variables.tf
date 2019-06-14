@@ -1,3 +1,8 @@
+variable "resource_group_name" {
+  type        = "string"
+  description = "Existing resource group where the IKS cluster will be provisioned."
+}
+
 variable "iks_cluster_config_file" {
   type        = "string"
   description = "Cluster config file for Kubernetes cluster."

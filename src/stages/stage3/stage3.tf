@@ -1,6 +1,7 @@
 module "dev_tools_helm_releases" {
   source = "./tools_helm_releases"
 
+  resource_group_name                           = "${var.resource_group_name}"
   ibmcloud_api_key                              = "${var.ibmcloud_api_key}"
   iks_cluster_id                                = "${module.dev_iks_cluster.iks_cluster_id}"
   iks_cluster_region                            = "${module.dev_iks_cluster.iks_cluster_region}"

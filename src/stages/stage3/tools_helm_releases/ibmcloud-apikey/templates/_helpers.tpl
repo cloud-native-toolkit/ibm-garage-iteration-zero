@@ -30,3 +30,11 @@ Create chart name and version as used by the chart label.
 {{- define "ibmcloud-apikey.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "ibmcloud-apikey.registry_namespace" -}}
+{{ .Values.registry_namespace | default .Values.resource_group | quote }}
+{{- end -}}
+
+{{- define "ibmcloud-apikey.cluster_name" -}}
+{{ printf "%s-%s" .Values.resource_group "cluster" | quote }}
+{{- end -}}
