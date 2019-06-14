@@ -1,6 +1,7 @@
 # IBM Cloud Garage
 ## Iteration Zero Terraform 
-This repository contains tools and terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development environment ready for cloud native application development with IBM Cloud Kubernetes service. 
+This repository contains tools and terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development
+environment ready for cloud native application development with IBM Cloud Kubernetes service. 
 
 ### Overview
 
@@ -25,7 +26,8 @@ This repo contains Terraform resources that will deploy the following developmen
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
 ## Basic Setup
-This section will guide you through basic setup of the environment deployment. You will need access an account with the ability to provision on IBM Cloud Public before proceeding.
+This section will guide you through basic setup of the environment deployment. You will need access an account with the 
+ability to provision on IBM Cloud Public before proceeding.
 
 ### Pre-requisites
 The following pre-requisties are required before following the setup instructions. 
@@ -39,17 +41,26 @@ The following pre-requisties are required before following the setup instruction
 **Warning: This has only been tested on MacOS.**
 
 ### Creating Resource Group
-The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your development cluster and supporting cloud services. Using the Cloud Console create a unique [Resource Group](https://cloud.ibm.com/account/resource-groups). 
+The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
+development cluster and supporting cloud services. Using the Cloud Console create a unique 
+[Resource Group](https://cloud.ibm.com/account/resource-groups). 
 
 ### Getting API Keys
 
-The IasC requires two API Keys from the platform to enable it to provision the necessary resources. The first Key is for the  IBM Cloud resources and the second key is for Classic IaaS Infrastructure resources.
+The IasC requires two API Keys from the platform to enable it to provision the necessary resources. The first Key is 
+for the  IBM Cloud resources and the second key is for Classic IaaS Infrastructure resources.
 
 To generate these keys, please visit the following links:
 - [IBM Cloud API Key](https://console.bluemix.net/docs/iam/userid_keys.html#creating-an-api-key "Creating an API key")
 - [Classic IaaS Infrastructure API Key](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
 
-The IBM Cloud API Key will later be referred to as: `IBMCLOUD_API_KEY`. The Classic IaaS Infrastructure Key will later be referred to as: `CLASSIC_API_KEY` and the Classic IaaS Infrastructure username for that Infrastructure Key is `CLASSIC_USERNAME`.
+The IBM Cloud API Key will later be referred to as: `IBMCLOUD_API_KEY`. The Classic IaaS Infrastructure Key will later 
+be referred to as: `CLASSIC_API_KEY` and the Classic IaaS Infrastructure username for that Infrastructure Key is 
+`CLASSIC_USERNAME`.
+
+**Note:** The `CLASSIC_USERNAME` is the IBM Cloud account id (displayed in the account name in the top-right corner of 
+the UI or in the account name in the cli) combined with the IBM Cloud username, separated by an 
+underscore. E.g. 282165_someone@somewhere.com
 
 ## Deploying with Terraform
 This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://hub.docker.com/r/garagecatalyst/ibm-kube-terraform) to run the Terraform client.
@@ -105,7 +116,7 @@ The tools docker image contains the following tools that will help you with clou
 
 Inside the running container, you should find the Terraform parameters file as `/home/devops/src/workspace/terraform.tfvars`. Open this file for edit and fill out the parameters with appropriate values.
 ```bash
-$ vi /home/devops/src/workspace/terraform.tfvars
+$ vi /home/devops/src/settings/terraform.tfvars
 ```
 
 #### Instructions for obtaining VLAN information
@@ -125,9 +136,7 @@ vlan_region                   = "us-south"
 
 Save the file, then run the following commands:
 ```bash
-$ cd /home/devops/src/workspace; \
-  chmod +x runInstall.sh; \
-  ./runInstall.sh
+$ ./src/runTerraform.sh
 ```
 
 The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured!

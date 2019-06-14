@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+SCRIPT_DIR=$(dirname $0)
+cd ${SCRIPT_DIR}/workspace
+
+cp -R ../settings/* .
+
 cp -R ../stages/stage1/* .
 terraform init
 terraform apply -auto-approve
