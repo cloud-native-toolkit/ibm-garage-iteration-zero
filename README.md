@@ -146,6 +146,12 @@ This will present you with the following dashboard.
 
 ![Dashboard](./docs/images/devcluster.png)
 
+### Deploying Code into Pipelines
+
+Now you have a working development environment on the IBM Public Cloud. You can now starting working with code to deploy them into pipelines. The following instructions help describe this process.
+
+[Jenkins Pipeline Creation Instructions](./docs/JENKINS.md)
+
 ### Destroying
 Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
 
