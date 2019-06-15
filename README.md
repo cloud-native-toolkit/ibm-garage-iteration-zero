@@ -52,22 +52,31 @@ for the  IBM Cloud resources and the second key is for Classic IaaS Infrastructu
 
 To generate these keys, please visit the following links:
 - [IBM Cloud API Key](https://console.bluemix.net/docs/iam/userid_keys.html#creating-an-api-key "Creating an API key")
-- [Classic IaaS Infrastructure API Key](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
+- [Classic IaaS Infrastructure Username and API Key](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
 
 The IBM Cloud API Key will later be referred to as: `IBMCLOUD_API_KEY`. The Classic IaaS Infrastructure Key will later 
 be referred to as: `CLASSIC_API_KEY` and the Classic IaaS Infrastructure username for that Infrastructure Key is 
 `CLASSIC_USERNAME`.
 
-**Note:** The `CLASSIC_USERNAME` is the IBM Cloud account id (displayed in the account name in the top-right corner of 
-the UI or in the account name in the cli) combined with the IBM Cloud username, separated by an 
-underscore. E.g. 282165_someone@somewhere.com
+**Note:** To access or create the keys click on `Manage->Access(IAM>)`  Then select `IBM Cloud API keys` menu. If you do not have the Classic API key configured you will have a button at the top asking you to add them. 
+
+![API Keys](./docs/images/apikeys.png)
+
+Click on `Create a classic infrastructure API Key` close the dialog and then click on the `Details` menu for the classic key in the list. If this button does not appear then the key is already created for you account and just view the `Details` for this key.
+
+![Classic Keys](./docs/images/classickeys.png)
+
+You can cut and paste the `API user name` and use this for the `CLASSIC_USERNAME` and click on the `Copy` button and paste this value `CLASSIC_API_KEY`
+
+Final part is create an  `Create an IBM Cloud API Key` Enter a name and description. Once it is created save the value and use it for `IBMCLOUD_API_KEY`
+
 
 ## Deploying with Terraform
 This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://hub.docker.com/r/garagecatalyst/ibm-kube-terraform) to run the Terraform client.
 
 ### Getting Started
 
-Once you have followed the steps in the [Basic Setup](#basic-setup) section, clone this repository to your local filesystem and cd into the src/ directory.
+Once you have followed the steps in the [Basic Setup](#basic-setup) section, clone this repository to your local filesystem.
 
 ```bash
 $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
@@ -75,29 +84,22 @@ $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
 $ cd iteration-zero-terraform
 ```
 
-Next, modify the `pacakage.json` file to add your `IBMCLOUD_API_KEY`, `CLASSIC_USERNAME` and `CLASSIC_API_KEY`.
-```json
-...
-"config": {
-    "IBMCLOUD_API_KEY": "<YOUR_IBMCLOUD_API_KEY>",
-    "CLASSIC_USERNAME": "<CLASSIC_USERNAME>",
-    "CLASSIC_API_KEY": "<CLASSIC_API_KEY>"  
-},
-...
+Next, copy `credentials.template` to a file called `credentials.properties` then edit the `credentials.properties` file and update the values for the following keys `ibmcloud.api.key`, `classic.username` and `classic.api.key`. Use the values you created from the Getting API Keys section mentioned above. Save the file. This file will also be ignored in git.
+
+```properties
+classic.username=<CLASSIC_USERNAME>
+classic.api.key=<CLASSIC_API_KEY>
+ibmcloud.api.key=<IBMCLOUD_API_KEY>
 ```
 
-Then, run the following command to launch a Garage Catalyst CLI Tools Docker container.
+Then, run the following command to launch a Garage [Catalyst CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
 ```bash
-./start.sh
-```
-or 
-```bash
-$ npm run start
+./launch.sh
 ```
 
-***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the rest of the commands from inside this container. The container will mount the `./src/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container.
+***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container. 
 
-This will also help if you want to modify any of the terraform code to tailor it for you projects.
+It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for you specific project needs.
 
 The tools docker image contains the following tools that will help you with cloud native development. 
 
@@ -114,14 +116,12 @@ The tools docker image contains the following tools that will help you with clou
 
 ### Deploying the Iteration Zero resources
 
-Inside the running container, you should find the Terraform parameters file as `/home/devops/src/workspace/terraform.tfvars`. Open this file for edit and fill out the parameters with appropriate values.
+Inside the running container, you should find the Terraform parameters file as `/home/devops/src/settings/terraform.tfvars`. Open this file for edit and fill out the parameters with appropriate values.
 ```bash
 $ vi /home/devops/src/settings/terraform.tfvars
 ```
 
 #### Instructions for obtaining VLAN information
-
-
 
 For example, we have a resource group `catalyst-team` with private VLAN `2372`, public VLAN `1849` in the DAL10 datacenter. Our `terraform.tfvars` would look accordingly:
 ```terraform
@@ -134,12 +134,17 @@ vlan_datacenter               = "dal10"
 vlan_region                   = "us-south"
 ```
 
+You can create you public and private VLANs by accessing the `Classic Infrastructure` and then selecting `Network > IP Management > VLANs` once you have updated your values you can moved to the next step.
+
 Save the file, then run the following commands:
 ```bash
-$ ./src/runTerraform.sh
+$ cd src/workspace
+$ chmod +x runTerraform.sh
+$ ./runTerraform.sh
 ```
+This will start the Terraform Apply process and and begin to create the infrastructure and services for your Development Enviroment.
 
-The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured!
+The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy !
 
 ### Development Cluster Dashboard
 
