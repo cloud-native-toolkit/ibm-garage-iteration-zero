@@ -76,7 +76,7 @@ This section discusses deploying IBM Cloud resources with Terraform. This sectio
 
 ### Getting Started
 
-Once you have followed the steps in the [Basic Setup](#basic-setup) section, clone this repository to your local filesystem and cd into the src/ directory.
+Once you have followed the steps in the [Basic Setup](#basic-setup) section, clone this repository to your local filesystem.
 
 ```bash
 $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
@@ -84,7 +84,7 @@ $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
 $ cd iteration-zero-terraform
 ```
 
-Next, copy `credentials.template` to a file called `credentials.properties` then edit the `credentials.json` file and update the values for the following keys `ibmcloud.api.key`, `classic.username` and `classic.api.key`. Use the values you created from the Getting API Keys section mentioned above. Save the file. This file will also be ignored in git.
+Next, copy `credentials.template` to a file called `credentials.properties` then edit the `credentials.properties` file and update the values for the following keys `ibmcloud.api.key`, `classic.username` and `classic.api.key`. Use the values you created from the Getting API Keys section mentioned above. Save the file. This file will also be ignored in git.
 
 ```properties
 classic.username=<CLASSIC_USERNAME>
@@ -99,7 +99,7 @@ Then, run the following command to launch a Garage [Catalyst CLI Tools Docker co
 
 ***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container. 
 
-It will also allow you to continue to extend or modify the base Terraform IasC supplied and tailor it for you specific project needs.
+It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for you specific project needs.
 
 The tools docker image contains the following tools that will help you with cloud native development. 
 
@@ -116,7 +116,7 @@ The tools docker image contains the following tools that will help you with clou
 
 ### Deploying the Iteration Zero resources
 
-Inside the running container, you should find the Terraform parameters file as `/home/devops/src/workspace/terraform.tfvars`. Open this file for edit and fill out the parameters with appropriate values.
+Inside the running container, you should find the Terraform parameters file as `/home/devops/src/settings/terraform.tfvars`. Open this file for edit and fill out the parameters with appropriate values.
 ```bash
 $ vi /home/devops/src/settings/terraform.tfvars
 ```
@@ -144,7 +144,7 @@ $ ./runTerraform.sh
 ```
 This will start the Terraform Apply process and and begin to create the infrastructure and services for your Development Enviroment.
 
-The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured!
+The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy !
 
 ### Development Cluster Dashboard
 
