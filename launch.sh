@@ -3,7 +3,7 @@
 # IBM Cloud Garage, Catalyst Team
 
 SCRIPT_DIR=$(dirname $0)
-SRC_DIR="$( cd "${SCRIPT_DIR}/../src" ; pwd -P )"
+SRC_DIR="$( cd "${SCRIPT_DIR}/terraform" ; pwd -P )"
 
 helpFunction()
 {
@@ -17,20 +17,21 @@ helpFunction()
    exit 1 # Exit script after printing help
 }
 
-if [[ -n "$1" ]]; then
-   IBMCLOUD_API_KEY="$1"
-fi
-if [[ -n "$2" ]]; then
-   CLASSIC_USERNAME="$2"
-fi
-if [[ -n "$3" ]]; then
-   CLASSIC_API_KEY="$3"
-fi
+ENV="credentials"
+
+function prop {
+    grep "${1}" ${ENV}.properties|cut -d'=' -f2
+}
+
+# Load the credentials 
+IBMCLOUD_API_KEY=$(prop 'ibmcloud.api.key')
+CLASSIC_API_KEY=$(prop 'classic.api.key')
+CLASSIC_USERNAME=$(prop 'classic.username')
 
 # Print helpFunction in case parameters are empty
 if [[ -z "${IBMCLOUD_API_KEY}" ]] || [[ -z "${CLASSIC_USERNAME}" ]] || [[ -z "${CLASSIC_API_KEY}" ]]
 then
-   echo "Some or all of the parameters are empty";
+   echo "Some of the crednetials values are empty";
    helpFunction
 fi
 

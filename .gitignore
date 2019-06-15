@@ -1,6 +1,10 @@
 .idea/
 *.iml
-node_modules/
+credentials.properties
+
+.bash_history
+.terraform.d/
+.viminfo
 
 # Local .kube directories
 **/.kube/*
