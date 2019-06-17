@@ -175,8 +175,9 @@ Run the following command to launch a Garage Catalyst CLI Tools Docker container
 ```bash
 ./start.sh
 ```
-from the default directory run the following command
+Follow these instructions to run the terraform tool from your `workspace` directory.
 ```bash
+cd src/workspace
 terraform destroy
 ```
 This will remove the development cluster and all the services that were created previously.
