@@ -71,16 +71,16 @@ You can cut and paste the `API user name` and use this for the `CLASSIC_USERNAME
 Final part is create an  `Create an IBM Cloud API Key` Enter a name and description. Once it is created save the value and use it for `IBMCLOUD_API_KEY`
 
 ## Deploying with Terraform
-This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://hub.docker.com/r/garagecatalyst/ibm-kube-terraform) to run the Terraform client.
+This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) to run the Terraform client.
 
 ### Getting Started
 
 Once you have followed the steps in the [Basic Setup](#basic-setup) section, clone this repository to your local filesystem.
 
 ```bash
-$ git clone git@github.ibm.com:garage-catalyst/iteration-zero-terraform.git
+$ git clone git@github.ibm.com:garage-catalyst/iteration-zero-iks.git
 
-$ cd iteration-zero-terraform
+$ cd iteration-zero-iks
 ```
 
 Next, copy `credentials.template` to a file called `credentials.properties` then edit the `credentials.properties` file and update the values for the following keys `ibmcloud.api.key`, `classic.username` and `classic.api.key`. Use the values you created from the Getting API Keys section mentioned above. Save the file. This file will also be ignored in git.
