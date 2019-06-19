@@ -144,3 +144,32 @@ resource "helm_release" "pact_broker" {
     value = "pact.${var.iks_ingress_hostname}"
   }
 }
+
+data "helm_repository" "argo" {
+  name = "argo"
+  url  = "https://ibm-garage-cloud.github.io/argo-helm/"
+}
+
+resource "helm_release" "argocd_release" {
+  name       = "argo-cd"
+  repository = "${data.helm_repository.argo.metadata.0.name}"
+  chart      = "argo-cd"
+  version    = "0.2.2-split"
+  namespace  = "${var.releases_namespace}"
+  timeout    = 1200
+
+  set {
+    name = "ingress.enabled"
+    value = "true"
+  }
+
+  set {
+    name = "ingress.ssl_passthrough"
+    value = "false"
+  }
+
+  set {
+    name = "ingress.hosts.0"
+    value = "argocd.${var.iks_ingress_hostname}"
+  }
+}
