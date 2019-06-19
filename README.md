@@ -1,6 +1,6 @@
 # IBM Cloud Garage
-## Iteration Zero Terraform 
-This repository contains tools and terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development
+## Iteration Zero for IBM Cloud Kubernetes Service 
+This repository contains tools and Terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development
 environment ready for cloud native application development with IBM Cloud Kubernetes service. 
 
 ### Overview
@@ -10,18 +10,20 @@ This repo contains Terraform resources that will deploy the following developmen
 - IBM Container Service Cluster (3 nodes)
 - Create *dev*,*test*,*prod* and *tools* namespaces
 - Install the following tools:
-  - [SonarQube](https://www.sonarqube.org/) 
-  - [Jenkins](https://jenkins.io/)
-  - [Pack Broker](https://docs.pact.io/)
-  - [Artefactory*](https://jfrog.com/open-source/)
-  - [Hashi Corp Vault*](https://www.vaultproject.io/)
+    - [Jenkins CI](https://jenkins.io/)
+    - [Argo CD](https://argoproj.github.io/argo-cd/)
+    - [SonarQube](https://www.sonarqube.org/) 
+    - [Pack Broker](https://docs.pact.io/)
+    - [Artefactory*](https://jfrog.com/open-source/)
+    - [Eclipse CHE](https://www.eclipse.org/che/)
+
 - Create and bind the following Cloud Services to your Cluster:
-  - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid?topic=appid-service-access-management) 
-  - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant?topic=cloudant-getting-started)
-  - [Cloud Object Storage Storage](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-getting-started)
-  - [LogDNA Logging](https://cloud.ibm.com/docs/services/Log-Analysis-with-LogDNA?topic=LogDNA-getting-started)
-  - [SysDig Monitoring](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig?topic=Sysdig-getting-started)
-  - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql?topic=databases-for-postgresql-about)
+    - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid?topic=appid-service-access-management) 
+    - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant?topic=cloudant-getting-started)
+    - [Cloud Object Storage Storage](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-getting-started)
+    - [LogDNA Logging](https://cloud.ibm.com/docs/services/Log-Analysis-with-LogDNA?topic=LogDNA-getting-started)
+    - [SysDig Monitoring](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig?topic=Sysdig-getting-started)
+    - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql?topic=databases-for-postgresql-about)
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
