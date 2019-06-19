@@ -7,14 +7,14 @@ provider "helm" {
   }
 }
 
-data "helm_repository" "incubator" {
-    name = "incubator"
-    url  = "https://seansund.github.io/charts/"
+data "helm_repository" "garage_charts" {
+    name = "garage_charts"
+    url  = "https://ibm-garage-cloud.github.io/charts/"
 }
 
 resource "helm_release" "jenkins_release" {
   name       = "jenkins"
-  repository = "${data.helm_repository.incubator.metadata.0.name}"
+  repository = "${data.helm_repository.garage_charts.metadata.0.name}"
   chart      = "stable/jenkins"
   namespace  = "${var.releases_namespace}"
   timeout    = 1200
