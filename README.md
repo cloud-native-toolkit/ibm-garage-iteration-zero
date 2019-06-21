@@ -1,4 +1,4 @@
-# IBM Cloud Garage
+# IBM Cloud Garage & Solution Engineering
 ## Iteration Zero for IBM Cloud Kubernetes Service 
 This repository contains tools and Terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development
 environment ready for cloud native application development with IBM Cloud Kubernetes service. 
