@@ -154,7 +154,7 @@ resource "helm_release" "argocd_release" {
   name       = "argo-cd"
   repository = "${data.helm_repository.argo.metadata.0.name}"
   chart      = "argo-cd"
-  version    = "0.2.2-split"
+  version    = "0.2.3"
   namespace  = "${var.releases_namespace}"
   timeout    = 1200
 
