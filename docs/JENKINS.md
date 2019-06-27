@@ -68,7 +68,7 @@ helm install \
 2. Open a terminal and change to the directory into which the repository was cloned.
 3. Use the cli to register the pipeline:
 ```bash
-igc register --apiKey {API_KEY} --cluster {CLUSTER} -g {RESOURCE_GROUP} -r {REGION} -n {NAMESPACE}
+igc register 
 ```
 
 ## TODO
