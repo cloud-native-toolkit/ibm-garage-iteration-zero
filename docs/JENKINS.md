@@ -52,6 +52,7 @@ deployment is done with Helm directly.
 #### Run the jenkins-access helm chart
 
 - Creates a secret with the Jenkins access credentials
+- First change directory to /terraform/stages/stage3/tools_helm_releases/ this is where the `jenkins-access` helm chart is located
 
 ```bash
 helm install \
