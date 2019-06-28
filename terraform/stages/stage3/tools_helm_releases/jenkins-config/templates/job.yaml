@@ -40,7 +40,7 @@ spec:
                       - name: JENKINS_HOST
                         value: {{ .Values.jenkins.host | quote }}
                       - name: JENKINS_URL
-                        value: {{ printf "https://%s" .Values.jenkins.host | quote }}
+                        value: {{ printf "http://%s" .Values.jenkins.host | quote }}
                       - name: JENKINS_USERNAME
                         valueFrom:
                             secretKeyRef:
