@@ -27,6 +27,16 @@ resource "helm_release" "jenkins_release" {
     name = "master.ingress.hostName"
     value = "jenkins.${var.iks_ingress_hostname}"
   }
+//
+//  set {
+//    name = "master.ingress.tls[0].hosts[0]"
+//    value = "jenkins.${var.iks_ingress_hostname}"
+//  }
+//
+//  set {
+//    name = "master.ingress.tls[0].secretName"
+//    value = "${var.resource_group_name}-cluster"
+//  }
 }
 
 resource "helm_release" "ibmcloud_apikey_release" {
@@ -46,28 +56,17 @@ resource "helm_release" "ibmcloud_apikey_release" {
   }
 }
 
-/* Sean to work on automating these steps
-resource "null_resource" "jenkins-gen-token" {
-  depends_on = ["helm_release.jenkins_release"]
-
-  provisioner "local-exec" {
-    command = "gen-token --url jenkins.${var.iks_ingress_hostname} --password $(kubectl get secret -n ${var.releases_namespace} jenkins -o jsonpath=\"{.data.jenkins-admin-password}\" | base64 --decode) --yaml > ${path.module}/jenkins-access-values.yaml"
-  }
-}
-
-resource "helm_release" "jenkins-access" {
-  depends_on = ["null_resource.jenkins-gen-token"]
-
-  name       = "jenkins-access"
-  chart      = "${path.module}/jenkins-access"
+resource "helm_release" "jenkins-config" {
+  name       = "jenkins-config"
+  chart      = "${path.module}/jenkins-config"
   namespace  = "${var.releases_namespace}"
   timeout    = 1200
 
-  values = [
-    "${file("${path.module}/jenkins-access-values.yaml")}"
-  ]
+  set {
+    name = "jenkins.host"
+    value = "jenkins.${var.iks_ingress_hostname}"
+  }
 }
-*/
 
 resource "helm_release" "sonarqube_release" {
   name       = "sonarqube"

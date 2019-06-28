@@ -36,6 +36,46 @@ resource "kubernetes_namespace" "prod_namespace" {
   }
 }
 
+//resource "null_resource" "tools_secret" {
+//  provisioner "local-exec" {
+//    command = "kubectl get secret ${var.resource_group_name}-cluster --namespace=default -oyaml | sed \"s/namespace: default/namespace: tools/g\" | kubectl apply --namespace=tools -f -"
+//
+//    environment = {
+//      KUBECONFIG = "${data.ibm_container_cluster_config.iks_cluster.config_file_path}"
+//    }
+//  }
+//}
+//
+//resource "null_resource" "dev_secret" {
+//  provisioner "local-exec" {
+//    command = "kubectl get secret ${var.resource_group_name}-cluster --namespace=default -oyaml | sed \"s/namespace: default/namespace: dev/g\" | kubectl apply --namespace=dev -f -"
+//
+//    environment = {
+//      KUBECONFIG = "${data.ibm_container_cluster_config.iks_cluster.config_file_path}"
+//    }
+//  }
+//}
+//
+//resource "null_resource" "test_secret" {
+//  provisioner "local-exec" {
+//    command = "kubectl get secret ${var.resource_group_name}-cluster --namespace=default -oyaml | sed \"s/namespace: default/namespace: test/g\" | kubectl apply --namespace=test -f -"
+//
+//    environment = {
+//      KUBECONFIG = "${data.ibm_container_cluster_config.iks_cluster.config_file_path}"
+//    }
+//  }
+//}
+//
+//resource "null_resource" "prod_secret" {
+//  provisioner "local-exec" {
+//    command = "kubectl get secret ${var.resource_group_name}-cluster --namespace=default -oyaml | sed \"s/namespace: default/namespace: prod/g\" | kubectl apply --namespace=prod -f -"
+//
+//    environment = {
+//      KUBECONFIG = "${data.ibm_container_cluster_config.iks_cluster.config_file_path}"
+//    }
+//  }
+//}
+
 resource "kubernetes_service_account" "tiller_service_account" {
   metadata {
     name = "tiller"
