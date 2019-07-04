@@ -39,7 +39,7 @@ deployment is done with Helm directly.
 
 1. Get the Jenkins admin password by running the following command or by looking at the pod in thee kube dashboard
     ```bash
-    kubectl get secret --namespace {namespace} jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode
+    kubectl get secret --namespace tools jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode
     ```
 2. Go to the Jenkins dashboard - http://jenkins.{namespace}.{cluster}.{region}.containers.appdomain.cloud
 3. Log in as user 'admin' and password from the first step
@@ -56,10 +56,10 @@ deployment is done with Helm directly.
 
 ```bash
 helm install \
-  jenkins-access \
-  --name jenkins-access \
-  --namespace {namespace} \
-  --set jenkins.password={password},jenkins.api_token={api_token},jenkins.url={jenkins_ingress}
+  jenkins-config \
+  --name jenkins-config \
+  --namespace tools \
+  --set jenkins.password={jenkins_password},jenkins.api_token={api_token},jenkins.url={jenkins_ingress}
 ```
 
 ## Register a pipeline for a project/repo
