@@ -189,6 +189,12 @@ This will present you with the following dashboard.
 ![Dashboard](./docs/images/devcluster.png)
 
 
+### Operations
+
+Now that your development cluster is configured you can now register `LogDNA` and `SysDig` service instances with your Kubernetes cluster. 
+
+Navigate to the Observability menu from the main console menu and then click on the `Edit Sources` and follow the instructions to configure the log agent and montitoring agents. 
+
 ### Deploying Code into Pipelines
 
 Now you have a working development environment on the IBM Public Cloud. You can now starting working with code to deploy them into pipelines. The following instructions help describe this process.
