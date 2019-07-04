@@ -1,2 +1,0 @@
-The job has been created and will complete when the jenkins environment is available at {{ .Values.jenkins.host }}
-and the process to generate the api_token and create the secret has completed.

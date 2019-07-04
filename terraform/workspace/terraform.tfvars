@@ -1,7 +1,0 @@
-private_vlan_number="2372"
-private_vlan_router_hostname="bcr01a.dal10"
-public_vlan_number="1849"
-public_vlan_router_hostname="fcr01a.dal10"
-vlan_datacenter="dal10"
-vlan_region="us-south"
-resource_group_name="gm-financial-dev"
