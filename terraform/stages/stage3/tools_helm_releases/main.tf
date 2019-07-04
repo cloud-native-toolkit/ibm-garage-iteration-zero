@@ -7,14 +7,14 @@ provider "helm" {
   }
 }
 
-data "helm_repository" "garage_charts" {
-    name = "garage_charts"
-    url  = "https://ibm-garage-cloud.github.io/charts/"
+data "helm_repository" "incubator" {
+    name = "incubator"
+    url  = "https://kubernetes-charts-incubator.storage.googleapis.com/"
 }
 
 resource "helm_release" "jenkins_release" {
   name       = "jenkins"
-  repository = "${data.helm_repository.garage_charts.metadata.0.name}"
+  repository = "${data.helm_repository.incubator.metadata.0.name}"
   chart      = "stable/jenkins"
   namespace  = "${var.releases_namespace}"
   timeout    = 1200
@@ -37,6 +37,18 @@ resource "helm_release" "jenkins_release" {
 //    name = "master.ingress.tls[0].secretName"
 //    value = "${var.resource_group_name}-cluster"
 //  }
+}
+
+resource "null_resource" "patch_jenkins_role" {
+  depends_on = ["helm_release.jenkins_release"]
+
+  provisioner "local-exec" {
+    command = "kubectl patch -n tools roles/jenkins-schedule-agents --type='json' -p='[{\"op\": \"add\", \"path\": \"/rules/0/resources/0\", \"value\": \"secrets\"}]'"
+
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+    }
+  }
 }
 
 resource "helm_release" "ibmcloud_apikey_release" {
