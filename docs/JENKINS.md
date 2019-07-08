@@ -10,30 +10,33 @@ Can be done either with Terraform script (preferred) or by running the helm char
 
 Read the `README.md` for instructions
 
-### Using Helm
+If necessary, run the following command to set up the jenkins access secrets:
 
-```bash
-helm repo add stable-rbac https://seansund.github.io/charts/
+#### Run 'jenkins-auth' command
 
-helm install \
-  stable-rbac/jenkins
-  --name jenkins \
-  --values jenkins-values.yaml \
-  --namespace {namespace} \
-  --set master.ingress.hostName="jenkins.{namespace}.{cluster}.{region}.containers.appdomain.cloud"
-```
+1. Install the 'ibm-garage-cloud-cli'
+    ```bash
+    npm i -g @garage-catalyst/ibm-garage-cloud-cli
+    ```
+2. Log in to the ibmcloud and configure the cluster
+    ```bash
+    ibmcloud login -r {REGION} -g {RESOURCE_GROUP} [--sso] [--apiKey {API_KEY}]
+    ibmcloud ks cluster-config --cluster {CLUSTER_NAME}
+    ```
+3. Get the Jenkins admin password by running the following command or by looking at the pod in thee kube dashboard
+    ```bash
+    kubectl get secret --namespace tools jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode
+    ```
+4. Run the cli to generate the jenkins-access secret
+    ```bash
+    igc jenkins-auth \
+      -u admin \
+      -p $(kubectl get secret --namespace tools jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode) \
+      --host jenkins.{region}.containers.appdomain.cloud
+    ```
 
-```bash
-helm install \
-  ibmcloud-apikey
-  --name ibmcloud-apikey \
-  --namespace {namespace} \
-  --set ibmcloud.apikey="{ibmcloud_api_key}"
-```
-
-The following two steps (generate the api token and run the helm chart to create the secret)
-are automated as part of the terraform scripts but must be manually run if the Jenkins
-deployment is done with Helm directly.
+For reference, the following steps can be used to generate the Jenkins API token and can be optionally
+passed into `jenkins-auth` command with the `--jenkinsApiToken` argument.
 
 #### Log into Jenkins and generate an api token
 
@@ -41,26 +44,13 @@ deployment is done with Helm directly.
     ```bash
     kubectl get secret --namespace tools jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode
     ```
-2. Go to the Jenkins dashboard - http://jenkins.{namespace}.{cluster}.{region}.containers.appdomain.cloud
+2. Go to the Jenkins dashboard - http://jenkins.{cluster}.{region}.containers.appdomain.cloud
 3. Log in as user 'admin' and password from the first step
 4. Click on the 'admin' link in the top-right corner to open the user profile page
 5. Click on `Configure` from the left menu
 6. In the `API Token` section click on `Add new Token` button
 7. Give the token a name and press `Generate`
 8. Save the generated token. Once you leave the page it won't be visible again
-
-#### Run the jenkins-access helm chart
-
-- Creates a secret with the Jenkins access credentials
-- First change directory to `/terraform/stages/stage3/tools_helm_releases/` this is where the `jenkins-config` helm chart is located
-
-```bash
-helm install \
-  jenkins-config \
-  --name jenkins-config \
-  --namespace tools \
-  --set jenkins.password={jenkins_password},jenkins.api_token={api_token},jenkins.url={jenkins_ingress}
-```
 
 ## Register a pipeline for a project/repo
 
