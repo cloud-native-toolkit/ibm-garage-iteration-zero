@@ -23,16 +23,9 @@ If necessary, run the following command to set up the jenkins access secrets:
     ibmcloud login -r {REGION} -g {RESOURCE_GROUP} [--sso] [--apiKey {API_KEY}]
     ibmcloud ks cluster-config --cluster {CLUSTER_NAME}
     ```
-3. Get the Jenkins admin password by running the following command or by looking at the pod in thee kube dashboard
+3. Run the cli to generate the jenkins-access secret
     ```bash
-    kubectl get secret --namespace tools jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode
-    ```
-4. Run the cli to generate the jenkins-access secret
-    ```bash
-    igc jenkins-auth \
-      -u admin \
-      -p $(kubectl get secret --namespace tools jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode) \
-      --host jenkins.{region}.containers.appdomain.cloud
+    igc jenkins-auth
     ```
 
 For reference, the following steps can be used to generate the Jenkins API token and can be optionally
