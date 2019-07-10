@@ -5,11 +5,12 @@ metadata:
 spec:
     template:
         spec:
+            serviceAccountName: jenkins
             initContainers:
               - name: wait-for-jenkins
-                image: garagecatalyst/ibm-garage-cli-tools:0.0.13-ubi
+                image: garagecatalyst/ibm-garage-cli-tools:latest
                 imagePullPolicy: Always
-                command: ["sh", "-c", "until checkPodRunning.sh jenkins; do echo '>>> waiting for Jenkins'; sleep 60; done; echo '>>> Jenkins has started'"]
+                command: ["sh", "-c", "until checkPodRunning.sh jenkins && curl -Isf ${JENKINS_URL}; do echo '>>> waiting for Jenkins'; sleep 300; done; echo '>>> Jenkins has started'"]
                 env:
                 - name: APIKEY
                   valueFrom:
@@ -31,6 +32,8 @@ spec:
                       secretKeyRef:
                           name: ibmcloud-apikey
                           key: cluster_name
+                - name: JENKINS_URL
+                  value: {{ printf "http://%s/login" .Values.jenkins.host | quote }}
             containers:
                 - name: jenkins-config
                   image: garagecatalyst/node11:latest
