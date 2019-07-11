@@ -165,3 +165,25 @@ resource "null_resource" "argocd_release" {
     }
   }
 }
+
+provider "kubernetes" {
+  config_path = "${var.iks_cluster_config_file}"
+}
+
+resource "kubernetes_secret" "postgress_secret" {
+  metadata {
+    name = "postgres-db"
+    annotations = {
+      description = "Secret holds the config parameters for the postgres instance"
+    }
+    namespace = "tools"
+  }
+
+  data = {
+    host = "${var.sonarqube_postgresql_hostname}"
+    port = "${var.sonarqube_postgresql_port}"
+    user = "${var.sonarqube_postgresql_service_account_username}"
+    password = "${var.sonarqube_postgresql_service_account_password}"
+    database = "${var.sonarqube_postgresql_database_name}"
+  }
+}
