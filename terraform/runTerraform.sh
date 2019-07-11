@@ -7,18 +7,16 @@ cd ${SCRIPT_DIR}/workspace
 
 cp -R ../settings/* .
 
-cp -R ../stages/stage1/* .
-terraform init
-terraform apply -auto-approve
+ls ../stages | while read stage; do
+    echo "Running stage: ${stage}"
 
-cp -R ../stages/stage2/* .
-terraform init
-terraform apply -auto-approve
+    cp -R ../stages/${stage}/* .
 
-cp -R ../stages/stage3/* .
-terraform init
-terraform apply -auto-approve
+    if [[ -n "$1" ]]; then
+        terraform init -backend-config="$1"
+    else
+        terraform init
+    fi
 
-cp -R ../stages/stage4/* .
-terraform init
-terraform apply -auto-approve
+    terraform apply -auto-approve
+done

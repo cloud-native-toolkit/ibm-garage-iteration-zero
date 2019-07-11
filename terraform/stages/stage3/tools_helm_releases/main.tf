@@ -1,46 +1,45 @@
-provider "helm" {
-  namespace = "${var.tiller_namespace}"
-  service_account = "${var.tiller_service_account_name}"
+resource "null_resource" "helm_init" {
+  provisioner "local-exec" {
+    command = "helm init --client-only"
 
-  kubernetes {
-    config_path = "${var.iks_cluster_config_file}"
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+    }
   }
 }
 
-data "helm_repository" "incubator" {
-    name = "incubator"
-    url  = "https://kubernetes-charts-incubator.storage.googleapis.com/"
+resource "null_resource" "fetch_jenkins_helm" {
+  depends_on = ["null_resource.helm_init"]
+
+  provisioner "local-exec" {
+    command = "helm fetch --repo https://kubernetes-charts.storage.googleapis.com/ --untar --untardir ${path.module} --version $${VERSION} $${NAME}"
+
+    environment = {
+      NAME = "jenkins"
+      VERSION = "1.3.2"
+    }
+  }
 }
 
-resource "helm_release" "jenkins_release" {
-  name       = "jenkins"
-  repository = "${data.helm_repository.incubator.metadata.0.name}"
-  chart      = "stable/jenkins"
-  namespace  = "${var.releases_namespace}"
-  timeout    = 1200
+resource "null_resource" "jenkins_release" {
+  depends_on = ["null_resource.helm_init", "null_resource.fetch_jenkins_helm"]
 
-  values = [
-    "${file("${path.module}/jenkins-values.yaml")}"
-  ]
+  provisioner "local-exec" {
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set master.ingress.hostName=$${JENKINS_HOST} --values $${VALUES_FILE} | kubectl apply -n $${NAMESPACE} -f -"
 
-  set {
-    name = "master.ingress.hostName"
-    value = "jenkins.${var.iks_ingress_hostname}"
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      CHART = "${path.module}/jenkins"
+      VALUES_FILE = "${path.module}/jenkins-values.yaml"
+      JENKINS_HOST = "jenkins.${var.iks_ingress_hostname}"
+      NAME = "jenkins"
+      NAMESPACE = "${var.releases_namespace}"
+    }
   }
-//
-//  set {
-//    name = "master.ingress.tls[0].hosts[0]"
-//    value = "jenkins.${var.iks_ingress_hostname}"
-//  }
-//
-//  set {
-//    name = "master.ingress.tls[0].secretName"
-//    value = "${var.resource_group_name}-cluster"
-//  }
 }
 
 resource "null_resource" "patch_jenkins_role" {
-  depends_on = ["helm_release.jenkins_release"]
+  depends_on = ["null_resource.jenkins_release"]
 
   provisioner "local-exec" {
     command = "kubectl patch -n tools roles/jenkins-schedule-agents --type='json' -p='[{\"op\": \"add\", \"path\": \"/rules/0/resources/0\", \"value\": \"secrets\"}]'"
@@ -51,136 +50,118 @@ resource "null_resource" "patch_jenkins_role" {
   }
 }
 
-resource "helm_release" "ibmcloud_apikey_release" {
-  name       = "ibmcloud-apikey"
-  chart      = "${path.module}/ibmcloud-apikey"
-  namespace  = "${var.releases_namespace}"
-  timeout    = 1200
+resource "null_resource" "ibmcloud_apikey_release" {
+  depends_on = ["null_resource.helm_init"]
 
-  set {
-    name = "apikey"
-    value = "${var.ibmcloud_api_key}"
-  }
+  provisioner "local-exec" {
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --set apikey=$${APIKEY} --set resource_group=$${RESOURCE_GROUP} | kubectl apply -n $${NAMESPACE} -f -"
 
-  set {
-    name = "resource_group"
-    value = "${var.resource_group_name}"
-  }
-}
-
-resource "helm_release" "jenkins-config" {
-  name       = "jenkins-config"
-  chart      = "${path.module}/jenkins-config"
-  namespace  = "${var.releases_namespace}"
-  timeout    = 1200
-
-  set {
-    name = "jenkins.host"
-    value = "jenkins.${var.iks_ingress_hostname}"
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      CHART = "${path.module}/ibmcloud-apikey"
+      APIKEY = "${var.ibmcloud_api_key}"
+      RESOURCE_GROUP = "${var.resource_group_name}"
+      NAMESPACE = "${var.releases_namespace}"
+    }
   }
 }
 
-resource "helm_release" "sonarqube_release" {
-  name       = "sonarqube"
-  chart      = "${path.module}/ibm-sonarqube"
-  namespace  = "${var.releases_namespace}"
-  timeout    = 1200
+resource "null_resource" "jenkins_config_release" {
+  depends_on = ["null_resource.helm_init", "null_resource.jenkins_release"]
 
-  values = [
-    "${file("${path.module}/sonarqube-values.yaml")}"
-  ]
+  provisioner "local-exec" {
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --set jenkins.host=$${JENKINS_HOST} | kubectl apply -n $${NAMESPACE} -f -"
 
-  set {
-    name = "ingress.hosts.0"
-    value = "sonarqube.${var.iks_ingress_hostname}"
-  }
-
-  set_string {
-    name = "database.hostname"
-    value = "${var.sonarqube_postgresql_hostname}"
-  }
-
-  set_string {
-    name = "database.port"
-    value = "${var.sonarqube_postgresql_port}"
-  }
-
-  set_string {
-    name = "database.name"
-    value = "${var.sonarqube_postgresql_database_name}"
-  }
-
-  set_string {
-    name = "database.username"
-    value = "${var.sonarqube_postgresql_service_account_username}"
-  }
-
-  set_string {
-    name = "database.password"
-    value = "${var.sonarqube_postgresql_service_account_password}"
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      CHART = "${path.module}/jenkins-config"
+      JENKINS_HOST = "jenkins.${var.iks_ingress_hostname}"
+      NAMESPACE = "${var.releases_namespace}"
+    }
   }
 }
 
-resource "helm_release" "catalystdashboard_release" {
-  name       = "catalyst-dashboard"
-  chart      = "${path.module}/catalyst-dashboard"
-  namespace  = "${var.releases_namespace}"
-  timeout    = 1200
+resource "null_resource" "sonarqube_release" {
+  depends_on = ["null_resource.helm_init"]
 
-  set {
-    name = "ingress.hosts.0"
-    value = "dashboard.${var.iks_ingress_hostname}"
-  }
+  provisioner "local-exec" {
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set ingress.hosts.0=$${HOST},database.hostname=$${DATABASE_HOST},database.port=$${DATABASE_PORT},database.name=$${DATABASE_NAME},database.username=$${DATABASE_USERNAME},database.password=$${DATABASE_PASSWORD} --values $${VALUES_FILE} | kubectl apply -n $${NAMESPACE} -f -"
 
-}
-
-resource "helm_release" "pact_broker" {
-  name       = "pact-broker"
-  chart      = "${path.module}/pact-broker"
-  namespace  = "${var.releases_namespace}"
-  timeout    = 1200
-
-  set_string {
-    name = "database.type"
-    value = "sqlite"
-  }
-
-  set_string {
-    name = "database.name"
-    value = "pactbroker.sqlite"
-  }
-
-  set {
-    name = "ingress.hosts.0.host"
-    value = "pact.${var.iks_ingress_hostname}"
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      CHART = "${path.module}/ibm-sonarqube"
+      NAME = "sonarqube"
+      NAMESPACE = "${var.releases_namespace}"
+      VALUES_FILE = "${path.module}/sonarqube-values.yaml"
+      HOST = "sonarqube.${var.iks_ingress_hostname}"
+      DATABASE_HOST = "${var.sonarqube_postgresql_hostname}"
+      DATABASE_PORT = "${var.sonarqube_postgresql_port}"
+      DATABASE_NAME = "${var.sonarqube_postgresql_database_name}"
+      DATABASE_USERNAME = "${var.sonarqube_postgresql_service_account_username}"
+      DATABASE_PASSWORD = "${var.sonarqube_postgresql_service_account_password}"
+    }
   }
 }
 
-data "helm_repository" "argo" {
-  name = "argo"
-  url  = "https://ibm-garage-cloud.github.io/argo-helm/"
+resource "null_resource" "catalystdashboard_release" {
+  depends_on = ["null_resource.helm_init"]
+
+  provisioner "local-exec" {
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set ingress.hosts.0=$${HOST} | kubectl apply -n $${NAMESPACE} -f -"
+
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      CHART = "${path.module}/catalyst-dashboard"
+      NAME = "catalyst-dashboard"
+      NAMESPACE = "${var.releases_namespace}"
+      HOST = "dashboard.${var.iks_ingress_hostname}"
+    }
+  }
 }
 
-resource "helm_release" "argocd_release" {
-  name       = "argo-cd"
-  repository = "${data.helm_repository.argo.metadata.0.name}"
-  chart      = "argo-cd"
-  version    = "0.2.3"
-  namespace  = "${var.releases_namespace}"
-  timeout    = 1200
+resource "null_resource" "pactbroker_release" {
+  depends_on = ["null_resource.helm_init"]
 
-  set {
-    name = "ingress.enabled"
-    value = "true"
+  provisioner "local-exec" {
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set ingress.hosts.0.host=$${HOST},database.type=$${DATABASE_TYPE},database.name=$${DATABASE_NAME} | kubectl apply -n $${NAMESPACE} -f -"
+
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      CHART = "${path.module}/pact-broker"
+      NAME = "pact-broker"
+      NAMESPACE = "${var.releases_namespace}"
+      HOST = "pact.${var.iks_ingress_hostname}"
+      DATABASE_TYPE = "sqlite"
+      DATABASE_NAME = "pactbroker.sqlite"
+    }
   }
+}
 
-  set {
-    name = "ingress.ssl_passthrough"
-    value = "false"
+resource "null_resource" "fetch_argocd_helm" {
+  depends_on = ["null_resource.helm_init"]
+
+  provisioner "local-exec" {
+    command = "helm fetch --repo https://ibm-garage-cloud.github.io/argo-helm/ --untar --untardir ${path.module} --version $${VERSION} $${NAME}"
+
+    environment = {
+      NAME = "argo-cd"
+      VERSION = "0.2.3"
+    }
   }
+}
 
-  set {
-    name = "ingress.hosts.0"
-    value = "argocd.${var.iks_ingress_hostname}"
+resource "null_resource" "argocd_release" {
+  depends_on = ["null_resource.helm_init", "null_resource.fetch_argocd_helm"]
+
+  provisioner "local-exec" {
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set ingress.enabled=true --set ingress.ssl_passthrough=false --set ingress.hosts.0=$${HOST} | kubectl apply -n $${NAMESPACE} -f -"
+
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      CHART = "${path.module}/argo-cd"
+      HOST = "argocd.${var.iks_ingress_hostname}"
+      NAME = "argo-cd"
+      NAMESPACE = "${var.releases_namespace}"
+    }
   }
 }
