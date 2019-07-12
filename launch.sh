@@ -58,13 +58,14 @@ then
 fi
 
 DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:latest"
+CONTAINER_NAME="ibm-garage-cli-tools"
 
 echo "Running Cleanup..."
-docker kill ibm-garage-cli-tools
-docker rm ibm-garage-cli-tools
+docker kill ${CONTAINER_NAME}
+docker rm ${CONTAINER_NAME}
 
 echo "Initializing..."
-docker run -itd --name ibm-garage-cli-tools \
+docker run -itd --name ${CONTAINER_NAME} \
    -v ${SRC_DIR}:/home/devops/src \
    -v $(pwd)/.kube:/home/devops/.kube \
    -v $(pwd)/.helm:/home/devops/.helm \
@@ -73,7 +74,7 @@ docker run -itd --name ibm-garage-cli-tools \
    -e SL_USERNAME="${CLASSIC_USERNAME}" \
    -e SL_API_KEY="${CLASSIC_API_KEY}" \
    ${DOCKER_IMAGE}
-docker exec -it --workdir /home/devops/src/workspace ibm-garage-cli-tools terraform init 
+docker exec -it --workdir /home/devops/src/workspace ${CONTAINER_NAME} terraform init
 
 echo "Attaching..."
-docker attach ibm-garage-cli-tools
+docker attach ${CONTAINER_NAME}
