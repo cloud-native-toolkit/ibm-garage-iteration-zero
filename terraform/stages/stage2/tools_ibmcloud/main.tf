@@ -17,6 +17,7 @@ resource "ibm_resource_instance" "postgresql_instance" {
 }
 
 resource "ibm_resource_key" "postgresql_credentials" {
+  depends_on = ["ibm_resource_instance.postgresql_instance"]
   name                 = "${data.ibm_resource_group.tools_resource_group.name}-postgresql-key"
   role                 = "Administrator"
   resource_instance_id = "${ibm_resource_instance.postgresql_instance.id}"

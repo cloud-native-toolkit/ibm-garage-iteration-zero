@@ -4,6 +4,12 @@ variable "resource_group_name" {
   description = "Existing resource group where the IKS cluster will be provisioned."
 }
 
+# Cluster Variables
+variable "cluster_name" {
+  type        = "string"
+  description = "The name of the cluster that will be created within the resource group"
+}
+
 # IKS Cluster Variables
 variable "private_vlan_number" {
   type        = "string"
@@ -30,4 +36,9 @@ variable "vlan_region" {
   type        = "string"
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
   default     = "us-south"
+}
+
+variable "kubeconfig_download_dir" {
+  type        = "string"
+  description = "Directory to download kubeconfig."
 }

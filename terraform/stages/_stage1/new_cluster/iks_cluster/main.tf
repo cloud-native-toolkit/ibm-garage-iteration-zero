@@ -13,7 +13,7 @@ data "ibm_network_vlan" "iks_public_vlan" {
 }
 
 resource "ibm_container_cluster" "iks_cluster" {
-  name              = "${replace(data.ibm_resource_group.iks_resource_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-cluster"
+  name              = "${var.cluster_name}"
   datacenter        = "${var.vlan_datacenter}"
   machine_type      = "u3c.2x4"
   hardware          = "shared"
@@ -22,4 +22,11 @@ resource "ibm_container_cluster" "iks_cluster" {
   worker_num        = 2
   private_vlan_id   = "${data.ibm_network_vlan.iks_private_vlan.id}"
   public_vlan_id    = "${data.ibm_network_vlan.iks_public_vlan.id}"
+}
+
+data "ibm_container_cluster_config" "iks_cluster" {
+  cluster_name_id   = "${ibm_container_cluster.iks_cluster.id}"
+  resource_group_id = "${data.ibm_resource_group.iks_resource_group.id}"
+  config_dir        = "${var.kubeconfig_download_dir}/.kube"
+  region            = "${ibm_container_cluster.iks_cluster.region}"
 }

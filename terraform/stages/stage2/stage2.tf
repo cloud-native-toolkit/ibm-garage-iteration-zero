@@ -1,9 +1,6 @@
-module "dev_iks_namespaces" {
-  source = "iks_namespaces"
+module "dev_tools_ibmcloud" {
+  source = "./tools_ibmcloud"
 
-  resource_group_name     = "${var.resource_group_name}"
-  iks_cluster_id          = "${module.dev_iks_cluster.iks_cluster_id}"
-  iks_cluster_region      = "${module.dev_iks_cluster.iks_cluster_region}"
-  kubeconfig_download_dir = "${var.user_home_dir}"
-  ibmcloud_api_key        = "${var.ibmcloud_api_key}"
+  resource_group_name = "${var.resource_group_name}"
+  resource_location   = "${var.vlan_region}"
 }

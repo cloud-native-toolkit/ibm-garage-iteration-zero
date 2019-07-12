@@ -7,16 +7,26 @@ cd ${SCRIPT_DIR}/workspace
 
 cp -R ../settings/* .
 
-ls ../stages | while read stage; do
+echo -n "Create a (n)ew cluster or use an (e)xisting one? [N/e] "
+read CLUSTER_TYPE
+
+if [[ -z "${CLUSTER_TYPE}" ]] || [[ "${CLUSTER_TYPE}" =~ [Nn] ]]; then
+    echo "Creating new cluster"
+    cp -R ../stages/_stage1/new_cluster/* .
+elif [[ "${CLUSTER_TYPE}" =~ [Ee] ]]; then
+    echo "Preparing existing cluster"
+    cp -R ../stages/_stage1/existing_cluster/* .
+fi
+
+terraform init
+terraform apply -auto-approve
+
+ls -d ../stages/stage* | while read stage; do
     echo "Running stage: ${stage}"
 
-    cp -R ../stages/${stage}/* .
+    cp -R ${stage}/* .
 
-    if [[ -n "$1" ]]; then
-        terraform init -backend-config="$1"
-    else
-        terraform init
-    fi
+    terraform init
 
     terraform apply -auto-approve
 done

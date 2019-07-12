@@ -8,28 +8,6 @@ variable "iks_cluster_config_file" {
   description = "Cluster config file for Kubernetes cluster."
 }
 
-variable "iks_cluster_id" {
-  type        = "string"
-  description = "Existing IKS cluster ID to which Helm will be installed on."
-}
-
-variable "iks_cluster_region" {
-  type        = "string"
-  description = "Region of existing IKS cluster to which Helm will be installed on."
-}
-
-variable "tiller_namespace" {
-  type        = "string"
-  description = "Namespace of the Tiller Deployment."
-  default     = "kube-system"
-}
-
-variable "tiller_service_account_name" {
-  type        = "string"
-  description = "Name of the Tiller Service Account."
-  default     = "tiller"
-}
-
 variable "releases_namespace" {
   type        = "string"
   description = "Name of the existing namespace where the Helm Releases will be deployed."

@@ -1,9 +1,3 @@
-output "iks_cluster_config_file" {
-  value       = "${data.ibm_container_cluster_config.iks_cluster.config_file_path}"
-  description = "Directory for Kube configuration"
-  depends_on  = ["ibm_container_cluster_config.iks_cluster"]
-}
-
 output "tools_namespace_name" {
   value       = "${kubernetes_namespace.tools_namespace.id}"
   description = "Tools namespace name"

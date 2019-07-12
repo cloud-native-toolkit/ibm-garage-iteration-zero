@@ -3,9 +3,9 @@ variable "resource_group_name" {
   description = "Existing resource group where the IKS cluster will be provisioned."
 }
 
-variable "iks_cluster_id" {
+variable "cluster_name" {
   type        = "string"
-  description = "Existing IKS cluster ID to which Helm will be installed on."
+  description = "The name of the cluster."
 }
 
 variable "iks_cluster_region" {
@@ -13,9 +13,9 @@ variable "iks_cluster_region" {
   description = "Region of existing IKS cluster to which Helm will be installed on."
 }
 
-variable "kubeconfig_download_dir" {
+variable "iks_config_file_path" {
   type        = "string"
-  description = "Directory to download kubeconfig."
+  description = "The path to the config file for the cluster"
 }
 
 variable "ibmcloud_api_key" {
