@@ -12,7 +12,7 @@ resource "null_resource" "fetch_jenkins_helm" {
   depends_on = ["null_resource.helm_init"]
 
   provisioner "local-exec" {
-    command = "helm fetch --repo https://kubernetes-charts.storage.googleapis.com/ --untar --untardir ${path.module} --version $${VERSION} $${NAME}"
+    command = "helm fetch --repo https://kubernetes-charts.storage.googleapis.com/ --untar --untardir ${path.module}/charts --version $${VERSION} $${NAME}"
 
     environment = {
       NAME = "jenkins"
@@ -21,34 +21,42 @@ resource "null_resource" "fetch_jenkins_helm" {
   }
 }
 
-resource "null_resource" "jenkins_release" {
+resource "null_resource" "jenkins_helm_template" {
   depends_on = ["null_resource.helm_init", "null_resource.fetch_jenkins_helm"]
 
   provisioner "local-exec" {
-    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set master.ingress.hostName=$${JENKINS_HOST} --values $${VALUES_FILE} | kubectl apply -n $${NAMESPACE} -f -"
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set master.ingress.hostName=$${JENKINS_HOST} --values $${VALUES_FILE} > $${KUSTOMISE_PATH}"
 
     environment = {
       KUBECONFIG = "${var.iks_cluster_config_file}"
-      CHART = "${path.module}/jenkins"
+      CHART = "${path.module}/charts/jenkins"
       VALUES_FILE = "${path.module}/jenkins-values.yaml"
       JENKINS_HOST = "jenkins.${var.iks_ingress_hostname}"
       NAME = "jenkins"
       NAMESPACE = "${var.releases_namespace}"
+      KUSTOMISE_PATH = "${path.module}/jenkins/base.yaml"
     }
   }
 }
 
-resource "null_resource" "patch_jenkins_role" {
-  depends_on = ["null_resource.jenkins_release"]
+resource "null_resource" "jenkins_release" {
+  depends_on = ["null_resource.jenkins_helm_template"]
 
   provisioner "local-exec" {
-    command = "kubectl patch -n tools roles/jenkins-schedule-agents --type='json' -p='[{\"op\": \"add\", \"path\": \"/rules/0/resources/0\", \"value\": \"secrets\"}]'"
-
-    environment = {
-      KUBECONFIG = "${var.iks_cluster_config_file}"
-    }
+    command = "kubectl apply -k ${path.module}/jenkins"
   }
 }
+//resource "null_resource" "patch_jenkins_role" {
+//  depends_on = ["null_resource.jenkins_release"]
+//
+//  provisioner "local-exec" {
+//    command = "kubectl patch -n tools roles/jenkins-schedule-agents --type='json' -p='[{\"op\": \"add\", \"path\": \"/rules/0/resources/0\", \"value\": \"secrets\"}]'"
+//
+//    environment = {
+//      KUBECONFIG = "${var.iks_cluster_config_file}"
+//    }
+//  }
+//}
 
 resource "null_resource" "ibmcloud_apikey_release" {
   depends_on = ["null_resource.helm_init"]
@@ -141,7 +149,7 @@ resource "null_resource" "fetch_argocd_helm" {
   depends_on = ["null_resource.helm_init"]
 
   provisioner "local-exec" {
-    command = "helm fetch --repo https://ibm-garage-cloud.github.io/argo-helm/ --untar --untardir ${path.module} --version $${VERSION} $${NAME}"
+    command = "helm fetch --repo https://ibm-garage-cloud.github.io/argo-helm/ --untar --untardir ${path.module}/charts --version $${VERSION} $${NAME}"
 
     environment = {
       NAME = "argo-cd"
@@ -158,7 +166,7 @@ resource "null_resource" "argocd_release" {
 
     environment = {
       KUBECONFIG = "${var.iks_cluster_config_file}"
-      CHART = "${path.module}/argo-cd"
+      CHART = "${path.module}/charts/argo-cd"
       HOST = "argocd.${var.iks_ingress_hostname}"
       NAME = "argo-cd"
       NAMESPACE = "${var.releases_namespace}"
