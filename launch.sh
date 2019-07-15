@@ -57,7 +57,7 @@ then
     helpFunction "Some of the credentials values are empty. "
 fi
 
-DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:latest"
+DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:ubi"
 CONTAINER_NAME="ibm-garage-cli-tools"
 
 echo "Running Cleanup..."
@@ -73,6 +73,7 @@ docker run -itd --name ${CONTAINER_NAME} \
    -e BM_API_KEY="${IBMCLOUD_API_KEY}" \
    -e SL_USERNAME="${CLASSIC_USERNAME}" \
    -e SL_API_KEY="${CLASSIC_API_KEY}" \
+   -w /home/devops/src \
    ${DOCKER_IMAGE}
 docker exec -it --workdir /home/devops/src/workspace ${CONTAINER_NAME} terraform init
 
