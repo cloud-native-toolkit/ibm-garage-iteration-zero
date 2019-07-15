@@ -43,10 +43,14 @@ resource "null_resource" "jenkins_release" {
   depends_on = ["null_resource.jenkins_helm_template"]
 
   provisioner "local-exec" {
-    command = "kubectl apply -k ${path.module}/jenkins"
+    command = "kustomize build ${path.module}/jenkins | kubectl apply -n $${NAMESPACE} -f -"
+
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      NAMESPACE = "${var.releases_namespace}"
+    }
   }
-}
-//resource "null_resource" "patch_jenkins_role" {
+}//resource "null_resource" "patch_jenkins_role" {
 //  depends_on = ["null_resource.jenkins_release"]
 //
 //  provisioner "local-exec" {
