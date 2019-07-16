@@ -48,7 +48,9 @@ development cluster and supporting cloud services. Using the Cloud Console creat
 [Resource Group](https://cloud.ibm.com/account/resource-groups). 
 
 
-
+**NOTE:** The terraform scripts can be run to create a new Kubernetes cluster or modify an
+existing cluster. If an existing cluster is selected, then any existing namespaces named 
+`tools`, `dev`, `test`, and `prod` and any resources contained therein will be destroyed.
 
 ## Deploying with Terraform
 This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) to run the Terraform client.
@@ -135,7 +137,11 @@ public_vlan_router_hostname="fcr01a.dal10"
 vlan_datacenter="dal10"
 vlan_region="us-south"
 resource_group_name="catalyst-team"
+cluster_name="catalyst-team-cluster"
 ```
+
+**NOTE:** If you would like to use an existing cluster, change the value of `cluster_name` in the `terraform.tfvars` to the name
+of that cluster.
 
 You can also access this information for the public and private VLANs information by accessing the `Classic Infrastructure` from the IBM Cloud console, and then selecting `Network > IP Management > VLANs` once you have updated your values you can moved to the next step.
 
@@ -146,9 +152,12 @@ Run the following command to launch a Garage [Catalyst CLI Tools Docker containe
 ```bash
 ./launch.sh
 ```
-***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container. 
+***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the 
+rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. 
+This is helpful in sharing files between your host filesystem and your container. 
 
-It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for you specific project needs.
+It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for you 
+specific project needs.
 
 The tools docker image contains the following tools that will help you with cloud native development. 
 
@@ -166,13 +175,18 @@ The tools docker image contains the following tools that will help you with clou
 ### Deploying the Iteration Zero resources
 Run the following commands:
 ```bash
-$ cd src
-$ chmod +x ./runTerraform.sh
 $ ./runTerraform.sh
 ```
-This will start the Terraform Apply process and begin to create the infrastructure and services for your Development Enviroment.
 
-The resources will take about 2 hours to deploy. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy !
+The script will prompt if you want to create a new cluster or use an existing cluster. If an existing cluster is selected
+the contents will be cleaned up to prepare for the terraform process (the `tools`, `dev`, `test`, and `prod` namespaces).
+
+After that the Terraform Apply process and begin to create the infrastructure and services for your Development Enviroment.
+
+Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process
+takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
+
+![Provisioned environment](./docs/images/catalyst-provisioned-environment.png)
 
 ### Development Cluster Dashboard
 
