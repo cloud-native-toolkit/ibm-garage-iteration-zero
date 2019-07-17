@@ -51,6 +51,19 @@ resource "null_resource" "jenkins_release" {
   }
 }
 
+resource "null_resource" "wait_for_jenkins" {
+  depends_on = ["null_resource.jenkins_release"]
+
+  provisioner "local-exec" {
+    command = "until checkPodRunning.sh jenkins; do echo '>>> waiting for Jenkins'; sleep 300; done; echo '>>> Jenkins has started'"
+
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      NAMESPACE = "${var.releases_namespace}"
+    }
+  }
+}
+
 resource "null_resource" "ibmcloud_apikey_release" {
   depends_on = ["null_resource.helm_init"]
 
@@ -129,6 +142,20 @@ resource "null_resource" "sonarqube_release" {
     }
   }
 }
+
+resource "null_resource" "wait_for_sonarqube" {
+  depends_on = ["null_resource.sonarqube_release"]
+
+  provisioner "local-exec" {
+    command = "until checkPodRunning.sh sonarqube-sonarqube; do echo '>>> waiting for SonarQube'; sleep 300; done; echo '>>> SonarQube has started'"
+
+    environment = {
+      KUBECONFIG = "${var.iks_cluster_config_file}"
+      NAMESPACE = "${var.releases_namespace}"
+    }
+  }
+}
+
 resource "null_resource" "catalystdashboard_release" {
   depends_on = ["null_resource.helm_init"]
 
