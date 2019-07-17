@@ -1,0 +1,8 @@
+# Default values for jenkins-setup.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+apikey: "ibmcloud apikey"
+resource_group: "resource group"
+registry_url: "us.icr.io"
+region: "us-south"
