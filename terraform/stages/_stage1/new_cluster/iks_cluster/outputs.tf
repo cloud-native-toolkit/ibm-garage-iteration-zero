@@ -4,6 +4,16 @@ output "iks_cluster_id" {
   depends_on  = ["ibm_container_cluster.iks_cluster"]
 }
 
+output "iks_cluster_name" {
+  value       = "${var.cluster_name}"
+  description = "ID of the resource group that was created."
+}
+
+output "resource_group_name" {
+  value       = "${var.resource_group_name}"
+  description = "ID of the resource group that was created."
+}
+
 output "iks_cluster_region" {
   value       = "${ibm_container_cluster.iks_cluster.region}"
   description = "ID of the resource group that was created."

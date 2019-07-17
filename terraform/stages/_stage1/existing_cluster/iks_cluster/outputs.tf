@@ -3,6 +3,16 @@ output "iks_cluster_id" {
   description = "ID of the resource group that was created."
 }
 
+output "iks_cluster_name" {
+  value       = "${var.cluster_name}"
+  description = "ID of the resource group that was created."
+}
+
+output "resource_group_name" {
+  value       = "${var.resource_group_name}"
+  description = "ID of the resource group that was created."
+}
+
 output "iks_cluster_region" {
   value       = "${data.ibm_container_cluster_config.iks_cluster.region}"
   description = "ID of the resource group that was created."
