@@ -67,8 +67,6 @@ docker rm ${CONTAINER_NAME}
 echo "Initializing..."
 docker run -itd --name ${CONTAINER_NAME} \
    -v ${SRC_DIR}:/home/devops/src \
-   -v $(pwd)/.kube:/home/devops/.kube \
-   -v $(pwd)/.helm:/home/devops/.helm \
    -e TF_VAR_ibmcloud_api_key="${IBMCLOUD_API_KEY}" \
    -e BM_API_KEY="${IBMCLOUD_API_KEY}" \
    -e SL_USERNAME="${CLASSIC_USERNAME}" \

@@ -4,54 +4,103 @@ set -e
 SCRIPT_DIR=$(dirname $0)
 SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 
-WORKSPACE_DIR="${SCRIPT_DIR}/workspace"
-mkdir -p ${WORKSPACE_DIR}
+WORKSPACE_DIR="${SRC_DIR}/workspace"
+mkdir -p ${WORKSPACE_DIR}/.tmp
 
-if [[ ! -f ${WORKSPACE_DIR}/apply.sh ]]; then
-    CLUSTER_TYPE="x"
-    while [[ "${CLUSTER_TYPE}" =~ [^ne] ]]; do
-        echo -n "Create a (n)ew cluster or use an (e)xisting one? [N/e] "
-        read CLUSTER_TYPE
+cp ${SRC_DIR}/settings/* ${WORKSPACE_DIR}
+cp ${SRC_DIR}/scripts/* ${WORKSPACE_DIR}
 
-        if [[ -z "${CLUSTER_TYPE}" ]] || [[ "${CLUSTER_TYPE}" =~ [Nn] ]]; then
-            CLUSTER_TYPE="n"
-        elif [[ "${CLUSTER_TYPE}" =~ [Ee] ]]; then
-            CLUSTER_TYPE="e"
+# Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
+# If not, get them from the user and write them to a file
+
+TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
+
+if [[ -z $(grep -E "^cluster_exists" ${TFVARS}) ]]; then
+    ANSWER="x"
+    while [[ "${ANSWER}" =~ [^ne] ]]; do
+        echo -n "Do you want to create a (n)ew cluster or configure an (e)xisting cluster? [N/e] "
+        read ANSWER
+
+        if [[ -z "${ANSWER}" ]] || [[ "${ANSWER}" =~ [Nn] ]]; then
+            ANSWER="n"
+        elif [[ "${ANSWER}" =~ [Ee] ]]; then
+            ANSWER="e"
         fi
     done
 
-    if [[ "${CLUSTER_TYPE}" == "e" ]]; then
-        echo "You have chosen to use an existing cluster. Before configuring the environment the following namespaces and all their contents will be destroyed: tools, dev, test, prod"
+    if [[ "${ANSWER}" == "e" ]]; then
+        echo "  You have chosen to use an existing cluster. Before configuring the environnment the following namespaces and their contents will be destroyed: tools, dev, test, prod"
 
-        proceed="x"
-        while [[ "${proceed}" =~ [^yn] ]]; do
-            echo -n "Do you want to proceed? [Y/n] "
-            read proceed
+        PROCEED="x"
+        while [[ "${PROCEED}" =~ [^yn] ]]; do
+            echo -n "  Do you want to proceed? [Y/n] "
+            read PROCEED
 
-            if [[ "${proceed}" == "" ]] || [[ "${proceed}" =~ [Yy] ]]; then
-                proceed="y"
-            elif [[ "${proceed}" =~ [Nn] ]]; then
-                proceed="n"
+            if [[ -z "${PROCEED}" ]] || [[ "${PROCEED}" =~ [Yy] ]]; then
+                PROCEED="y"
+            elif [[ "${PROCEED}" =~ [Nn] ]]; then
+                PROCEED="n"
             fi
         done
 
-        if [[ "${proceed}" == "n" ]]; then
+        if [[ "${PROCEED}" == "n" ]]; then
             exit 1
         fi
     fi
 
-    echo ""
-    if [[ "${CLUSTER_TYPE}" == "n" ]]; then
-        echo "Creating new cluster"
-        cp -R ${SRC_DIR}/stages/_stage1/new_cluster/* ${WORKSPACE_DIR}
-    elif [[ "${CLUSTER_TYPE}" == "e" ]]; then
-        echo "Preparing existing cluster"
-        cp -R ${SRC_DIR}/stages/_stage1/existing_cluster/* ${WORKSPACE_DIR}
+    if [[ "${ANSWER}" == "e" ]]; then
+        echo "cluster_exists=\"true\"" >> ${TFVARS}
+    else
+        CREATE_CLUSTER="true"
+        echo "cluster_exists=\"false\"" >> ${TFVARS}
+    fi
+elif [[ $(grep -q "cluster_exists=\"false\"" ${TFVARS}) -gt 0 ]]; then
+    CREATE_CLUSTER="true"
+fi
+
+if [[ -z $(grep -E "^cluster_type" ${TFVARS}) ]]; then
+    ANSWER="x"
+    while [[ "${ANSWER}" =~ [^ok] ]]; do
+        if [[ -n "${CREATE_CLUSTER}" ]]; then
+            echo -n "Do you want to create a (k)ubernetes cluster or an OpenShift cluster? [K/o] "
+        else
+            echo -n "Is your existing cluster (k)ubernetes or OpenShift? [K/o] "
+        fi
+        read ANSWER
+
+        if [[ -z "${ANSWER}" ]] || [[ "${ANSWER}" =~ [Kk] ]]; then
+            ANSWER="k"
+        elif [[ "${ANSWER}" =~ [Oo] ]]; then
+            ANSWER="o"
+        fi
+    done
+
+    if [[ "${ANSWER}" == "k" ]]; then
+        echo "cluster_type=\"kubernetes\"" >> ${TFVARS}
+    else
+        echo "cluster_type=\"openshift\"" >> ${TFVARS}
     fi
 fi
 
-cp -R ${SRC_DIR}/settings/* ${WORKSPACE_DIR}
-cp -R ${SRC_DIR}/scripts/* ${WORKSPACE_DIR}
+if [[ -z $(grep -E "^postgres_server_exists" ${TFVARS}) ]]; then
+    ANSWER="x"
+    while [[ "${ANSWER}" =~ [^ne] ]]; do
+        echo -n "Do you want to create a (n)ew postgres server or configure an (e)xisting postgres server? [N/e] "
+        read ANSWER
+
+        if [[ -z "${ANSWER}" ]] || [[ "${ANSWER}" =~ [Nn] ]]; then
+            ANSWER="n"
+        elif [[ "${ANSWER}" =~ [Ee] ]]; then
+            ANSWER="e"
+        fi
+    done
+
+    if [[ "${ANSWER}" == "e" ]]; then
+        echo "postgres_server_exists=\"true\"" >> ${TFVARS}
+    else
+        echo "postgres_server_exists=\"false\"" >> ${TFVARS}
+    fi
+fi
 
 cd ${WORKSPACE_DIR}
 ./apply.sh

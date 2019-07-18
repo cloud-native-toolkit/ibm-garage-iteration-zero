@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
-terraform init
-terraform apply -auto-approve
+SCRIPT_DIR=$(dirname $0)
+SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 
-ls -d ../stages/stage* | while read stage; do
-    echo "Running stage: $(basename ${stage})"
+cd ${SRC_DIR}
 
-    cp -R ${stage}/* .
+echo ""
+cp ${SRC_DIR}/../stages/variables.tf ${SRC_DIR}
+cp ${SRC_DIR}/../stages/stage*.tf ${SRC_DIR}
 
-    terraform init
-    terraform apply -auto-approve
-done
+terraform init && terraform apply -auto-approve
