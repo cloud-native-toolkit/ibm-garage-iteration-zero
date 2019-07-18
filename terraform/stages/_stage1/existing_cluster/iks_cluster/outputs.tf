@@ -24,6 +24,6 @@ output "iks_config_file_path" {
 }
 
 output "iks_ingress_hostname" {
-  value       = "${var.cluster_name}.${var.iks_cluster_region}.containers.appdomain.cloud"
+  value       = "${replace(var.cluster_name, "/(.{0, 23}).*/", "$1")}.${var.iks_cluster_region}.containers.appdomain.cloud"
   description = "Ingress hostname of the IKS cluster."
 }
