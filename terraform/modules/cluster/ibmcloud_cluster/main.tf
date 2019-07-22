@@ -37,7 +37,7 @@ locals {
   ingress_url_file   = "${path.cwd}/.tmp/ingress-subdomain.val"
   kube_version_file  = "${path.cwd}/.tmp/kube_version.val"
   cluster_config_dir = "${var.kubeconfig_download_dir}/.kube"
-  cluster_name       = "${var.cluster_name != "default" ? var.cluster_name : join("-", [var.resource_group_name, "cluster"])}"
+  cluster_name       = "${var.cluster_name}"
 }
 
 resource "null_resource" "get_openshift_version" {
