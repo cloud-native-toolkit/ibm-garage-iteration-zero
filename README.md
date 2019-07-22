@@ -8,7 +8,7 @@ environment ready for cloud native application development with IBM Cloud Kubern
 This repo contains Terraform resources that will deploy the following development tools into your Kubernetes infrastructure:
 
 - IBM Container Service Cluster (3 nodes)
-- Create *dev*,*test*,*prod* and *tools* namespaces
+- Create *dev*,*test*,*staging* and *tools* namespaces
 - Install the following tools:
     - [Jenkins CI](https://jenkins.io/)
     - [Argo CD](https://argoproj.github.io/argo-cd/)
@@ -50,7 +50,7 @@ development cluster and supporting cloud services. Using the Cloud Console creat
 
 **NOTE:** The terraform scripts can be run to create a new Kubernetes cluster or modify an
 existing cluster. If an existing cluster is selected, then any existing namespaces named 
-`tools`, `dev`, `test`, and `prod` and any resources contained therein will be destroyed.
+`tools`, `dev`, `test`, and `staging` and any resources contained therein will be destroyed.
 
 ## Deploying with Terraform
 This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) to run the Terraform client.
@@ -179,7 +179,7 @@ $ ./runTerraform.sh
 ```
 
 The script will prompt if you want to create a new cluster or use an existing cluster. If an existing cluster is selected
-the contents will be cleaned up to prepare for the terraform process (the `tools`, `dev`, `test`, and `prod` namespaces).
+the contents will be cleaned up to prepare for the terraform process (the `tools`, `dev`, `test`, and `staging` namespaces).
 
 After that the Terraform Apply process and begin to create the infrastructure and services for your Development Enviroment.
 
