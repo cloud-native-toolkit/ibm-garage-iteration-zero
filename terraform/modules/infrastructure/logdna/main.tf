@@ -18,14 +18,80 @@ resource "ibm_resource_instance" "logdna_instance" {
 }
 
 resource "ibm_resource_key" "logdna_instance_key" {
-  name                  = "${replace(data.ibm_resource_group.tools_resource_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-logdna-key"
+  name                 = "${replace(data.ibm_resource_group.tools_resource_group.name, "/[^a-zA-Z0-9_\\-\\.]/", "")}-logdna-key"
   resource_instance_id = "${ibm_resource_instance.logdna_instance.id}"
-  role = "Manager"
+  role                 = "Manager"
 
   //User can increase timeouts 
   timeouts {
     create = "15m"
     delete = "15m"
+  }
+}
+
+resource "null_resource" "oc_login" {
+  count = "${var.cluster_type == "openshift" ? "1": "0"}"
+
+  provisioner "local-exec" {
+    command = "oc login -u apikey -p $${TOKEN} --server=$${URL} > /dev/null"
+
+    environment = {
+      URL   = "${var.server_url}"
+      TOKEN = "${var.ibmcloud_api_key}"
+    }
+  }
+}
+
+resource "null_resource" "logdna_secret_openshift" {
+  depends_on = ["null_resource.oc_login"]
+  count      = "${var.cluster_type == "openshift" ? "1" : "0"}"
+
+  provisioner "local-exec" {
+    command = "kubectl create secret generic logdna-agent-key -n $${NAMESPACE} --from-literal=logdna-agent-key=${ibm_resource_key.logdna_instance_key.credentials.ingestion_key}"
+
+    environment = {
+      NAMESPACE = "default"
+    }
+  }
+}
+
+resource "null_resource" "logdna_secret_iks" {
+  count = "${var.cluster_type != "openshift" ? "1" : "0"}"
+
+  provisioner "local-exec" {
+    command = "kubectl create secret generic logdna-agent-key -n $${NAMESPACE} --from-literal=logdna-agent-key=${ibm_resource_key.logdna_instance_key.credentials.ingestion_key}"
+
+    environment = {
+      KUBECONFIG = "${var.cluster_config_file_path}"
+      NAMESPACE  = "default"
+    }
+  }
+}
+
+resource "null_resource" "logdna_agent_openshift" {
+  depends_on = ["null_resource.logdna_secret_openshift"]
+  count      = "${var.cluster_type == "openshift" ? "1" : "0"}"
+
+  provisioner "local-exec" {
+    command = "kubectl create -n $${NAMESPACE} -f https://assets.us-south.logging.cloud.ibm.com/clients/logdna-agent-ds.yaml"
+
+    environment = {
+      NAMESPACE = "default"
+    }
+  }
+}
+
+resource "null_resource" "logdna_agent_iks" {
+  depends_on = ["null_resource.logdna_secret_iks"]
+  count      = "${var.cluster_type != "openshift" ? "1" : "0"}"
+
+  provisioner "local-exec" {
+    command = "kubectl create -n $${NAMESPACE} -f https://assets.us-south.logging.cloud.ibm.com/clients/logdna-agent-ds.yaml"
+
+    environment = {
+      KUBECONFIG = "${var.cluster_config_file_path}"
+      NAMESPACE  = "default"
+    }
   }
 }
 

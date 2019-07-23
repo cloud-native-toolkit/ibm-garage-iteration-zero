@@ -18,6 +18,11 @@ variable "dev_namespace" {
   description = "Development namespace"
 }
 
+variable "test_namespace" {
+  type        = "string"
+  description = "Test namespace"
+}
+
 variable "staging_namespace" {
   type        = "string"
   description = "Staging namespace"

@@ -17,10 +17,24 @@ resource "ibm_resource_instance" "appid_instance" {
   }
 }
 
-resource "ibm_container_bind_service" "appid_service_binding_prod" {
+resource "ibm_container_bind_service" "appid_service_binding_staging" {
   cluster_name_id             = "${var.cluster_id}"
   service_instance_name       = "${ibm_resource_instance.appid_instance.name}"
   namespace_id                = "${var.staging_namespace}"
+  region                      = "${var.resource_location}"
+  resource_group_id           = "${data.ibm_resource_group.tools_resource_group.id}"
+
+  // The provider (v16.1) is incorrectly registering that these values change each time,
+  // this may be removed in the future if this is fixed.
+  lifecycle {
+    ignore_changes = ["id", "namespace_id", "service_instance_name"]
+  }
+}
+
+resource "ibm_container_bind_service" "appid_service_binding_test" {
+  cluster_name_id             = "${var.cluster_id}"
+  service_instance_name       = "${ibm_resource_instance.appid_instance.name}"
+  namespace_id                = "${var.test_namespace}"
   region                      = "${var.resource_location}"
   resource_group_id           = "${data.ibm_resource_group.tools_resource_group.id}"
 
