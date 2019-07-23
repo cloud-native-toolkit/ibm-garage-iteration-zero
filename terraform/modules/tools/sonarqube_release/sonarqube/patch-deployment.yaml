@@ -1,6 +1,3 @@
-- op: replace
-  path: /spec/template/spec/initContainers/0/securityContext/privileged
-  value: false
 - op: add
   path: /spec/template/spec/initContainers/-
   value:
