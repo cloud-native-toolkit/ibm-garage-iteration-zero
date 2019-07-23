@@ -94,15 +94,13 @@ resource "null_resource" "ibmcloud_apikey_release" {
 }
 
 resource "null_resource" "jenkins_release_openshift" {
-  depends_on = ["null_resource.jenkins_helm_template"]
   count = "${var.cluster_type == "openshift" ? "1" : "0"}"
 
   provisioner "local-exec" {
-    command = "oc project $${NAMESPACE} && oc new-app openshift/jenkins && oc expose svc/jenkins --hostname $${JENKINS_HOST}"
+    command = "oc project $${NAMESPACE} && oc new-app jenkins-persistent"
 
     environment = {
       NAMESPACE = "${var.releases_namespace}"
-      JENKINS_HOST = "${local.ingress_host}"
     }
   }
 }
