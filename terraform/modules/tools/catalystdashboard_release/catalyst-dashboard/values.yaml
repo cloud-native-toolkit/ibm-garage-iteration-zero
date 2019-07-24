@@ -8,7 +8,7 @@ image:
   repository: garagecatalyst/catalyst-dashboard
   tag: latest
   pullPolicy: Always
-  port: 8080
+  port: 3000
 
 service:
   type: ClusterIP
