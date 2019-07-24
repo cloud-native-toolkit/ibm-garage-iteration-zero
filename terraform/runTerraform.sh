@@ -15,7 +15,11 @@ cp ${SRC_DIR}/scripts/* ${WORKSPACE_DIR}
 
 TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 
-if [[ -z $(grep -E "^cluster_exists" ${TFVARS}) ]]; then
+RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" ${TFVARS} | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
+CLUSTER_NAME=$(grep -E "^cluster_name" ${TFVARS} | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+
+CLUSTER_EXISTS=$(grep -E "^cluster_exists" ${TFVARS} | sed -E "s/^cluster_exists=\"(.*)\".*/\1/g")
+if [[ -z "${CLUSTER_EXISTS}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^ne] ]]; do
         echo -n "Do you want to create a (n)ew cluster or configure an (e)xisting cluster? [N/e] "
@@ -29,39 +33,20 @@ if [[ -z $(grep -E "^cluster_exists" ${TFVARS}) ]]; then
     done
 
     if [[ "${ANSWER}" == "e" ]]; then
-        echo "  You have chosen to use an existing cluster. Before configuring the environnment the following namespaces and their contents will be destroyed: tools, dev, test, prod"
-
-        PROCEED="x"
-        while [[ "${PROCEED}" =~ [^yn] ]]; do
-            echo -n "  Do you want to proceed? [Y/n] "
-            read PROCEED
-
-            if [[ -z "${PROCEED}" ]] || [[ "${PROCEED}" =~ [Yy] ]]; then
-                PROCEED="y"
-            elif [[ "${PROCEED}" =~ [Nn] ]]; then
-                PROCEED="n"
-            fi
-        done
-
-        if [[ "${PROCEED}" == "n" ]]; then
-            exit 1
-        fi
-    fi
-
-    if [[ "${ANSWER}" == "e" ]]; then
-        echo "cluster_exists=\"true\"" >> ${TFVARS}
+        CLUSTER_EXISTS="true"
     else
-        CREATE_CLUSTER="true"
+        CLUSTER_EXISTS="false"
         echo "cluster_exists=\"false\"" >> ${TFVARS}
     fi
-elif [[ $(grep -q "cluster_exists=\"false\"" ${TFVARS}) -gt 0 ]]; then
-    CREATE_CLUSTER="true"
+
+    echo "cluster_exists=\"${CLUSTER_EXISTS}\"" >> ${TFVARS}
 fi
 
-if [[ -z $(grep -E "^cluster_type" ${TFVARS}) ]]; then
+CLUSTER_TYPE=$(grep -E "^cluster_type" ${TFVARS} | sed -E "s/^cluster_type=\"(.*)\".*/\1/g")
+if [[ -z "${CLUSTER_TYPE}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^ok] ]]; do
-        if [[ -n "${CREATE_CLUSTER}" ]]; then
+        if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
             echo -n "Do you want to create a (k)ubernetes cluster or an OpenShift cluster? [K/o] "
         else
             echo -n "Is your existing cluster (k)ubernetes or OpenShift? [K/o] "
@@ -76,13 +61,16 @@ if [[ -z $(grep -E "^cluster_type" ${TFVARS}) ]]; then
     done
 
     if [[ "${ANSWER}" == "k" ]]; then
-        echo "cluster_type=\"kubernetes\"" >> ${TFVARS}
+        CLUSTER_TYPE="kubernetes"
     else
-        echo "cluster_type=\"openshift\"" >> ${TFVARS}
+        CLUSTER_TYPE="openshift"
     fi
+
+    echo "cluster_type=\"${CLUSTER_TYPE}\"" >> ${TFVARS}
 fi
 
-if [[ -z $(grep -E "^postgres_server_exists" ${TFVARS}) ]]; then
+POSTGRES_SERVER_EXISTS=$(grep -E "^postgres_server_exists" ${TFVARS} | sed -E "s/^postgres_server_exists=\"(.*)\".*/\1/g")
+if [[ -z "${POSTGRES_SERVER_EXISTS}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^ne] ]]; do
         echo -n "Do you want to create a (n)ew postgres server or configure an (e)xisting postgres server? [N/e] "
@@ -96,11 +84,43 @@ if [[ -z $(grep -E "^postgres_server_exists" ${TFVARS}) ]]; then
     done
 
     if [[ "${ANSWER}" == "e" ]]; then
-        echo "postgres_server_exists=\"true\"" >> ${TFVARS}
+        POSTGRES_SERVER_EXISTS="true"
     else
-        echo "postgres_server_exists=\"false\"" >> ${TFVARS}
+        POSTGRES_SERVER_EXISTS="false"
     fi
+
+    echo "postgres_server_exists=\"${POSTGRES_SERVER_EXISTS}\"" >> ${TFVARS}
 fi
+
+echo -e ""
+echo -e "Terraform is about to run with the following settings:"
+echo -e "  - Resource group \033[1;33m${RESOURCE_GROUP_NAME}\033[0m"
+if [[ "${POSTGRES_SERVER_EXISTS}" == "false" ]]; then
+    echo -e "  - Create a new postgres instance"
+else
+    echo -e "  - Use an existing postgres instance"
+fi
+if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
+    echo -e "  - Create a new \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m"
+else
+    echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m"
+    echo ""
+    echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools, dev, test, prod\033[0m"
+fi
+
+echo ""
+
+PROCEED="x"
+while [[ "${PROCEED}" =~ [^yn] ]]; do
+    echo -n "Do you want to proceed? [Y/n] "
+    read PROCEED
+
+    if [[ -z "${PROCEED}" ]] || [[ "${PROCEED}" =~ [Yy] ]]; then
+        PROCEED="y"
+    elif [[ "${PROCEED}" =~ [Nn] ]]; then
+        exit 1
+    fi
+done
 
 cd ${WORKSPACE_DIR}
 ./apply.sh
