@@ -5,7 +5,7 @@ environment ready for cloud native application development with IBM Cloud Kubern
 
 ### Overview
 
-This repo contains Terraform resources that will deploy the following development tools into your Kubernetes infrastructure:
+This repo contains Terraform resources that will deploy the following development tools into your IKS or OpenShift infrastructure.
 
 - IBM Container Service Cluster (3 nodes)
 - Create *dev*,*test*,*staging* and *tools* namespaces
@@ -24,6 +24,8 @@ This repo contains Terraform resources that will deploy the following developmen
     - [LogDNA Logging](https://cloud.ibm.com/docs/services/Log-Analysis-with-LogDNA?topic=LogDNA-getting-started)
     - [SysDig Monitoring](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig?topic=Sysdig-getting-started)
     - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql?topic=databases-for-postgresql-about)
+
+![Provisioned environment](./docs/images/catalyst-provisioned-environment.png)
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution and report any issues you find.**
 
