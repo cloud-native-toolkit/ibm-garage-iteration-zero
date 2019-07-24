@@ -1,7 +1,7 @@
-# IBM Cloud Garage & Solution Engineering
-## Iteration Zero for IBM Cloud Kubernetes Service 
+# IBM Garage & Solution Engineering
+## Iteration Zero for IBM 
 This repository contains tools and Terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development
-environment ready for cloud native application development with IBM Cloud Kubernetes service. 
+environment ready for cloud native application development with IBM Cloud Kubernetes Service or Red Hat OpenShift for IBM Kubernetes Service. 
 
 ### Overview
 
@@ -14,7 +14,7 @@ This repo contains Terraform resources that will deploy the following developmen
     - [Argo CD](https://argoproj.github.io/argo-cd/)
     - [SonarQube](https://www.sonarqube.org/) 
     - [Pack Broker](https://docs.pact.io/)
-    - [Artefactory*](https://jfrog.com/open-source/)
+    - [Artefactory(tbd)](https://jfrog.com/open-source/)
     - [Eclipse CHE](https://www.eclipse.org/che/)
 
 - Create and bind the following Cloud Services to your Cluster:
@@ -25,7 +25,7 @@ This repo contains Terraform resources that will deploy the following developmen
     - [SysDig Monitoring](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig?topic=Sysdig-getting-started)
     - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql?topic=databases-for-postgresql-about)
 
-**Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
+**Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution and report any issues you find.**
 
 ## Basic Setup
 This section will guide you through basic setup of the environment deployment. You will need access an account with the 
