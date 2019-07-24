@@ -28,7 +28,7 @@ resource "null_resource" "fetch_sonarqube_helm" {
 
 resource "null_resource" "copy_kustomize_config" {
   provisioner "local-exec" {
-    command = "mkdir -p ${local.kustomize_root} && cp -R ${path.module}/sonarqube ${local.kustomize_root}"
+    command = "mkdir -p ${local.kustomize_root} && cp -R ${path.module}/sonarqube ${local.kustomize_root} && echo \"  url: http://${local.ingress_host}\" >> ${local.kustomize_path}/secret.yaml"
   }
 }
 
@@ -63,18 +63,18 @@ resource "null_resource" "sonarqube_kustomize" {
   }
 }
 
-//resource "null_resource" "sonarqube_release_openshift" {
-//  depends_on = ["null_resource.sonarqube_kustomize"]
-//  count = "${var.cluster_type == "openshift" ? "1" : "0"}"
-//
-//  provisioner "local-exec" {
-//    command = "kubectl apply -n $${NAMESPACE} -f ${local.release_yaml}"
-//
-//    environment = {
-//      NAMESPACE = "${var.releases_namespace}"
-//    }
-//  }
-//}
+resource "null_resource" "sonarqube_release_openshift" {
+  depends_on = ["null_resource.sonarqube_kustomize"]
+  count = "${var.cluster_type == "openshift" ? "1" : "0"}"
+
+  provisioner "local-exec" {
+    command = "kubectl apply -n $${NAMESPACE} -f ${local.release_yaml}"
+
+    environment = {
+      NAMESPACE = "${var.releases_namespace}"
+    }
+  }
+}
 
 resource "null_resource" "sonarqube_release_iks" {
   depends_on = ["null_resource.sonarqube_kustomize"]
@@ -90,18 +90,18 @@ resource "null_resource" "sonarqube_release_iks" {
   }
 }
 
-//resource "null_resource" "wait_for_sonarqube_openshift" {
-//  depends_on = ["null_resource.sonarqube_release_openshift"]
-//  count = "${var.cluster_type == "openshift" ? "1" : "0"}"
-//
-//  provisioner "local-exec" {
-//    command = "until ${path.module}/scripts/checkPodRunning.sh sonarqube-sonarqube no-login; do echo '>>> waiting for SonarQube'; sleep 300; done; echo '>>> SonarQube has started'"
-//
-//    environment = {
-//      NAMESPACE = "${var.releases_namespace}"
-//    }
-//  }
-//}
+resource "null_resource" "wait_for_sonarqube_openshift" {
+  depends_on = ["null_resource.sonarqube_release_openshift"]
+  count = "${var.cluster_type == "openshift" ? "1" : "0"}"
+
+  provisioner "local-exec" {
+    command = "until ${path.module}/scripts/checkPodRunning.sh sonarqube-sonarqube no-login; do echo '>>> waiting for SonarQube'; sleep 300; done; echo '>>> SonarQube has started'"
+
+    environment = {
+      NAMESPACE = "${var.releases_namespace}"
+    }
+  }
+}
 
 resource "null_resource" "wait_for_sonarqube_iks" {
   depends_on = ["null_resource.sonarqube_release_iks"]
