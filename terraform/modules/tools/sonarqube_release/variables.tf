@@ -62,3 +62,9 @@ variable "helm_version" {
   type        = "string"
   default     = "2.1.1"
 }
+
+variable "service_account_name" {
+  description = "The name of the service account that should be used for the deployment"
+  type        = "string"
+  default     = "default"
+}

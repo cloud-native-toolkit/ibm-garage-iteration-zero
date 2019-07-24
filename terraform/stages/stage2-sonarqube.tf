@@ -13,4 +13,5 @@ module "dev_tools_sonarqube_release" {
   server_url               = "${module.dev_cluster.server_url}"
   cluster_type             = "${var.cluster_type}"
   releases_namespace       = "${module.dev_cluster_namespaces.tools_namespace_name}"
+  service_account_name     = "${var.cluster_type == "openshift" ? module.dev_serviceaccount_useroot.name : "default"}"
 }

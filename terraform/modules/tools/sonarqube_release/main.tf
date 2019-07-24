@@ -5,12 +5,13 @@ resource "null_resource" "helm_init" {
 }
 
 locals {
-  tmp_dir        = "${path.cwd}/.tmp"
-  chart_dir      = "${local.tmp_dir}/charts"
-  kustomize_root = "${local.tmp_dir}/kustomize"
-  kustomize_path = "${local.kustomize_root}/sonarqube"
-  ingress_host   = "sonarqube.${var.cluster_ingress_hostname}"
-  release_yaml   = "${path.cwd}/.tmp/sonarqube.yaml"
+  tmp_dir         = "${path.cwd}/.tmp"
+  chart_dir       = "${local.tmp_dir}/charts"
+  kustomize_root  = "${local.tmp_dir}/kustomize"
+  kustomize_path  = "${local.kustomize_root}/sonarqube"
+  ingress_host    = "sonarqube.${var.cluster_ingress_hostname}"
+  release_yaml    = "${path.cwd}/.tmp/sonarqube.yaml"
+  service_account = "${var.service_account_name}"
 }
 
 resource "null_resource" "fetch_sonarqube_helm" {
@@ -28,7 +29,23 @@ resource "null_resource" "fetch_sonarqube_helm" {
 
 resource "null_resource" "copy_kustomize_config" {
   provisioner "local-exec" {
-    command = "mkdir -p ${local.kustomize_root} && cp -R ${path.module}/sonarqube ${local.kustomize_root} && echo \"  url: http://${local.ingress_host}\" >> ${local.kustomize_path}/secret.yaml"
+    command = "mkdir -p ${local.kustomize_root} && cp -R ${path.module}/sonarqube ${local.kustomize_root}"
+  }
+}
+
+resource "null_resource" "update_kustomize_secret" {
+  depends_on = ["null_resource.copy_kustomize_config"]
+
+  provisioner "local-exec" {
+    command = "echo \"  url: http://${local.ingress_host}\" >> ${local.kustomize_path}/secret.yaml"
+  }
+}
+
+resource "null_resource" "update_kustomize_deployment" {
+  depends_on = ["null_resource.copy_kustomize_config"]
+
+  provisioner "local-exec" {
+    command = "cat ${path.module}/sonarqube/patch-deployment.yaml | sed \"s/%SERVICE_ACCOUNT_NAME%/${local.service_account}/g\" > ${local.kustomize_path}/patch-deployment.yaml"
   }
 }
 
@@ -56,7 +73,7 @@ resource "null_resource" "sonarqube_helm_template" {
 }
 
 resource "null_resource" "sonarqube_kustomize" {
-  depends_on = ["null_resource.sonarqube_helm_template"]
+  depends_on = ["null_resource.sonarqube_helm_template", "null_resource.update_kustomize_secret", "null_resource.update_kustomize_deployment"]
 
   provisioner "local-exec" {
     command = "kustomize build ${local.kustomize_path} > ${local.release_yaml}"

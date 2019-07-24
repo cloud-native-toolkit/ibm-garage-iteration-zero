@@ -1,4 +1,7 @@
 - op: add
+  path: /spec/template/spec/serviceAccountName
+  value: %SERVICE_ACCOUNT_NAME%
+- op: add
   path: /spec/template/spec/initContainers/-
   value:
     name: pv-mount-permissions
