@@ -52,7 +52,7 @@ resource "null_resource" "ibmcloud_apikey_helm_template" {
   depends_on = ["null_resource.helm_init", "null_resource.copy_kustomize_config"]
 
   provisioner "local-exec" {
-    command = "helm template $${CHART} --namespace $${NAMESPACE} --set apikey=$${APIKEY} --set resource_group=$${RESOURCE_GROUP} --set server_url=$${SERVER_URL} --set cluster_type=$${CLUSTER_TYPE} --set cluster_name=$${CLUSTER_NAME} > ${local.ibmcloud_apikey_kustomize}"
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --set apikey=$${APIKEY} --set resource_group=$${RESOURCE_GROUP} --set server_url=$${SERVER_URL} --set cluster_type=$${CLUSTER_TYPE} --set cluster_name=$${CLUSTER_NAME} --set ingress_subdomain=${var.cluster_ingress_hostname} > ${local.ibmcloud_apikey_kustomize}"
 
     environment = {
       CHART          = "${path.module}/ibmcloud-apikey"
@@ -97,16 +97,18 @@ resource "null_resource" "jenkins_release_openshift" {
   count = "${var.cluster_type == "openshift" ? "1" : "0"}"
 
   provisioner "local-exec" {
-    command = "oc project $${NAMESPACE} && oc new-app jenkins-persistent"
+    command = "oc project $${NAMESPACE} && oc new-app jenkins-persistent -e STORAGE_CLASS=$${STORAGE_CLASS} -e VOLUME_CAPACITY=$${VOLUME_CAPACITY}"
 
     environment = {
       NAMESPACE = "${var.releases_namespace}"
+      STORAGE_CLASS = "ibmc-file-gold"
+      VOLUME_CAPACITY = "20Gi"
     }
   }
 }
 
 resource "null_resource" "jenkins_release_iks" {
-  depends_on = ["null_resource.jenkins_helm_template", "null_resource.copy_kustomize_config"]
+  depends_on = ["null_resource.jenkins_helm_template", "null_resource.ibmcloud_apikey_helm_template", "null_resource.jenkins_config_helm_template"]
   count = "${var.cluster_type != "openshift" ? "1" : "0"}"
 
   provisioner "local-exec" {
@@ -129,6 +131,19 @@ resource "null_resource" "wait_for_jenkins_iks" {
 
     environment = {
       KUBECONFIG = "${var.cluster_config_file}"
+      NAMESPACE = "${var.releases_namespace}"
+    }
+  }
+}
+
+resource "null_resource" "wait_for_jenkins_openshift" {
+  depends_on = ["null_resource.jenkins_release_openshift"]
+  count = "${var.cluster_type == "openshift" ? "1" : "0"}"
+
+  provisioner "local-exec" {
+    command = "until ${path.module}/scripts/checkPodRunning.sh jenkins; do echo '>>> waiting for Jenkins'; sleep 300; done; echo '>>> Jenkins has started'"
+
+    environment = {
       NAMESPACE = "${var.releases_namespace}"
     }
   }

@@ -93,12 +93,10 @@ resource "null_resource" "create_cluster_pull_secret_iks" {
   count      = "${var.cluster_type != "openshift" ? 1 : 0}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/cluster-pull-secret-apply.sh"
+    command = "${path.module}/scripts/cluster-pull-secret-apply.sh ${var.cluster_name}"
 
     environment = {
-      APIKEY = "${var.ibmcloud_api_key}"
-      RESOURCE_GROUP = "${var.resource_group_name}"
-      REGION = "${var.cluster_region}"
+      KUBECONFIG = "${var.cluster_config_file_path}"
       CLUSTER_NAME = "${var.cluster_name}"
     }
   }
@@ -109,11 +107,10 @@ resource "null_resource" "copy_tls_secrets_iks" {
   count      = "${var.cluster_type != "openshift" ? length(local.namespaces) : "0"}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/copy-secret-to-namespace.sh $${SECRET_NAME} $${CLUSTER_NAMESPACE}"
+    command = "${path.module}/scripts/copy-secret-to-namespace.sh ${var.cluster_name} $${CLUSTER_NAMESPACE}"
 
     environment = {
       KUBECONFIG = "${var.cluster_config_file_path}"
-      SECRET_NAME = "${var.cluster_name}"
       CLUSTER_NAMESPACE = "${local.namespaces[count.index]}"
     }
   }
@@ -124,10 +121,36 @@ resource "null_resource" "create_pull_secrets_iks" {
   count      = "${var.cluster_type != "openshift" ? length(local.namespaces) : "0"}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/setup-namespace-pull-secrets.sh $${CLUSTER_NAMESPACE}"
+    command = "${path.module}/scripts/setup-namespace-pull-secrets.sh ${var.cluster_name} $${CLUSTER_NAMESPACE}"
 
     environment = {
       KUBECONFIG = "${var.cluster_config_file_path}"
+      CLUSTER_NAMESPACE = "${local.namespaces[count.index]}"
+    }
+  }
+}
+
+resource "null_resource" "copy_tls_secrets_openshift" {
+  depends_on = ["null_resource.oc_login", "null_resource.create_namespace_openshift"]
+  count      = "${var.cluster_type == "openshift" ? length(local.namespaces) : "0"}"
+
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/copy-secret-to-namespace.sh ${var.cluster_name} $${CLUSTER_NAMESPACE}"
+
+    environment = {
+      CLUSTER_NAMESPACE = "${local.namespaces[count.index]}"
+    }
+  }
+}
+
+resource "null_resource" "create_pull_secrets_openshift" {
+  depends_on = ["null_resource.oc_login", "null_resource.create_namespace_openshift"]
+  count      = "${var.cluster_type == "openshift" ? length(local.namespaces) : "0"}"
+
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/setup-namespace-pull-secrets.sh ${var.cluster_name} $${CLUSTER_NAMESPACE}"
+
+    environment = {
       CLUSTER_NAMESPACE = "${local.namespaces[count.index]}"
     }
   }
