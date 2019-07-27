@@ -240,3 +240,10 @@ This will remove the development cluster and all the services that were created 
 ## Possible Issues
 
 If you find that that the Terraform provisioning has failed try re-running the `runTerraform.sh` script again. The state will be saved and Terraform will try and apply the configuration to match the desired end state.
+
+If you find that some of the services have failed to create in the time allocated. You can manually delete the instances in your resource group. You can then re-run the `runTerraform.sh` but you need to delete the `workspace` directory first. This will remove any state that has been created by Terraform. 
+
+```bash
+rm -rf workspace
+```
+
