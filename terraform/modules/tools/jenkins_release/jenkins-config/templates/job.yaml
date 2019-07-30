@@ -27,7 +27,7 @@ spec:
                       secretKeyRef:
                           name: ibmcloud-apikey
                           key: resource_group
-                - name: CLUSTER
+                - name: CLUSTER_NAME
                   valueFrom:
                       secretKeyRef:
                           name: ibmcloud-apikey
