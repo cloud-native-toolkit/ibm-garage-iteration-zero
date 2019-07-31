@@ -7,7 +7,7 @@ environment ready for cloud native application development with IBM Cloud Kubern
 
 This repo contains Terraform resources that will deploy the following development tools into your IKS or OpenShift infrastructure.
 
-- IBM Container Service Cluster (3 nodes)
+- IBM Container Service Cluster (3 nodes) for IKS or Open Shift
 - Create *dev*,*test*,*staging* and *tools* namespaces
 - Install the following tools:
     - [Jenkins CI](https://jenkins.io/)
@@ -144,6 +144,17 @@ resource_group_name="catalyst-team"
 cluster_name="catalyst-team-cluster"
 ```
 
+You can install the tools into a brand new cluster or into an existing cluster change the following settings in the same `terraform.tfvars` file. Set the values to `true` if you are using an existing postgres make sure its provisioned into the same data center as the base cluster.
+
+```bash
+# Flag indicating if we are using an existing cluster or creating a new one
+cluster_exists="false"
+# The type of cluster that will be created/used (kubernetes or openshift)
+cluster_type="kubernetes"
+# Flag indicating if we are using an existing postgres server or creating a new one
+postgres_server_exists="false"
+```
+
 **NOTE:** If you would like to use an existing cluster, change the value of `cluster_name` in the `terraform.tfvars` to the name
 of that cluster.
 
@@ -163,19 +174,6 @@ This is helpful in sharing files between your host filesystem and your container
 It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for you 
 specific project needs.
 
-The tools docker image contains the following tools that will help you with cloud native development. 
-
- * terraform (with helm, kube, and ibm provider plugins)
- * calicoctl
- * ibmcloud (with container-service, container-registry, and cloud-databases plugins)
- * kubectl
- * helm
- * docker
- * git
- * nvm
- * node (v11.12.0 currently installed)
- * yo
-
 ### Deploying the Iteration Zero resources
 Run the following commands:
 ```bash
@@ -189,8 +187,6 @@ After that the Terraform Apply process and begin to create the infrastructure an
 
 Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process
 takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
-
-![Provisioned environment](./docs/images/catalyst-provisioned-environment.png)
 
 ### Development Cluster Dashboard
 
@@ -212,7 +208,6 @@ Currently the tools are not linked to a single sign on , other than Jenksin in O
 ibmcloud login -a cloud.ibm.com -r us-south -g catalyst-team
 igc credentials
 ```
-
 
 ### Operations
 
@@ -281,4 +276,3 @@ If you find that some of the services have failed to create in the time allocate
 ```bash
 rm -rf workspace
 ```
-
