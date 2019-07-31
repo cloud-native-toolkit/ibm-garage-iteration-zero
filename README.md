@@ -202,7 +202,7 @@ This will present you with the following dashboard.
 
 ![Dashboard](./docs/images/devcluster.png)
 
-Currently the tools are not linked to a single sign on , other than Jenksin in Open Shift, for not to obtain the credentials for the tools login into ibm cloud account and run `igc credentials` this will list the user id and password secrets
+Currently the tools are not linked to a single sign on (future plan), other than Jenkins in OpenShift, to obtain the credentials for the tools login into ibm cloud account on the command line and run `igc credentials` this will list the userids and passwords secrets for each tool installed.
 
 ```bash
 ibmcloud login -a cloud.ibm.com -r us-south -g catalyst-team
@@ -213,13 +213,11 @@ igc credentials
 
 Now that your development cluster is configured you can now register `LogDNA` and `SysDig` service instances with your Kubernetes cluster. 
 
-Navigate to the Observability menu from the main console menu and then click on the `Edit Sources` and follow the instructions to configure the log agent and montitoring agents. 
+Navigate to the Observability menu from the main console menu and then click on the `Edit Sources` and follow the instructions to configure the log agent and montitoring agents for you development cluster. 
 
 ### Deploying Code into Pipelines
 
-Now you have a working development environment on the IBM Public Cloud. You can now starting working with code to deploy them into pipelines. The following instructions help describe this process.
-
-[Jenkins Pipeline Creation Instructions](./docs/JENKINS.md)
+Now you have a working development environment on the IBM Public Cloud. You can now starting working with code to deploy into pipelines. The following instructions help describe this process.
 
 You can click on the `Starter Kits` tab on the Development Cluster Dashboard and follow the instructions for provisioning a new microservice into your development cluster. You can easily create an microservice by using the github templates listed below:
 
@@ -244,9 +242,9 @@ Registering pipeline
 ? The build pipeline (mjperrins.hello-world-bff) already exists. Do you want to update it? (Y/n)
 ```
 
-The pipeline will be created in the `dev` namespace in OpenShift and IKS it will create any necessary secrets required to run the pipeline. The app image will be stored in the IBM Container Registry and deployed into the `dev` name space.
+The pipeline will be created in the `dev` namespace in OpenShift and IKS, it will create any necessary secrets required to run the pipeline. The app image will be stored in the IBM Container Registry and deployed into the `dev` name space. You can use the Argo CD Template to help define a deployment configuration from `dev` to `test` and `staging`
 
-If you want to get easy access to your application routes or ingress end points for your apps run the following command.
+If you want to get easy access to your application routes or ingress end points for your apps run the following command. All the `igc` commands run the same on IKS and OpenShift.
 ```bash
 igc ingress -n dev
 ```
