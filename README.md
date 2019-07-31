@@ -206,6 +206,13 @@ This will present you with the following dashboard.
 
 ![Dashboard](./docs/images/devcluster.png)
 
+Currently the tools are not linked to a single sign on , other than Jenksin in Open Shift, for not to obtain the credentials for the tools login into ibm cloud account and run `igc credentials` this will list the user id and password secrets
+
+```bash
+ibmcloud login -a cloud.ibm.com -r us-south -g catalyst-team
+igc credentials
+```
+
 
 ### Operations
 
@@ -219,7 +226,35 @@ Now you have a working development environment on the IBM Public Cloud. You can 
 
 [Jenkins Pipeline Creation Instructions](./docs/JENKINS.md)
 
-You can also click on the `Starter Kits` tab on the Development Cluster Dashboard and follow the instructions for provisioning a new microservice into your development cluster.
+You can click on the `Starter Kits` tab on the Development Cluster Dashboard and follow the instructions for provisioning a new microservice into your development cluster. You can easily create an microservice by using the github templates listed below:
+
+* [12 UI Patterns with React and Node.js](https://github.com/ibm-garage-cloud/template-node-react)
+* [TypeScript Microservice or BFF with Node.js](https://github.com/ibm-garage-cloud/template-node-typescript)
+* [GraphQL BFF with Node.js](https://github.com/ibm-garage-cloud/template-graphql-typescript)
+* [Spring Boot Java Microservice](https://github.com/ibm-garage-cloud/template-java-spring)
+
+Click on the `Use this template` button to create a repo in your git organisation. Then follow the pipeline registration instructions below, you will need to be logged in OpenShift Console or IKS on the command line. You will also need a [Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) from your git organistaion.
+
+```bash
+git clone <generated startkit template>
+cd <generated startkit template>
+vi package.json ! rename template
+igc register ! register pipeline with 
+? Please provide the username for https://github.com/mjperrins/hello-world-bff.git: mperrins
+? Please provide your password/personal access token: [hidden]
+? Please provide the branch the pipeline should use: master
+Creating git secret
+Copying 'ibmcloud-apikey' secret to dev
+Registering pipeline
+? The build pipeline (mjperrins.hello-world-bff) already exists. Do you want to update it? (Y/n)
+```
+
+The pipeline will be created in the `dev` namespace in OpenShift and IKS it will create any necessary secrets required to run the pipeline. The app image will be stored in the IBM Container Registry and deployed into the `dev` name space.
+
+If you want to get easy access to your application routes or ingress end points for your apps run the following command.
+```bash
+igc ingress -n dev
+```
 
 ### Destroying
 Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
