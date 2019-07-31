@@ -7,7 +7,7 @@ environment ready for cloud native application development with IBM Cloud Kubern
 
 This repo contains Terraform resources that will deploy the following development tools into your IKS or OpenShift infrastructure.
 
-- IBM Container Service Cluster (3 nodes) for IKS or Open Shift
+- IBM Container Service Cluster (3 nodes) for IKS or OpenShift
 - Create *dev*,*test*,*staging* and *tools* namespaces
 - Install the following tools:
     - [Jenkins CI](https://jenkins.io/)
