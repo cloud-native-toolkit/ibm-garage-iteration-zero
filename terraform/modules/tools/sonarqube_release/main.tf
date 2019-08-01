@@ -20,4 +20,13 @@ resource "null_resource" "sonarqube_release" {
       DATABASE_PASSWORD = "${var.postgresql_password}"
     }
   }
+
+  provisioner "local-exec" {
+    when    = "destroy"
+    command = "${path.module}/scripts/destroy-sonarqube.sh ${var.releases_namespace}"
+
+    environment = {
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
+    }
+  }
 }

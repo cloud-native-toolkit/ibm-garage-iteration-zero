@@ -34,7 +34,11 @@ resource "null_resource" "jenkins_release_iks" {
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = ""
+    command = "${path.module}/scripts/destroy-jenkins.sh ${var.releases_namespace}"
+
+    environment = {
+      KUBECONFIG_IKS = "${var.cluster_config_file}"
+    }
   }
 }
 
@@ -43,5 +47,10 @@ resource "null_resource" "jenkins_release_openshift" {
 
   provisioner "local-exec" {
     command = "${path.module}/scripts/deploy-jenkins-openshift.sh ${var.releases_namespace} ${local.storage_class} ${local.volume_capacity}"
+  }
+
+  provisioner "local-exec" {
+    when    = "destroy"
+    command = "${path.module}/scripts/destroy-jenkins.sh ${var.releases_namespace}"
   }
 }
