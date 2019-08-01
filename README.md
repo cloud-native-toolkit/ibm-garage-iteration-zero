@@ -217,7 +217,7 @@ Navigate to the Observability menu from the main console menu and then click on 
 
 ### Deploying Code into Pipelines
 
-Now you have a working development environment on the IBM Public Cloud. You can now starting working with code to deploy into pipelines. The following instructions help describe this process.
+Now you have a working development environment on the IBM Public Cloud. You can now start working with code to deploy into your cluster using Jenkins pipelines. The following instructions help describe this process.
 
 You can click on the `Starter Kits` tab on the Development Cluster Dashboard and follow the instructions for provisioning a new microservice into your development cluster. You can easily create an microservice by using the github templates listed below:
 
@@ -226,12 +226,15 @@ You can click on the `Starter Kits` tab on the Development Cluster Dashboard and
 * [GraphQL BFF with Node.js](https://github.com/ibm-garage-cloud/template-graphql-typescript)
 * [Spring Boot Java Microservice](https://github.com/ibm-garage-cloud/template-java-spring)
 
-Click on the `Use this template` button to create a repo in your git organisation. Then follow the pipeline registration instructions below, you will need to be logged in OpenShift Console or IKS on the command line. You will also need a [Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) from your git organistaion.
+Click on the `Use this template` button to create a repo in your git organisation. Then follow the pipeline registration instructions below, you will need to be logged into the OpenShift Console or IKS clusters on the command line. You will also need a [Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) from your git organistaion.
 
 ```bash
 git clone <generated startkit template>
 cd <generated startkit template>
 vi package.json ! rename template
+git add .
+git commit -m "Rename project"
+git push
 igc register ! register pipeline with Jenkins
 ? Please provide the username for https://github.com/mjperrins/hello-world-bff.git: mperrins
 ? Please provide your password/personal access token: [hidden]
@@ -248,6 +251,11 @@ If you want to get easy access to your application routes or ingress end points 
 ```bash
 igc ingress -n dev
 ```
+### Summary
+
+We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
+
+Thanks Catalyst Team
 
 ### Destroying
 Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
