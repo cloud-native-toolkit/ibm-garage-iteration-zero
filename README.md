@@ -232,7 +232,7 @@ Click on the `Use this template` button to create a repo in your git organisatio
 git clone <generated startkit template>
 cd <generated startkit template>
 vi package.json ! rename template
-igc register ! register pipeline with 
+igc register ! register pipeline with Jenkins
 ? Please provide the username for https://github.com/mjperrins/hello-world-bff.git: mperrins
 ? Please provide your password/personal access token: [hidden]
 ? Please provide the branch the pipeline should use: master
