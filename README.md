@@ -108,7 +108,7 @@ ibmcloud.api.key=<IBMCLOUD_API_KEY>
 
 To enable Terraform to create a working development cluster we need to obtain the VLAN information from the Classic platform.
 
-To make getting this information as simple as possible we have added a command to a helped CLI tool that will pull will create this information in a format that is easy to use. 
+To make getting this information as simple as possible we have added a command to the helper CLI tool that will create this information in a format that is easy to cut/pastw into the `terraform.tfvars` settings file. 
 
 Follow these steps to get the VLAN information:
 
