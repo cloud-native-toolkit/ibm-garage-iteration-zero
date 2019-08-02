@@ -35,6 +35,23 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+            - name: JENKINS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-access
+                  key: url
+            - name: SONARQUBE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: sonarqube-access
+                  key: url
+            - name: PACTBROKER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: pactbroker-access
+                  key: url
+
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
