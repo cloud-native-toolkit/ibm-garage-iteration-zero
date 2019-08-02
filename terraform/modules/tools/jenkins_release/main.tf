@@ -1,3 +1,6 @@
+provider "null" {
+}
+
 locals {
   tmp_dir               = "${path.cwd}/.tmp"
   ingress_host          = "jenkins.${var.cluster_ingress_hostname}"

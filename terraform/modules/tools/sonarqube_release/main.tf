@@ -1,3 +1,6 @@
+provider "null" {
+}
+
 locals {
   tmp_dir                = "${path.cwd}/.tmp"
   sonarqube_secret_chart = "${path.module}/charts/sonarqube-access"

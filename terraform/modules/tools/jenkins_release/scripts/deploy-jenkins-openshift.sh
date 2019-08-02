@@ -15,3 +15,6 @@ until ${SCRIPT_DIR}/checkPodRunning.sh jenkins; do
     sleep 300
 done
 echo '>>> Jenkins has started'
+
+JENKINS_HOST=$(oc get route jenkins -n ${NAMESPACE} -o jsonpath='{ .spec.host }')
+oc create secret generic jenkins-access -n ${NAMESPACE} --from-literal url=https://${JENKINS_HOST}
