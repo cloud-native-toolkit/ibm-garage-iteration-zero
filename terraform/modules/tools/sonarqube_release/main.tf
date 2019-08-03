@@ -5,6 +5,8 @@ locals {
   tmp_dir                = "${path.cwd}/.tmp"
   sonarqube_secret_chart = "${path.module}/charts/sonarqube-access"
   ingress_host           = "sonarqube.${var.cluster_ingress_hostname}"
+  ingress_url            = "http://${local.ingress_host}"
+  secret_name            = "sonarqube-access"
   values_file            = "${path.module}/sonarqube-values.yaml"
   kustomize_template     = "${path.module}/kustomize/sonarqube"
 }

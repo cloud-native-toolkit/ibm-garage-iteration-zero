@@ -6,6 +6,8 @@ resource "null_resource" "helm_init" {
 
 locals {
   ingress_host  = "pact.${var.cluster_ingress_hostname}"
+  ingress_url   = "http://${local.ingress_host}"
+  secret_name   = "pactbroker-access"
   database_type = "sqlite"
   database_name = "pactbroker.sqlite"
   release_yaml  = "${path.cwd}/.tmp/pactbroker.yaml"

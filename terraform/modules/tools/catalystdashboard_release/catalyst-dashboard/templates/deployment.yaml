@@ -36,21 +36,27 @@ spec:
               path: /
               port: http
           env:
+            {{- if .Values.secrets.jenkins }}
             - name: JENKINS_URL
               valueFrom:
                 secretKeyRef:
-                  name: jenkins-access
+                  name: {{ .Values.secrets.jenkins }}
                   key: url
+            {{- end }}
+            {{- if .Values.secrets.sonarqube }}
             - name: SONARQUBE_URL
               valueFrom:
                 secretKeyRef:
-                  name: sonarqube-access
+                  name: {{ .Values.secrets.sonarqube }}
                   key: url
+            {{- end }}
+            {{- if .Values.secrets.pactbroker }}
             - name: PACTBROKER_URL
               valueFrom:
                 secretKeyRef:
-                  name: pactbroker-access
+                  name: {{ .Values.secrets.pactbroker }}
                   key: url
+            {{- end}}
 
           resources:
 {{ toYaml .Values.resources | indent 12 }}

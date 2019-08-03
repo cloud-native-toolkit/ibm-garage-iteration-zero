@@ -3,7 +3,9 @@ provider "null" {
 
 locals {
   tmp_dir               = "${path.cwd}/.tmp"
+  secret_name           = "jenkins-access"
   ingress_host          = "jenkins.${var.cluster_ingress_hostname}"
+  ingress_url           = "${var.cluster_type == "openshift" ? "https" : "http"}://${local.ingress_host}"
   values_file           = "${path.module}/jenkins-values.yaml"
   kustomize_template    = "${path.module}/kustomize/jenkins"
   jenkins_config_chart  = "${path.module}/charts/jenkins-config"

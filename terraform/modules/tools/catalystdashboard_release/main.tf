@@ -13,7 +13,7 @@ resource "null_resource" "catalystdashboard_helm_template" {
   depends_on = ["null_resource.helm_init"]
 
   provisioner "local-exec" {
-    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set ingress.hosts.0=$${HOST} > ${local.release_yaml}"
+    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set ingress.hosts.0=$${HOST} --set secrets.jenkins=${var.jenkins_secret_name} --set secrets.sonarqube=${var.sonarqube_secret_name} --set secrets.pactbroker=${var.pactbroker_secret_name}  > ${local.release_yaml}"
 
     environment = {
       CHART      = "${path.module}/catalyst-dashboard"

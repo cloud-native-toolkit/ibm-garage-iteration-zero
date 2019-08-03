@@ -31,3 +31,15 @@ variable "server_url" {
 variable "cluster_type" {
   description = "The cluster type (openshift or kubernetes)"
 }
+
+variable "jenkins_secret_name" {
+  description = "The name of the secret containing the jenkins information"
+}
+
+variable "sonarqube_secret_name" {
+  description = "The name of the secret containing the sonarqube information"
+}
+
+variable "pactbroker_secret_name" {
+  description = "The name of the secret containing the pact-broker information"
+}
