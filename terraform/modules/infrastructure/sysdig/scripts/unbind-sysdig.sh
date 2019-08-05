@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-NAMESPACE="$1"
+NAMESPACE="ibm-observe"
 
-if [[ -z "${NAMESPACE}" ]]; then
-    echo "Namespace is required as the first parameter"
-    exit 1
+if [[ -n "${KUBECONFIG_IKS}" ]]; then
+   export KUBECONFIG="${KUBECONFIG_IKS}"
 fi
 
 if [[ -n $(kubectl get namespaces -o jsonpath='{ range .items[*] }{ .metadata.name }{ "\n" }{ end }' | grep "${NAMESPACE}") ]]; then

@@ -35,6 +35,9 @@ resource "ibm_resource_key" "postgresql_credentials" {
 }
 
 locals {
+  namespaces      = ["${var.tools_namespace}", "${var.dev_namespace}", "${var.test_namespace}", "${var.staging_namespace}"]
+  namespace_count = 0
+  tmp_dir          = "${path.cwd}/.tmp"
   credentials_file = "${path.cwd}/.tmp/postgres_credentials.json"
   hostname_file    = "${path.cwd}/.tmp/postgres_hostname.val"
   port_file        = "${path.cwd}/.tmp/postgres_port.val"
@@ -43,11 +46,34 @@ locals {
   dbname_file      = "${path.cwd}/.tmp/postgres_dbname.val"
 }
 
+resource "ibm_container_bind_service" "postgresql_service_binding" {
+  depends_on = ["ibm_resource_key.postgresql_credentials"]
+  count      = "${local.namespace_count}"
+
+  cluster_name_id             = "${var.cluster_id}"
+  service_instance_name       = "${data.ibm_resource_instance.postgresql_instance.name}"
+  namespace_id                = "${local.namespaces[count.index]}"
+  region                      = "${var.resource_location}"
+  resource_group_id           = "${data.ibm_resource_group.tools_resource_group.id}"
+
+  // The provider (v16.1) is incorrectly registering that these values change each time,
+  // this may be removed in the future if this is fixed.
+  lifecycle {
+    ignore_changes = ["id", "namespace_id", "service_instance_name"]
+  }
+}
+
+resource "null_resource" "create_tmp" {
+  provisioner "local-exec" {
+    command = "mkdir -p ${local.tmp_dir}"
+  }
+}
+
 // This is SUPER kludgy but it works... Need to revisit
 resource "local_file" "write_postgres_credentials" {
   content     = "${jsonencode(ibm_resource_key.postgresql_credentials.credentials)}"
   filename = "${local.credentials_file}"
-  depends_on = ["ibm_resource_key.postgresql_credentials"]
+  depends_on = ["ibm_resource_key.postgresql_credentials", "null_resource.create_tmp"]
 }
 
 resource "null_resource" "write_hostname" {

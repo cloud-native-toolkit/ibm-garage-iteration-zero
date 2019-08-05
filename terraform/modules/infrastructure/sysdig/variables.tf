@@ -27,3 +27,23 @@ variable "staging_namespace" {
   type        = "string"
   description = "Staging namespace"
 }
+
+variable "cluster_config_file_path" {
+  type        = "string"
+  description = "The path to the config file for the cluster"
+}
+
+variable "cluster_type" {
+  type        = "string"
+  description = "The type of cluster that should be created (openshift or kubernetes)"
+}
+
+variable "server_url" {
+  type        = "string"
+  description = "The server url for the cluster"
+}
+
+variable "ibmcloud_api_key" {
+  type        = "string"
+  description = "The api key for IBM Cloud access"
+}
