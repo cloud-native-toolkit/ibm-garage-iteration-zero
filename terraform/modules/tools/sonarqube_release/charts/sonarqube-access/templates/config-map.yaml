@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonarqube-config
+  labels:
+    "app.kubernetes.io/name": 'sonarqube'
+    "app.kubernetes.io/instance": "sonarqube"
+data:
+  SONARQUBE_URL: {{ .Values.url }}

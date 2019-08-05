@@ -9,7 +9,7 @@ locals {
   values_file           = "${path.module}/jenkins-values.yaml"
   kustomize_template    = "${path.module}/kustomize/jenkins"
   jenkins_config_chart  = "${path.module}/charts/jenkins-config"
-  ibmcloud_apikey_chart = "${path.module}/charts/ibmcloud-apikey"
+  ibmcloud_apikey_chart = "${path.module}/charts/ibmcloud"
   storage_class         = "ibmc-file-gold"
   volume_capacity       = "20Gi"
 }

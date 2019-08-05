@@ -1,52 +1,25 @@
-resource "null_resource" "helm_init" {
-  provisioner "local-exec" {
-    command = "helm init --client-only"
-  }
-}
-
 locals {
+  tmp_dir      = "${path.cwd}/.tmp"
+  chart        = "${path.module}/charts/catalyst-dashboard"
   ingress_host = "dashboard.${var.cluster_ingress_hostname}"
-  release_yaml = "${path.cwd}/.tmp/catalyst-dashboard.yaml"
 }
 
-resource "null_resource" "catalystdashboard_helm_template" {
-  depends_on = ["null_resource.helm_init"]
-
+resource "null_resource" "catalystdashboard_release" {
   provisioner "local-exec" {
-    command = "helm template $${CHART} --namespace $${NAMESPACE} --name $${NAME} --set ingress.hosts.0=$${HOST} --set secrets.jenkins=${var.jenkins_secret_name} --set secrets.sonarqube=${var.sonarqube_secret_name} --set secrets.pactbroker=${var.pactbroker_secret_name}  > ${local.release_yaml}"
+    command = "${path.module}/scripts/deploy-catalystdashboard.sh ${local.chart} ${var.releases_namespace} ${local.ingress_host} ${var.jenkins_secret_name} ${var.sonarqube_secret_name} ${var.pactbroker_secret_name}"
 
     environment = {
-      CHART      = "${path.module}/catalyst-dashboard"
-      NAME       = "catalyst-dashboard"
-      NAMESPACE  = "${var.releases_namespace}"
-      HOST       = "${local.ingress_host}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
+      TMP_DIR        = "${local.tmp_dir}"
     }
   }
-}
-
-resource "null_resource" "catalystdashboard_release_openshift" {
-  depends_on = ["null_resource.catalystdashboard_helm_template"]
-  count      = "${var.cluster_type == "openshift" ? "1" : "0"}"
 
   provisioner "local-exec" {
-    command = "kubectl apply -n $${NAMESPACE} -f ${local.release_yaml}"
+    when    = "destroy"
+    command = "${path.module}/scripts/destroy-catalystdashboard.sh ${var.releases_namespace}"
 
     environment = {
-      NAMESPACE  = "${var.releases_namespace}"
-    }
-  }
-}
-
-resource "null_resource" "catalystdashboard_release_iks" {
-  depends_on = ["null_resource.catalystdashboard_helm_template"]
-  count      = "${var.cluster_type != "openshift" ? "1" : "0"}"
-
-  provisioner "local-exec" {
-    command = "kubectl apply -n $${NAMESPACE} -f ${local.release_yaml}"
-
-    environment = {
-      KUBECONFIG = "${var.cluster_config_file}"
-      NAMESPACE  = "${var.releases_namespace}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
     }
   }
 }

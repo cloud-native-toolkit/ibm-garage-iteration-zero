@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ include "pact-broker.fullname" . }}
   labels:
+    app: {{ include "pact-broker.name" . }}
     app.kubernetes.io/name: {{ include "pact-broker.name" . }}
     helm.sh/chart: {{ include "pact-broker.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

@@ -2,6 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+apiurl: "https://cloud.ibm.com"
 apikey: "ibmcloud apikey"
 resource_group: "resource group"
 registry_url: "us.icr.io"

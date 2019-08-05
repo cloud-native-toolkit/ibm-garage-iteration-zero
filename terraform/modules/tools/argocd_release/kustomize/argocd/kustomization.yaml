@@ -1,0 +1,4 @@
+commonLabels:
+ app: "argocd"
+resources:
+ - base.yaml

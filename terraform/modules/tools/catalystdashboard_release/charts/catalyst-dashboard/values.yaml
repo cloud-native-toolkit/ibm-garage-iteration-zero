@@ -28,10 +28,17 @@ ingress:
   #      - chart-example.local
 
 secrets:
+  empty: ""
   # jenkins:
   # pactbroker:
   # sonarqube:
   # argocd:
+
+configMaps:
+  empty: ""
+  # jenkins:
+  # pactbroker:
+  # sonarqube:
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

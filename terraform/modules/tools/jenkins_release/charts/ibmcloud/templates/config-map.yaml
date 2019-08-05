@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # this is the jenkins id
+  name: {{ include "ibmcloud.name" . }}-config
+data:
+  CLUSTER_TYPE: {{ .Values.cluster_type }}
+  APIURL: {{ .Values.apiurl }}
+  SERVER_URL: {{ .Values.server_url }}
+  RESOURCE_GROUP: {{ .Values.resource_group }}
+  REGISTRY_URL: {{ .Values.registry_url }}
+  REGISTRY_NAMESPACE: {{ include "ibmcloud.registry_namespace" . }}
+  REGION: {{ .Values.region }}
+  CLUSTER_NAME: {{ include "ibmcloud.cluster_name" . }}
+  INGRESS_SUBDOMAIN: {{ .Values.ingress_subdomain }}

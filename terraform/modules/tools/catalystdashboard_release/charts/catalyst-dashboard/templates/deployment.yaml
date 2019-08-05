@@ -35,6 +35,19 @@ spec:
             httpGet:
               path: /
               port: http
+          envFrom:
+            {{- if .Values.configMaps.sonarqube }}
+            - configMapRef:
+                name: {{ .Values.configMaps.sonarqube }}
+            {{- end }}
+            {{- if .Values.configMaps.jenkins }}
+            - configMapRef:
+                name: {{ .Values.configMaps.jenkins }}
+            {{- end }}
+            {{- if .Values.configMaps.pactbroker }}
+            - configMapRef:
+                name: {{ .Values.configMaps.pactbroker }}
+            {{- end }}
           env:
             {{- if .Values.secrets.jenkins }}
             - name: JENKINS_URL
