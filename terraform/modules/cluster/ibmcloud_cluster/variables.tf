@@ -31,25 +31,15 @@ variable "cluster_hardware" {
   default     = "shared"
 }
 
-# IKS Cluster Variables
-variable "private_vlan_number" {
+# Cluster Variables
+variable "private_vlan_id" {
   type        = "string"
-  description = "Existing private VLAN number for IKS Cluster creation."
+  description = "Existing private VLAN id for cluster creation."
 }
 
-variable "private_vlan_router_hostname" {
+variable "public_vlan_id" {
   type        = "string"
-  description = "Router hostname for private VLAN defined in private_vlan_number."
-}
-
-variable "public_vlan_number" {
-  type        = "string"
-  description = "Existing private VLAN number for IKS Cluster creation."
-}
-
-variable "public_vlan_router_hostname" {
-  type        = "string"
-  description = "Router hostname for private VLAN defined in public_vlan_number."
+  description = "Existing public VLAN number for cluster creation."
 }
 
 variable "vlan_datacenter" {

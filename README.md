@@ -134,8 +134,10 @@ vi ./terraform/settings/terraform.tfvars
 
 These values should look something like the example below. You should have a resource group `catalyst-team` with private VLAN `2372`, public VLAN `1849` in the DAL10 datacenter. Our `terraform.tfvars` would look accordingly:
 ```terraform
+private_vlan_id="237288"
 private_vlan_number="2372"
 private_vlan_router_hostname="bcr01a.dal10"
+public_vlan_id="1849487"
 public_vlan_number="1849"
 public_vlan_router_hostname="fcr01a.dal10"
 vlan_datacenter="dal10"

@@ -9,16 +9,6 @@ data "ibm_resource_group" "resource_group" {
   name = "${var.resource_group_name}"
 }
 
-data "ibm_network_vlan" "private_vlan" {
-  number = "${var.private_vlan_number}"
-  router_hostname ="${var.private_vlan_router_hostname}"
-}
-
-data "ibm_network_vlan" "public_vlan" {
-  number = "${var.public_vlan_number}"
-  router_hostname ="${var.public_vlan_router_hostname}"
-}
-
 resource "null_resource" "ibmcloud_login" {
   provisioner "local-exec" {
     command = "ibmcloud login -r $${REGION} -g $${RESOURCE_GROUP} --apikey $${APIKEY} > /dev/null"
@@ -74,10 +64,9 @@ resource "ibm_container_cluster" "create_cluster" {
   hardware          = "${var.cluster_hardware}"
   default_pool_size = "${var.cluster_worker_count}"
   region            = "${var.cluster_region}"
-  region            = "${var.cluster_region}"
   resource_group_id = "${data.ibm_resource_group.resource_group.id}"
-  private_vlan_id   = "${data.ibm_network_vlan.private_vlan.id}"
-  public_vlan_id    = "${data.ibm_network_vlan.public_vlan.id}"
+  private_vlan_id   = "${var.private_vlan_id}"
+  public_vlan_id    = "${var.public_vlan_id}"
 }
 
 resource "null_resource" "create_cluster_config_dir" {

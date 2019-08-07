@@ -16,23 +16,17 @@ variable "ibmcloud_api_key" {
   description = "The api key for IBM Cloud access"
 }
 
-# IKS Cluster Variables
-variable "private_vlan_number" {
+# Cluster Variables
+variable "private_vlan_id" {
   type        = "string"
-  description = "Existing private VLAN number for IKS Cluster creation."
+  description = "Existing private VLAN id for cluster creation."
 }
-variable "private_vlan_router_hostname" {
+
+variable "public_vlan_id" {
   type        = "string"
-  description = "Router hostname for private VLAN defined in private_vlan_number."
+  description = "Existing public VLAN number for cluster creation."
 }
-variable "public_vlan_number" {
-  type        = "string"
-  description = "Existing public VLAN number for IKS Cluster creation."
-}
-variable "public_vlan_router_hostname" {
-  type        = "string"
-  description = "Router hostname for public VLAN defined in public_vlan_number."
-}
+
 variable "vlan_datacenter" {
   type        = "string"
   description = "Datacenter for VLANs defined in private_vlan_number and public_vlan_number."
@@ -49,10 +43,10 @@ variable "cluster_machine_type" {
   default     = "b3c.4x16"
 }
 
-# Cluster Variables
+# Cluster Variables_num
 variable "cluster_worker_count" {
   description = "The number of worker nodes for the cluster"
-  default     = 2
+  default     = 3
 }
 
 # Cluster Variables
