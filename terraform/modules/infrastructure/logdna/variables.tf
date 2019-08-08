@@ -33,17 +33,8 @@ variable "cluster_type" {
   description = "The type of cluster that should be created (openshift or kubernetes)"
 }
 
-variable "dev_namespace" {
+variable "service_account_name" {
   type        = "string"
-  description = "Development namespace"
-}
-
-variable "test_namespace" {
-  type        = "string"
-  description = "Test namespace"
-}
-
-variable "staging_namespace" {
-  type        = "string"
-  description = "Staging namespace"
+  description = "The service account that the logdna agent should run under"
+  default     = "default"
 }

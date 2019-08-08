@@ -39,7 +39,7 @@ resource "null_resource" "create_serviceaccount_openshift" {
   count = "${var.cluster_type == "openshift" ? "1" : "0"}"
 
   provisioner "local-exec" {
-    command = "oc project ${var.namespace} && oc create serviceaccount ${var.service_account_name}"
+    command = "oc create serviceaccount -n ${var.namespace} ${var.service_account_name}"
   }
 }
 
