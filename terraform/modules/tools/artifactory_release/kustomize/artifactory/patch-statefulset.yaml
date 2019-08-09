@@ -1,0 +1,18 @@
+- op: add
+  path: /spec/template/spec/initContainers/-
+  value:
+    name: pv-mount-permissions
+    image: alpine:latest
+    command: ["/bin/sh", "-c"]
+    args:
+      - chown -v -R 1030:1030 /mount;
+    securityContext:
+      privileged: true
+      allowPrivilegeEscalation: true
+      runAsUser: 0
+    volumeMounts:
+      - mountPath: /mount
+        name: artifactory-volume
+- op: add
+  path: /spec/volumeClaimTemplates/0/spec/storageClassName
+  value: ibmc-file-gold

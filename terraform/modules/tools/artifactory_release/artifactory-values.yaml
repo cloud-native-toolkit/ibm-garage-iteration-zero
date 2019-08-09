@@ -1,0 +1,14 @@
+nameOverride: artifactory
+
+artifactory:
+  image:
+    repository: docker.bintray.io/jfrog/artifactory-oss
+
+ingress:
+  enabled: true
+
+postgresql:
+  enabled: false
+
+nginx:
+  enabled: false

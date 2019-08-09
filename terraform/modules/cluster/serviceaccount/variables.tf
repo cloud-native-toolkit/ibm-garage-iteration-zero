@@ -14,6 +14,11 @@ variable "cluster_type" {
   description = "The type of cluster that should be created (openshift or kubernetes)"
 }
 
+variable "cluster_config_file_path" {
+  type        = "string"
+  description = "The path to the config file for the cluster"
+}
+
 variable "namespace" {
   type        = "string"
   description = "The namespaces in which the service account should be created"
