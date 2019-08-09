@@ -25,6 +25,10 @@ else
    FROM_NAMESPACE="$3"
 fi
 
+if [[ -n "${KUBECONFIG_IKS}" ]]; then
+    export KUBECONFIG="${KUBECONFIG_IKS}"
+fi
+
 kubectl get secret ${SECRET_NAME} --namespace ${FROM_NAMESPACE} 1> /dev/null 2> /dev/null
 if [[ $? -ne 0 ]]; then
   echo "*** ${SECRET_NAME} could not be found in ${FROM_NAMESPACE} namespace"

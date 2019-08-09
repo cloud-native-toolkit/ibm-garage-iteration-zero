@@ -32,58 +32,37 @@ resource "null_resource" "oc_login" {
   }
 }
 
-resource "null_resource" "delete_namespaces_openshift" {
+resource "null_resource" "delete_namespaces" {
   depends_on = ["null_resource.wait_for_cluster", "null_resource.oc_login"]
-  count      = "${var.cluster_type == "openshift" ? length(local.namespaces) : "0"}"
+  count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deleteNamespace.sh $${NAMESPACE}"
+    command = "${path.module}/scripts/deleteNamespace.sh ${local.namespaces[count.index]}"
 
     environment = {
-      NAMESPACE  = "${local.namespaces[count.index]}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
     }
   }
 }
 
-resource "null_resource" "delete_namespaces_iks" {
-  depends_on = ["null_resource.wait_for_cluster"]
-  count      = "${var.cluster_type != "openshift" ? length(local.namespaces) : "0"}"
+resource "null_resource" "create_namespaces" {
+  depends_on = ["null_resource.oc_login", "null_resource.delete_namespaces"]
+  count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deleteNamespace.sh $${NAMESPACE}"
+    command = "${path.module}/scripts/createNamespace.sh ${local.namespaces[count.index]} && echo -n ${local.namespaces[count.index]} > ${local.namespace_files[count.index]}"
 
     environment = {
-      KUBECONFIG = "${var.cluster_config_file_path}"
-      NAMESPACE  = "${local.namespaces[count.index]}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
     }
   }
-}
-
-resource "null_resource" "create_namespace_openshift" {
-  depends_on = ["null_resource.oc_login", "null_resource.delete_namespaces_openshift"]
-  count      = "${var.cluster_type == "openshift" ? length(local.namespaces) : "0"}"
 
   provisioner "local-exec" {
-    command = "echo \"creating namespace $${NAMESPACE}\"; oc new-project $${NAMESPACE} > /dev/null && echo -n $${NAMESPACE} > $${FILE}"
+    when    = "destroy"
+    command = "${path.module}/scripts/deleteNamespace.sh ${local.namespaces[count.index]}"
 
     environment = {
-      NAMESPACE = "${local.namespaces[count.index]}"
-      FILE      = "${local.namespace_files[count.index]}"
-    }
-  }
-}
-
-resource "null_resource" "create_namespace_iks" {
-  depends_on = ["null_resource.delete_namespaces_iks"]
-  count      = "${var.cluster_type != "openshift" ? length(local.namespaces) : 0}"
-
-  provisioner "local-exec" {
-    command = "echo \"creating namespace $${NAMESPACE}\"; kubectl create namespace $${NAMESPACE} && echo -n $${NAMESPACE} > $${FILE}"
-
-    environment = {
-      KUBECONFIG = "${var.cluster_config_file_path}"
-      NAMESPACE  = "${local.namespaces[count.index]}"
-      FILE      = "${local.namespace_files[count.index]}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
     }
   }
 }
@@ -102,80 +81,78 @@ resource "null_resource" "create_cluster_pull_secret_iks" {
   }
 }
 
-resource "null_resource" "copy_tls_secrets_iks" {
-  depends_on = ["null_resource.create_namespace_iks"]
-  count      = "${var.cluster_type != "openshift" ? length(local.namespaces) : "0"}"
+resource "null_resource" "copy_tls_secrets" {
+  depends_on = ["null_resource.create_namespaces"]
+  count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/copy-secret-to-namespace.sh ${var.cluster_name} $${CLUSTER_NAMESPACE}"
+    command = "${path.module}/scripts/copy-secret-to-namespace.sh ${var.cluster_name} ${local.namespaces[count.index]}"
 
     environment = {
-      KUBECONFIG = "${var.cluster_config_file_path}"
-      CLUSTER_NAMESPACE = "${local.namespaces[count.index]}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
     }
   }
 }
 
-resource "null_resource" "create_pull_secrets_iks" {
-  depends_on = ["null_resource.create_cluster_pull_secret_iks", "null_resource.create_namespace_iks"]
-  count      = "${var.cluster_type != "openshift" ? length(local.namespaces) : "0"}"
+resource "null_resource" "copy_apikey_secret" {
+  depends_on = ["null_resource.create_namespaces"]
+  count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/setup-namespace-pull-secrets.sh ${var.cluster_name} $${CLUSTER_NAMESPACE}"
+    command = "${path.module}/scripts/copy-secret-to-namespace.sh ibmcloud-apikey ${local.namespaces[count.index]}"
 
     environment = {
-      KUBECONFIG = "${var.cluster_config_file_path}"
-      CLUSTER_NAMESPACE = "${local.namespaces[count.index]}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
     }
   }
 }
 
-resource "null_resource" "copy_tls_secrets_openshift" {
-  depends_on = ["null_resource.oc_login", "null_resource.create_namespace_openshift"]
-  count      = "${var.cluster_type == "openshift" ? length(local.namespaces) : "0"}"
+resource "null_resource" "create_pull_secrets" {
+  depends_on = ["null_resource.create_cluster_pull_secret_iks", "null_resource.create_namespaces"]
+  count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/copy-secret-to-namespace.sh ${var.cluster_name} $${CLUSTER_NAMESPACE}"
+    command = "${path.module}/scripts/setup-namespace-pull-secrets.sh ${var.cluster_name} ${local.namespaces[count.index]}"
 
     environment = {
-      CLUSTER_NAMESPACE = "${local.namespaces[count.index]}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
     }
   }
 }
 
-resource "null_resource" "create_pull_secrets_openshift" {
-  depends_on = ["null_resource.oc_login", "null_resource.create_namespace_openshift"]
-  count      = "${var.cluster_type == "openshift" ? length(local.namespaces) : "0"}"
+resource "null_resource" "copy_cloud_configmap" {
+  depends_on = ["null_resource.oc_login", "null_resource.create_namespaces"]
+  count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/setup-namespace-pull-secrets.sh ${var.cluster_name} $${CLUSTER_NAMESPACE}"
+    command = "${path.module}/scripts/copy-configmap-to-namespace.sh ibmcloud-config ${local.namespaces[count.index]}"
 
     environment = {
-      CLUSTER_NAMESPACE = "${local.namespaces[count.index]}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
     }
   }
 }
 
 data "local_file" "tools_namespace" {
-  depends_on = ["null_resource.create_namespace_openshift", "null_resource.create_namespace_iks"]
+  depends_on = ["null_resource.create_namespaces", "null_resource.copy_apikey_secret", "null_resource.copy_cloud_configmap"]
 
   filename = "${local.tools_ns_file}"
 }
 
 data "local_file" "dev_namespace" {
-  depends_on = ["null_resource.create_namespace_openshift", "null_resource.create_namespace_iks"]
+  depends_on = ["null_resource.create_namespaces"]
 
   filename = "${local.dev_ns_file}"
 }
 
 data "local_file" "test_namespace" {
-  depends_on = ["null_resource.create_namespace_openshift", "null_resource.create_namespace_iks"]
+  depends_on = ["null_resource.create_namespaces"]
 
   filename = "${local.test_ns_file}"
 }
 
 data "local_file" "staging_namespace" {
-  depends_on = ["null_resource.create_namespace_openshift", "null_resource.create_namespace_iks"]
+  depends_on = ["null_resource.create_namespaces"]
 
   filename = "${local.staging_ns_file}"
 }

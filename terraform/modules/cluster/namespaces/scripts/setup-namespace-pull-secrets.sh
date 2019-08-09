@@ -12,6 +12,10 @@ if [[ -z "${CLUSTER_NAMESPACE}" ]]; then
    exit 1
 fi
 
+if [[ -n "${KUBECONFIG_IKS}" ]]; then
+    export KUBECONFIG="${KUBECONFIG_IKS}"
+fi
+
 if [[ $(kubectl get secrets -n "${CLUSTER_NAMESPACE}" -o jsonpath='{ range .items[*] }{ .metadata.name }{ "\n" }{ end }' | grep icr | wc -l | xargs) -eq 0 ]]; then
     echo "*** Copying pull secrets from default namespace to ${CLUSTER_NAMESPACE} namespace"
 
