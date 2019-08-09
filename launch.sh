@@ -2,9 +2,8 @@
 
 # IBM Cloud Garage, Catalyst Team
 
-SCRIPT_DIR=$(dirname $0)
-SRC_DIR="$( cd "${SCRIPT_DIR}/terraform" ; pwd -P )"
-
+SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
+SRC_DIR="$(cd "${SCRIPT_DIR}/terraform" ; pwd -P)"
 
 helpFunction()
 {
@@ -58,22 +57,29 @@ then
 fi
 
 DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:ubi"
-CONTAINER_NAME="ibm-garage-cli-tools"
 
-echo "Running Cleanup..."
-docker kill ${CONTAINER_NAME}
-docker rm ${CONTAINER_NAME}
+SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
+CONTAINER_NAME="ibm-garage-cli-tools-${SUFFIX}"
 
-echo "Initializing..."
+echo "Cleaning up old container: ${CONTAINER_NAME}"
+docker kill ${CONTAINER_NAME} 1> /dev/null 2> /dev/null
+docker rm ${CONTAINER_NAME} 1> /dev/null 2> /dev/null
+
+if [[ -n "$1" ]]; then
+    echo "Pulling docker image: ${DOCKER_IMAGE}"
+    docker pull "${DOCKER_IMAGE}"
+fi
+
+echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
 docker run -itd --name ${CONTAINER_NAME} \
    -v ${SRC_DIR}:/home/devops/src \
    -e TF_VAR_ibmcloud_api_key="${IBMCLOUD_API_KEY}" \
+   -e IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}" \
    -e BM_API_KEY="${IBMCLOUD_API_KEY}" \
    -e SL_USERNAME="${CLASSIC_USERNAME}" \
    -e SL_API_KEY="${CLASSIC_API_KEY}" \
    -w /home/devops/src \
-   ${DOCKER_IMAGE}
-docker exec -it --workdir /home/devops/src/workspace ${CONTAINER_NAME} terraform init
+   ${DOCKER_IMAGE} 1> /dev/null 2> /dev/null
 
-echo "Attaching..."
+echo "Attaching to running container..."
 docker attach ${CONTAINER_NAME}
