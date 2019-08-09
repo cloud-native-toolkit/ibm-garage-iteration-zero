@@ -9,20 +9,8 @@ locals {
   values_file           = "${path.module}/jenkins-values.yaml"
   kustomize_template    = "${path.module}/kustomize/jenkins"
   jenkins_config_chart  = "${path.module}/charts/jenkins-config"
-  ibmcloud_apikey_chart = "${path.module}/charts/ibmcloud"
   storage_class         = "ibmc-file-gold"
   volume_capacity       = "20Gi"
-}
-
-resource "null_resource" "ibmcloud_apikey_release" {
-  provisioner "local-exec" {
-    command = "${path.module}/scripts/deploy-ibmcloud-apikey.sh ${local.ibmcloud_apikey_chart} ${var.releases_namespace} ${var.ibmcloud_api_key} ${var.resource_group_name} ${var.server_url} ${var.cluster_type} ${var.cluster_name} ${var.cluster_ingress_hostname}"
-
-    environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
-      TMP_DIR        = "${local.tmp_dir}"
-    }
-  }
 }
 
 resource "null_resource" "jenkins_release_iks" {

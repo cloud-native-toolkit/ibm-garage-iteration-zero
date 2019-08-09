@@ -22,12 +22,15 @@ resource "null_resource" "ibmcloud_login" {
 }
 
 locals {
-  server_url_file    = "${path.cwd}/.tmp/server-url.val"
-  cluster_type_file  = "${path.cwd}/.tmp/cluster_type.val"
-  ingress_url_file   = "${path.cwd}/.tmp/ingress-subdomain.val"
-  kube_version_file  = "${path.cwd}/.tmp/kube_version.val"
-  cluster_config_dir = "${var.kubeconfig_download_dir}/.kube"
-  cluster_name       = "${var.cluster_name}"
+  server_url_file       = "${path.cwd}/.tmp/server-url.val"
+  cluster_type_file     = "${path.cwd}/.tmp/cluster_type.val"
+  ingress_url_file      = "${path.cwd}/.tmp/ingress-subdomain.val"
+  kube_version_file     = "${path.cwd}/.tmp/kube_version.val"
+  cluster_config_dir    = "${var.kubeconfig_download_dir}/.kube"
+  cluster_name          = "${var.cluster_name}"
+  tmp_dir               = "${path.cwd}/.tmp"
+  config_namespace      = "default"
+  ibmcloud_apikey_chart = "${path.module}/charts/ibmcloud"
 }
 
 resource "null_resource" "get_openshift_version" {
@@ -148,6 +151,17 @@ resource "null_resource" "check_cluster_type" {
     environment = {
       PROVIDED_CLUSTER_TYPE = "${var.cluster_type}"
       ACTUAL_CLUSTER_TYPE   = "${data.local_file.cluster_type.content}"
+    }
+  }
+}
+
+resource "null_resource" "ibmcloud_apikey_release" {
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/deploy-ibmcloud-config.sh ${local.ibmcloud_apikey_chart} ${local.config_namespace} ${var.ibmcloud_api_key} ${var.resource_group_name} ${data.local_file.server_url.content} ${var.cluster_type} ${var.cluster_name} ${data.local_file.ingress_subdomain.content}"
+
+    environment = {
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? data.ibm_container_cluster_config.cluster.config_file_path : ""}"
+      TMP_DIR        = "${local.tmp_dir}"
     }
   }
 }
