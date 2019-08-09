@@ -1,3 +1,6 @@
+provider "ibm" {
+}
+
 data "ibm_resource_group" "tools_resource_group" {
   name = "${var.resource_group_name}"
 }

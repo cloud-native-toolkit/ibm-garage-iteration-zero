@@ -34,8 +34,17 @@ resource "null_resource" "oc_login" {
   }
 }
 
-resource "null_resource" "create_serviceaccount_openshift" {
+resource "null_resource" "delete_serviceaccount_openshift" {
   depends_on = ["null_resource.oc_login"]
+  count = "${var.cluster_type == "openshift" ? "1" : "0"}"
+
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/delete-serviceaccount.sh ${var.namespace} ${var.service_account_name}"
+  }
+}
+
+resource "null_resource" "create_serviceaccount_openshift" {
+  depends_on = ["null_resource.oc_login", "null_resource.delete_serviceaccount_openshift"]
   count = "${var.cluster_type == "openshift" ? "1" : "0"}"
 
   provisioner "local-exec" {
@@ -48,11 +57,7 @@ resource "null_resource" "add_ssc_openshift" {
   count = "${var.cluster_type == "openshift" ? length(var.sscs) : "0"}"
 
   provisioner "local-exec" {
-    command = "oc adm policy add-scc-to-user $${SSC} -z ${var.service_account_name}"
-
-    environment = {
-      SSC = "${var.sscs[count.index]}"
-    }
+    command = "oc adm policy add-scc-to-user ${var.sscs[count.index]} -z ${var.service_account_name}"
   }
 }
 

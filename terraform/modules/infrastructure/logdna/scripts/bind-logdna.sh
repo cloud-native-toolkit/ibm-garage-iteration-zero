@@ -15,15 +15,15 @@ fi
 mkdir -p ${TMP_DIR}
 YAML_FILE=${TMP_DIR}/logdna-agent-key.yaml
 
-cat << 'EOF' >> ${YAML_FILE}
-apiVersion: v1
-kind: Secret
-metadata:
-  name: logdna-agent-key
-type: Opaque
-stringData:
-  logdna-agent-key: ${LOGDNA_AGENT_KEY}
-EOF
+echo "LOGDNA_AGENT_KEY: ${LOGDNA_AGENT_KEY}"
+
+echo "apiVersion: v1" > ${YAML_FILE}
+echo "kind: Secret" >> ${YAML_FILE}
+echo "metadata:" >> ${YAML_FILE}
+echo "  name: logdna-agent-key" >> ${YAML_FILE}
+echo "type: Opaque" >> ${YAML_FILE}
+echo "stringData:" >> ${YAML_FILE}
+echo "  logdna-agent-key: ${LOGDNA_AGENT_KEY}" >> ${YAML_FILE}
 
 echo "*** Creating logdna-agent-key secret in ${NAMESPACE}"
 kubectl apply -n ${NAMESPACE} -f ${YAML_FILE}
