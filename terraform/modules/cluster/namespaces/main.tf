@@ -12,28 +12,7 @@ locals {
   namespace_files   = ["${local.tools_ns_file}", "${local.dev_ns_file}", "${local.test_ns_file}", "${local.staging_ns_file}"]
 }
 
-resource "null_resource" "wait_for_cluster" {
-  provisioner "local-exec" {
-    command = "echo \"Cluster type: ${var.cluster_type}\""
-  }
-}
-
-resource "null_resource" "oc_login" {
-  depends_on = ["null_resource.wait_for_cluster"]
-  count = "${var.cluster_type == "openshift" ? "1": "0"}"
-
-  provisioner "local-exec" {
-    command = "oc login -u apikey -p $${TOKEN} --server=$${URL} > /dev/null"
-
-    environment = {
-      URL="${var.server_url}"
-      TOKEN="${var.ibmcloud_api_key}"
-    }
-  }
-}
-
 resource "null_resource" "delete_namespaces" {
-  depends_on = ["null_resource.wait_for_cluster", "null_resource.oc_login"]
   count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
@@ -46,7 +25,7 @@ resource "null_resource" "delete_namespaces" {
 }
 
 resource "null_resource" "create_namespaces" {
-  depends_on = ["null_resource.oc_login", "null_resource.delete_namespaces"]
+  depends_on = ["null_resource.delete_namespaces"]
   count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
@@ -68,15 +47,11 @@ resource "null_resource" "create_namespaces" {
 }
 
 resource "null_resource" "create_cluster_pull_secret_iks" {
-  depends_on = ["null_resource.wait_for_cluster"]
-  count      = "${var.cluster_type != "openshift" ? 1 : 0}"
-
   provisioner "local-exec" {
     command = "${path.module}/scripts/cluster-pull-secret-apply.sh ${var.cluster_name}"
 
     environment = {
-      KUBECONFIG = "${var.cluster_config_file_path}"
-      CLUSTER_NAME = "${var.cluster_name}"
+      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
     }
   }
 }
@@ -121,7 +96,7 @@ resource "null_resource" "create_pull_secrets" {
 }
 
 resource "null_resource" "copy_cloud_configmap" {
-  depends_on = ["null_resource.oc_login", "null_resource.create_namespaces"]
+  depends_on = ["null_resource.create_namespaces"]
   count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {

@@ -7,7 +7,7 @@ locals {
 
 resource "null_resource" "artifactory_release" {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deploy-artifactory.sh ${var.releases_namespace} ${local.ingress_host} ${local.values_file}"
+    command = "${path.module}/scripts/deploy-artifactory.sh ${var.releases_namespace} ${local.ingress_host} ${local.values_file} ${var.service_account}"
 
     environment = {
       KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"

@@ -3,9 +3,11 @@
   value:
     name: pv-mount-permissions
     image: alpine:latest
-    command: ["/bin/sh", "-c"]
-    args:
-      - chown -v -R 1030:1030 /mount;
+    command:
+      - /bin/sh
+      - -c
+      - |
+        chown -v -R 1030:1030 /mount;
     securityContext:
       privileged: true
       allowPrivilegeEscalation: true

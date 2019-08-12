@@ -165,3 +165,12 @@ resource "null_resource" "ibmcloud_apikey_release" {
     }
   }
 }
+
+resource "null_resource" "oc_login" {
+  depends_on = ["data.ibm_container_cluster_config.cluster", "null_resource.ibmcloud_apikey_release"]
+  count      = "${var.cluster_type == "openshift" ? "1": "0"}"
+
+  provisioner "local-exec" {
+    command = "oc login -u ${var.login_user} -p ${var.ibmcloud_api_key} --server=${data.local_file.server_url.content} > /dev/null"
+  }
+}

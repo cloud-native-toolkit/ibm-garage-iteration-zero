@@ -1,8 +1,17 @@
+module "dev_serviceaccount_sonarqube" {
+  source = "../modules/cluster/serviceaccount"
+
+  cluster_type             = "${var.cluster_type}"
+  namespace                = "${module.dev_cluster_namespaces.tools_namespace_name}"
+  cluster_config_file_path = "${module.dev_cluster.config_file_path}"
+  service_account_name     = "sonarqube"
+  sscs                     = ["anyuid", "privileged"]
+}
+
 module "dev_tools_sonarqube_release" {
   source = "../modules/tools/sonarqube_release"
 
-  ibmcloud_api_key         = "${module.dev_cluster.ibmcloud_api_key}"
-  resource_group_name      = "${module.dev_cluster.resource_group_name}"
+  cluster_type             = "${var.cluster_type}"
   cluster_ingress_hostname = "${module.dev_cluster.ingress_hostname}"
   cluster_config_file      = "${module.dev_cluster.config_file_path}"
   postgresql_username      = "${module.dev_infrastructure_postgres.postgresql_service_account_username}"
@@ -10,8 +19,6 @@ module "dev_tools_sonarqube_release" {
   postgresql_hostname      = "${module.dev_infrastructure_postgres.postgresql_hostname}"
   postgresql_port          = "${module.dev_infrastructure_postgres.postgresql_port}"
   postgresql_database_name = "${module.dev_infrastructure_postgres.postgresql_database_name}"
-  server_url               = "${module.dev_cluster.server_url}"
-  cluster_type             = "${var.cluster_type}"
   releases_namespace       = "${module.dev_cluster_namespaces.tools_namespace_name}"
-  service_account_name     = "${var.cluster_type == "openshift" ? module.dev_serviceaccount_useroot.name : "default"}"
+  service_account_name     = "${module.dev_serviceaccount_sonarqube.name}"
 }

@@ -32,20 +32,11 @@ resource "ibm_resource_key" "logdna_instance_key" {
   }
 }
 
-resource "null_resource" "oc_login" {
-  count = "${var.cluster_type == "openshift" ? "1": "0"}"
-
-  provisioner "local-exec" {
-    command = "oc login -u apikey -p ${var.ibmcloud_api_key} --server=${var.server_url} > /dev/null"
-  }
-}
-
 locals {
   namespace = "default"
 }
 
 resource "null_resource" "logdna_bind" {
-  depends_on = ["null_resource.oc_login"]
 
   provisioner "local-exec" {
     command = "${path.module}/scripts/bind-logdna.sh ${local.namespace} ${ibm_resource_key.logdna_instance_key.credentials.ingestion_key} ${var.service_account_name}"

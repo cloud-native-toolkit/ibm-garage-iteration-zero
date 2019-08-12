@@ -7,6 +7,7 @@ LOCAL_KUSTOMIZE_DIR=$(cd "${SCRIPT_DIR}/../kustomize"; pwd -P)
 NAMESPACE="$1"
 INGRESS_HOST="$2"
 VALUES_FILE="$3"
+SERVICE_ACCOUNT_NAME="$4"
 
 if [[ -n "${KUBECONFIG_IKS}" ]]; then
     export KUBECONFIG="${KUBECONFIG_IKS}"

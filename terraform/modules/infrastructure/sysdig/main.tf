@@ -34,19 +34,11 @@ locals {
   endpoint="${ibm_resource_key.sysdig_instance_key.credentials["Sysdig Collector Endpoint"]}"
 }
 
-resource "null_resource" "oc_login" {
-  count = "${var.cluster_type == "openshift" ? "1": "0"}"
-
-  provisioner "local-exec" {
-    command = "oc login -u apikey -p ${var.ibmcloud_api_key} --server=${var.server_url} > /dev/null"
-  }
-}
-
 resource "null_resource" "create_sysdig_agent" {
-  depends_on = ["ibm_resource_key.sysdig_instance_key", "null_resource.oc_login"]
+  depends_on = ["ibm_resource_key.sysdig_instance_key"]
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/bind-sysdig.sh ${local.access_key} ${local.endpoint} ${var.cluster_type == "openshift" ? "openshift" : ""}"
+    command = "${path.module}/scripts/bind-sysdig.sh ${local.access_key} ${local.endpoint}"
 
     environment = {
       KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"

@@ -2,12 +2,11 @@
 
 ACCESS_KEY="$1"
 ENDPOINT="$2"
-if [[ -n "$3" ]]; then
-   OPENSHIFT="-op"
-fi
 
 if [[ -n "${KUBECONFIG_IKS}" ]]; then
    export KUBECONFIG="${KUBECONFIG_IKS}"
+else
+   OPENSHIFT="-op"
 fi
 
 echo "*** Binding sysdig to cluster using endpoint ${ENDPOINT}"

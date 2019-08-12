@@ -6,6 +6,12 @@ if [[ -z "${CLUSTER_NAME}" ]]; then
     exit 1
 fi
 
+if [[ -z "${KUBECONFIG_IKS}" ]]; then
+    exit 0
+else
+    export KUBECONFIG="${KUBECONFIG_IKS}"
+fi
+
 if [[ $(kubectl get secrets -n default -o jsonpath='{ range .items[*] }{ .metadata.name }{ "\n" }{ end }' | grep icr | wc -l | xargs) -eq 0 ]]; then
     echo "Applying pull secrets to default namespace of cluster: ${CLUSTER_NAME}"
 

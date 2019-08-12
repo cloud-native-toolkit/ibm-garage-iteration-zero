@@ -12,3 +12,7 @@ postgresql:
 
 nginx:
   enabled: false
+
+serviceAccount:
+  create: false
+  name: artifactory-artifactory

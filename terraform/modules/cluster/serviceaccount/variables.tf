@@ -1,14 +1,3 @@
-
-variable "server_url" {
-  type        = "string"
-  description = "The server url for the cluster"
-}
-
-variable "ibmcloud_api_key" {
-  type        = "string"
-  description = "The api key for IBM Cloud access"
-}
-
 variable "cluster_type" {
   type        = "string"
   description = "The type of cluster that should be created (openshift or kubernetes)"

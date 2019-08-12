@@ -71,3 +71,9 @@ variable "cluster_exists" {
   type        = "string"
   description = "Flag indicating if the cluster already exists (true or false)"
 }
+
+variable "login_user" {
+  type        = "string"
+  description = "The username to log in to openshift"
+  default     = "apikey"
+}

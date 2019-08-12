@@ -36,6 +36,17 @@ output "config_file_path" {
 output "type" {
   value       = "${data.local_file.cluster_type.content}"
   description = "The type of cluster (openshift or kubernetes)"
+  depends_on  = ["null_resource.oc_login"]
+}
+
+output "login_user" {
+  value       = "${var.login_user}"
+  description = "The username used to log into the openshift cli"
+}
+
+output "login_password" {
+  value       = "${var.ibmcloud_api_key}"
+  description = "The password used to log into the openshift cli"
 }
 
 output "ibmcloud_api_key" {
