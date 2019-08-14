@@ -14,7 +14,7 @@ This repo contains Terraform resources that will deploy the following developmen
     - [Argo CD](https://argoproj.github.io/argo-cd/)
     - [SonarQube](https://www.sonarqube.org/) 
     - [Pack Broker](https://docs.pact.io/)
-    - [Artefactory(tbd)](https://jfrog.com/open-source/)
+    - [Artefactory](https://jfrog.com/open-source/)
     - [Eclipse CHE](https://www.eclipse.org/che/)
 
 - Create and bind the following Cloud Services to your Cluster:
