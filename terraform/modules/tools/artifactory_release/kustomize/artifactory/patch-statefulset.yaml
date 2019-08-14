@@ -1,5 +1,5 @@
 - op: add
-  path: /spec/template/spec/initContainers/-
+  path: /spec/template/spec/initContainers/0
   value:
     name: pv-mount-permissions
     image: alpine:latest

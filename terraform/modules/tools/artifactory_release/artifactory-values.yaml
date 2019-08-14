@@ -3,6 +3,8 @@ nameOverride: artifactory
 artifactory:
   image:
     repository: docker.bintray.io/jfrog/artifactory-oss
+  accessAdmin:
+    password: admin
 
 ingress:
   enabled: true
