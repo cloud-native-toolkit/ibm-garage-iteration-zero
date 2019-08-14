@@ -54,3 +54,9 @@ variable "service_account_name" {
   type        = "string"
   default     = "default"
 }
+
+variable "plugins" {
+  description = "The list of plugins that will be installed on SonarQube"
+  type        = "list"
+  default     = ["https://binaries.sonarsource.com/Distribution/sonar-typescript-plugin/sonar-typescript-plugin-1.9.0.3766.jar", "https://binaries.sonarsource.com/Distribution/sonar-java-plugin/sonar-java-plugin-5.9.2.16552.jar", "https://github.com/checkstyle/sonar-checkstyle/releases/download/4.21/checkstyle-sonar-plugin-4.21.jar"]
+}

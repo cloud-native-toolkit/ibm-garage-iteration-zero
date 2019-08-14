@@ -11,6 +11,7 @@ VALUES_FILE="$4"
 KUSTOMIZE_TEMPLATE="$5"
 VERSION="$6"
 SERVICE_ACCOUNT="$7"
+PLUGINS="$8"
 
 if [[ -n "${KUBECONFIG_IKS}" ]]; then
     export KUBECONFIG="${KUBECONFIG_IKS}"
@@ -54,7 +55,9 @@ echo "*** Cleaning up helm chart tests"
 rm "${SONARQUBE_CHART}/templates/sonarqube-test.yaml"
 rm "${SONARQUBE_CHART}/templates/test-config.yaml"
 
-echo "*** Generating sonarqube yaml from helm template"
+PLUGIN_YAML=$(echo $PLUGINS | sed -E "s/[[](.*)[]]/{\1}/g")
+
+echo "*** Generating sonarqube yaml from helm template with plugins ${PLUGIN_YAML}"
 helm init --client-only
 helm template "${SONARQUBE_CHART}" \
     --namespace "${NAMESPACE}" \
@@ -65,6 +68,7 @@ helm template "${SONARQUBE_CHART}" \
     --set postgresql.postgresDatabase="${DATABASE_NAME}" \
     --set postgresql.postgresUser="${DATABASE_USERNAME}" \
     --set postgresql.postgresPassword="${DATABASE_PASSWORD}" \
+    --set plugins.install=${PLUGIN_YAML} \
     --values "${VALUES_FILE}" > "${SONARQUBE_BASE_KUSTOMIZE}"
 
 echo "*** Generating sonarqube-secret yaml from helm template"
