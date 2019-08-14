@@ -16,7 +16,7 @@ resource "null_resource" "sonarqube_release" {
     command = "${path.module}/scripts/deploy-sonarqube.sh ${local.sonarqube_secret_chart} ${var.releases_namespace} ${local.ingress_host} ${local.values_file} ${local.kustomize_template} ${var.helm_version} ${var.service_account_name} \"${jsonencode(var.plugins)}\""
 
     environment = {
-      KUBECONFIG_IKS    = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
+      KUBECONFIG_IKS    = "${var.cluster_config_file}"
       TMP_DIR           = "${local.tmp_dir}"
       DATABASE_HOST     = "${var.postgresql_hostname}"
       DATABASE_PORT     = "${var.postgresql_port}"
@@ -31,7 +31,7 @@ resource "null_resource" "sonarqube_release" {
     command = "${path.module}/scripts/destroy-sonarqube.sh ${var.releases_namespace}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file}"
     }
   }
 }

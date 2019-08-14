@@ -10,7 +10,7 @@ resource "null_resource" "argocd_release" {
     command = "${path.module}/scripts/deploy-argocd.sh ${local.chart_name} ${var.releases_namespace} ${local.version} ${local.ingress_host} ${path.module}/kustomize/argocd"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file}"
       TMP_DIR        = "${local.tmp_dir}"
     }
   }
@@ -20,7 +20,7 @@ resource "null_resource" "argocd_release" {
     command = "${path.module}/scripts/destroy-argocd.sh ${var.releases_namespace}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file}"
     }
   }
 }

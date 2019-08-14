@@ -14,7 +14,7 @@ resource "null_resource" "delete_serviceaccount" {
     command = "${path.module}/scripts/delete-serviceaccount.sh ${var.namespace} ${var.service_account_name}"
 
     environment {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }
@@ -26,7 +26,7 @@ resource "null_resource" "create_serviceaccount" {
     command = "${path.module}/scripts/create-serviceaccount.sh ${var.namespace} ${var.service_account_name}"
 
     environment {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 
@@ -35,7 +35,7 @@ resource "null_resource" "create_serviceaccount" {
     command = "${path.module}/scripts/delete-serviceaccount.sh ${var.namespace} ${var.service_account_name}"
 
     environment {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }

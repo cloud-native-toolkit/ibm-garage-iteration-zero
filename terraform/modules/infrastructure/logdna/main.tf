@@ -42,7 +42,7 @@ resource "null_resource" "logdna_bind" {
     command = "${path.module}/scripts/bind-logdna.sh ${local.namespace} ${ibm_resource_key.logdna_instance_key.credentials.ingestion_key} ${var.service_account_name}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
       TMP_DIR        = "${path.cwd}/.tmp"
     }
   }
@@ -52,7 +52,7 @@ resource "null_resource" "logdna_bind" {
     command = "${path.module}/scripts/unbind-logdna.sh ${local.namespace}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }

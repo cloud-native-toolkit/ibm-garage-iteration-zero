@@ -19,7 +19,7 @@ resource "null_resource" "delete_namespaces" {
     command = "${path.module}/scripts/deleteNamespace.sh ${local.namespaces[count.index]}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }
@@ -32,7 +32,7 @@ resource "null_resource" "create_namespaces" {
     command = "${path.module}/scripts/createNamespace.sh ${local.namespaces[count.index]} && echo -n ${local.namespaces[count.index]} > ${local.namespace_files[count.index]}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 
@@ -41,7 +41,7 @@ resource "null_resource" "create_namespaces" {
     command = "${path.module}/scripts/deleteNamespace.sh ${local.namespaces[count.index]}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }
@@ -51,7 +51,7 @@ resource "null_resource" "create_cluster_pull_secret_iks" {
     command = "${path.module}/scripts/cluster-pull-secret-apply.sh ${var.cluster_name}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }
@@ -64,7 +64,7 @@ resource "null_resource" "copy_tls_secrets" {
     command = "${path.module}/scripts/copy-secret-to-namespace.sh ${var.cluster_name} ${local.namespaces[count.index]}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }
@@ -77,7 +77,7 @@ resource "null_resource" "copy_apikey_secret" {
     command = "${path.module}/scripts/copy-secret-to-namespace.sh ibmcloud-apikey ${local.namespaces[count.index]}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }
@@ -90,7 +90,7 @@ resource "null_resource" "create_pull_secrets" {
     command = "${path.module}/scripts/setup-namespace-pull-secrets.sh ${var.cluster_name} ${local.namespaces[count.index]}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }
@@ -103,7 +103,7 @@ resource "null_resource" "copy_cloud_configmap" {
     command = "${path.module}/scripts/copy-configmap-to-namespace.sh ibmcloud-config ${local.namespaces[count.index]}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }

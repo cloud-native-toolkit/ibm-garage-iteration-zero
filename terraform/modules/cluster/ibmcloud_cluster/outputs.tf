@@ -29,8 +29,9 @@ output "server_url" {
 }
 
 output "config_file_path" {
-  value       = "${data.ibm_container_cluster_config.cluster.config_file_path}"
+  value       = "${local.config_file_path}"
   description = "Path to the config file for the cluster."
+  depends_on  = ["null_resource.oc_login"]
 }
 
 output "type" {

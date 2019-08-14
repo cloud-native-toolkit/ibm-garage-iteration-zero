@@ -41,7 +41,7 @@ resource "null_resource" "create_sysdig_agent" {
     command = "${path.module}/scripts/bind-sysdig.sh ${local.access_key} ${local.endpoint}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 
@@ -50,7 +50,7 @@ resource "null_resource" "create_sysdig_agent" {
     command = "${path.module}/scripts/unbind-sysdig.sh"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file_path : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file_path}"
     }
   }
 }

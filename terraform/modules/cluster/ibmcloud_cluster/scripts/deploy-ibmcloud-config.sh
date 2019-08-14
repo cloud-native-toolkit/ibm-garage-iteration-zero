@@ -17,12 +17,14 @@ if [[ -z "${TMP_DIR}" ]]; then
     TMP_DIR=".tmp"
 fi
 
+NAME="ibmcloud-config"
 OUTPUT_YAML="${TMP_DIR}/ibmcloud-apikey.yaml"
 
 echo "*** Generating kube yaml from helm template into ${OUTPUT_YAML}"
 helm init --client-only
 mkdir -p "${TMP_DIR}"
 helm template "${CHART}" \
+    --name "${NAME}" \
     --namespace "${NAMESPACE}" \
     --set apikey="${APIKEY}" \
     --set resource_group="${RESOURCE_GROUP}" \
@@ -30,6 +32,8 @@ helm template "${CHART}" \
     --set cluster_type="${CLUSTER_TYPE}" \
     --set cluster_name="${CLUSTER_NAME}" \
     --set ingress_subdomain="${INGRESS_SUBDOMAIN}" > "${OUTPUT_YAML}"
+
+kubectl delete -n "${NAMESPACE}" -l app=${NAME}
 
 echo "*** Applying kube yaml ${OUTPUT_YAML}"
 kubectl apply -n "${NAMESPACE}" -f "${OUTPUT_YAML}"

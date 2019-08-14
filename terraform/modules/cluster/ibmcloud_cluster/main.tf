@@ -31,6 +31,7 @@ locals {
   tmp_dir               = "${path.cwd}/.tmp"
   config_namespace      = "default"
   ibmcloud_apikey_chart = "${path.module}/charts/ibmcloud"
+  config_file_path      = "${var.cluster_type != "openshift" ? data.ibm_container_cluster_config.cluster.config_file_path : ""}"
 }
 
 resource "null_resource" "get_openshift_version" {
@@ -160,7 +161,7 @@ resource "null_resource" "ibmcloud_apikey_release" {
     command = "${path.module}/scripts/deploy-ibmcloud-config.sh ${local.ibmcloud_apikey_chart} ${local.config_namespace} ${var.ibmcloud_api_key} ${var.resource_group_name} ${data.local_file.server_url.content} ${var.cluster_type} ${var.cluster_name} ${data.local_file.ingress_subdomain.content}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? data.ibm_container_cluster_config.cluster.config_file_path : ""}"
+      KUBECONFIG_IKS = "${local.config_file_path}"
       TMP_DIR        = "${local.tmp_dir}"
     }
   }

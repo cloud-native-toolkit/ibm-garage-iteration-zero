@@ -10,7 +10,7 @@ resource "null_resource" "artifactory_release" {
     command = "${path.module}/scripts/deploy-artifactory.sh ${var.releases_namespace} ${local.ingress_host} ${local.values_file} ${var.service_account}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file}"
       TMP_DIR        = "${local.tmp_dir}"
     }
   }
@@ -20,7 +20,7 @@ resource "null_resource" "artifactory_release" {
     command = "${path.module}/scripts/destroy-artifactory.sh ${var.releases_namespace}"
 
     environment = {
-      KUBECONFIG_IKS = "${var.cluster_type != "openshift" ? var.cluster_config_file : ""}"
+      KUBECONFIG_IKS = "${var.cluster_config_file}"
     }
   }
 }
