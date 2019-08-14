@@ -36,41 +36,18 @@ spec:
               path: /
               port: http
           envFrom:
-            {{- if .Values.configMaps.sonarqube }}
             - configMapRef:
-                name: {{ .Values.configMaps.sonarqube }}
-            {{- end }}
-            {{- if .Values.configMaps.jenkins }}
+                name: {{ default "sonarqube-config" .Values.configMaps.sonarqube }}
+                optional: true
             - configMapRef:
-                name: {{ .Values.configMaps.jenkins }}
-            {{- end }}
-            {{- if .Values.configMaps.pactbroker }}
+                name: {{ default "jenkins-config" .Values.configMaps.jenkins }}
+                optional: true
             - configMapRef:
-                name: {{ .Values.configMaps.pactbroker }}
-            {{- end }}
-          env:
-            {{- if .Values.secrets.jenkins }}
-            - name: JENKINS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secrets.jenkins }}
-                  key: url
-            {{- end }}
-            {{- if .Values.secrets.sonarqube }}
-            - name: SONARQUBE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secrets.sonarqube }}
-                  key: url
-            {{- end }}
-            {{- if .Values.secrets.pactbroker }}
-            - name: PACTBROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secrets.pactbroker }}
-                  key: url
-            {{- end}}
-
+                name: {{ default "pactbroker-config" .Values.configMaps.pactbroker }}
+                optional: true
+            - configMapRef:
+                name: {{ default "artifactory-config" .Values.configMaps.artifactory }}
+                optional: true
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
