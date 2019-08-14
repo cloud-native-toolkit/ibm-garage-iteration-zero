@@ -11,27 +11,12 @@ spec:
                 image: garagecatalyst/ibm-garage-cli-tools:latest
                 imagePullPolicy: Always
                 command: ["sh", "-c", "until checkPodRunning.sh jenkins && curl -Isf ${JENKINS_URL}; do echo '>>> waiting for Jenkins'; sleep 300; done; echo '>>> Jenkins has started'"]
-                env:
-                - name: APIKEY
-                  valueFrom:
-                    secretKeyRef:
+                envFrom:
+                  - secretRef:
                       name: ibmcloud-apikey
-                      key: password
-                - name: REGION
-                  valueFrom:
-                      secretKeyRef:
-                          name: ibmcloud-apikey
-                          key: region
-                - name: RESOURCE_GROUP
-                  valueFrom:
-                      secretKeyRef:
-                          name: ibmcloud-apikey
-                          key: resource_group
-                - name: CLUSTER_NAME
-                  valueFrom:
-                      secretKeyRef:
-                          name: ibmcloud-apikey
-                          key: cluster_name
+                  - configMapRef:
+                      name: ibmcloud-config
+                env:
                 - name: JENKINS_URL
                   value: {{ printf "http://%s/login" .Values.jenkins.host | quote }}
             containers:
@@ -39,6 +24,11 @@ spec:
                   image: garagecatalyst/node11:latest
                   imagePullPolicy: Always
                   command: ["bash", "-c", "npm i -g @garage-catalyst/ibm-garage-cloud-cli && ~/.npm-packages/bin/igc jenkins-auth"]
+                  envFrom:
+                    - secretRef:
+                        name: ibmcloud-apikey
+                    - configMapRef:
+                        name: ibmcloud-config
                   env:
                       - name: JENKINS_HOST
                         value: {{ .Values.jenkins.host | quote }}
@@ -54,25 +44,5 @@ spec:
                             secretKeyRef:
                                 name: jenkins
                                 key: jenkins-admin-password
-                      - name: APIKEY
-                        valueFrom:
-                            secretKeyRef:
-                                name: ibmcloud-apikey
-                                key: password
-                      - name: REGION
-                        valueFrom:
-                            secretKeyRef:
-                                name: ibmcloud-apikey
-                                key: region
-                      - name: RESOURCE_GROUP
-                        valueFrom:
-                            secretKeyRef:
-                                name: ibmcloud-apikey
-                                key: resource_group
-                      - name: CLUSTER_NAME
-                        valueFrom:
-                            secretKeyRef:
-                                name: ibmcloud-apikey
-                                key: cluster_name
             restartPolicy: Never
     backoffLimit: 4

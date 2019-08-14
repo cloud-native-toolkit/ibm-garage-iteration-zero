@@ -3,12 +3,12 @@ kind: ConfigMap
 metadata:
   name: {{ include "ibmcloud.name" . }}-config
 data:
-  CLUSTER_TYPE: {{ .Values.cluster_type }}
-  APIURL: {{ .Values.apiurl }}
-  SERVER_URL: {{ .Values.server_url }}
-  RESOURCE_GROUP: {{ .Values.resource_group }}
-  REGISTRY_URL: {{ .Values.registry_url }}
+  CLUSTER_TYPE: {{ .Values.cluster_type | quote }}
+  APIURL: {{ .Values.apiurl | quote }}
+  SERVER_URL: {{ .Values.server_url | quote }}
+  RESOURCE_GROUP: {{ .Values.resource_group | quote }}
+  REGISTRY_URL: {{ .Values.registry_url | quote }}
   REGISTRY_NAMESPACE: {{ include "ibmcloud.registry_namespace" . }}
-  REGION: {{ .Values.region }}
+  REGION: {{ .Values.region | quote }}
   CLUSTER_NAME: {{ include "ibmcloud.cluster_name" . }}
-  INGRESS_SUBDOMAIN: {{ .Values.ingress_subdomain }}
+  INGRESS_SUBDOMAIN: {{ .Values.ingress_subdomain | quote }}
