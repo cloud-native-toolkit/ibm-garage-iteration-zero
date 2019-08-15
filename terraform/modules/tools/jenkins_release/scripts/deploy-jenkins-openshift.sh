@@ -18,3 +18,4 @@ echo '>>> Jenkins has started'
 
 JENKINS_HOST=$(oc get route jenkins -n ${NAMESPACE} -o jsonpath='{ .spec.host }')
 oc create secret generic jenkins-access -n ${NAMESPACE} --from-literal url=https://${JENKINS_HOST}
+oc create configmap jenkins-connfig -n ${NAMESPACE} --from-literal JENKINS_URL=https://${JENKINS_HOST}
