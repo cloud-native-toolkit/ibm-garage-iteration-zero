@@ -31,7 +31,7 @@ output "server_url" {
 output "config_file_path" {
   value       = "${local.config_file_path}"
   description = "Path to the config file for the cluster."
-  depends_on  = ["null_resource.oc_login"]
+  depends_on  = ["null_resource.ibmcloud_apikey_release"]
 }
 
 output "type" {

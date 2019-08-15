@@ -156,7 +156,17 @@ resource "null_resource" "check_cluster_type" {
   }
 }
 
+resource "null_resource" "oc_login" {
+  count      = "${var.cluster_type == "openshift" ? "1": "0"}"
+
+  provisioner "local-exec" {
+    command = "oc login -u ${var.login_user} -p ${var.ibmcloud_api_key} --server=${data.local_file.server_url.content} > /dev/null"
+  }
+}
+
 resource "null_resource" "ibmcloud_apikey_release" {
+  depends_on = ["null_resource.oc_login"]
+
   provisioner "local-exec" {
     command = "${path.module}/scripts/deploy-ibmcloud-config.sh ${local.ibmcloud_apikey_chart} ${local.config_namespace} ${var.ibmcloud_api_key} ${var.resource_group_name} ${data.local_file.server_url.content} ${var.cluster_type} ${var.cluster_name} ${data.local_file.ingress_subdomain.content}"
 
@@ -164,14 +174,5 @@ resource "null_resource" "ibmcloud_apikey_release" {
       KUBECONFIG_IKS = "${local.config_file_path}"
       TMP_DIR        = "${local.tmp_dir}"
     }
-  }
-}
-
-resource "null_resource" "oc_login" {
-  depends_on = ["data.ibm_container_cluster_config.cluster", "null_resource.ibmcloud_apikey_release"]
-  count      = "${var.cluster_type == "openshift" ? "1": "0"}"
-
-  provisioner "local-exec" {
-    command = "oc login -u ${var.login_user} -p ${var.ibmcloud_api_key} --server=${data.local_file.server_url.content} > /dev/null"
   }
 }
