@@ -20,6 +20,10 @@ fi
 NAME="ibmcloud-config"
 OUTPUT_YAML="${TMP_DIR}/ibmcloud-apikey.yaml"
 
+#kubectl delete -n "${NAMESPACE}" -l app=${NAME}
+kubectl delete -n "${NAMESPACE}" secrets/ibmcloud-apikey
+kubectl delete -n "${NAMESPACE}" configmaps/ibmcloud-config
+
 echo "*** Generating kube yaml from helm template into ${OUTPUT_YAML}"
 helm init --client-only
 mkdir -p "${TMP_DIR}"
@@ -33,7 +37,5 @@ helm template "${CHART}" \
     --set cluster_name="${CLUSTER_NAME}" \
     --set ingress_subdomain="${INGRESS_SUBDOMAIN}" > "${OUTPUT_YAML}"
 
-kubectl delete -n "${NAMESPACE}" -l app=${NAME}
-
 echo "*** Applying kube yaml ${OUTPUT_YAML}"
-kubectl apply -n "${NAMESPACE}" -f "${OUTPUT_YAML}"
+kubectl create -n "${NAMESPACE}" -f "${OUTPUT_YAML}"
