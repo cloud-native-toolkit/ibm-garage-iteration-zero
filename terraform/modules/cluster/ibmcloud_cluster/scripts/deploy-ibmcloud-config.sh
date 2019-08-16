@@ -8,6 +8,7 @@ SERVER_URL="$5"
 CLUSTER_TYPE="$6"
 CLUSTER_NAME="$7"
 INGRESS_SUBDOMAIN="$8"
+TLS_SECRET_FILE="$9"
 
 if [[ -n "${KUBECONFIG_IKS}" ]]; then
     export KUBECONFIG="${KUBECONFIG_IKS}"
@@ -25,6 +26,10 @@ kubectl delete -n "${NAMESPACE}" secrets/ibmcloud-apikey
 kubectl delete -n "${NAMESPACE}" configmaps/ibmcloud-config
 
 TLS_SECRET_NAME=$(kubectl get secret -o jsonpath='{ range .items[*] }{ .metadata.name }{ "\n" }{ end }' | grep -E "^${RESOURCE_GROUP}" | xargs echo -n)
+
+if [[ -n "${TLS_SECRET_FILE}" ]]; then
+    echo -n "${TLS_SECRET_NAME}" > ${TLS_SECRET_FILE}
+fi
 
 echo "*** Generating kube yaml from helm template into ${OUTPUT_YAML}"
 helm init --client-only

@@ -54,7 +54,7 @@ resource "null_resource" "copy_tls_secrets" {
   count      = "${length(local.namespaces)}"
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/copy-secret-to-namespace.sh ${var.cluster_name} ${local.namespaces[count.index]}"
+    command = "${path.module}/scripts/copy-secret-to-namespace.sh \"${var.tls_secret_name}\" ${local.namespaces[count.index]}"
 
     environment = {
       KUBECONFIG_IKS = "${var.cluster_config_file_path}"

@@ -26,6 +26,7 @@ locals {
   cluster_type_file     = "${path.cwd}/.tmp/cluster_type.val"
   ingress_url_file      = "${path.cwd}/.tmp/ingress-subdomain.val"
   kube_version_file     = "${path.cwd}/.tmp/kube_version.val"
+  tls_secret_file       = "${path.cwd}/.tmp/tls_secret.val"
   cluster_config_dir    = "${var.kubeconfig_download_dir}/.kube"
   cluster_name          = "${var.cluster_name}"
   tmp_dir               = "${path.cwd}/.tmp"
@@ -168,11 +169,17 @@ resource "null_resource" "ibmcloud_apikey_release" {
   depends_on = ["null_resource.oc_login"]
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deploy-ibmcloud-config.sh ${local.ibmcloud_apikey_chart} ${local.config_namespace} ${var.ibmcloud_api_key} ${var.resource_group_name} ${data.local_file.server_url.content} ${var.cluster_type} ${var.cluster_name} ${data.local_file.ingress_subdomain.content}"
+    command = "${path.module}/scripts/deploy-ibmcloud-config.sh ${local.ibmcloud_apikey_chart} ${local.config_namespace} ${var.ibmcloud_api_key} ${var.resource_group_name} ${data.local_file.server_url.content} ${var.cluster_type} ${var.cluster_name} ${data.local_file.ingress_subdomain.content} ${local.tls_secret_file}"
 
     environment = {
       KUBECONFIG_IKS = "${local.config_file_path}"
       TMP_DIR        = "${local.tmp_dir}"
     }
   }
+}
+
+data "local_file" "tls_secret_name" {
+  depends_on = ["null_resource.ibmcloud_apikey_release"]
+
+  filename = "${local.tls_secret_file}"
 }

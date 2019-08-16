@@ -7,14 +7,14 @@ print_usage() {
 
 if [[ -z "$1" ]]; then
     print_usage
-    exit 1
+    exit 0
 else
    SECRET_NAME="$1"
 fi
 
 if [[ -z "$2" ]]; then
     print_usage
-    exit 1
+    exit 0
 else
    TO_NAMESPACE="$2"
 fi
