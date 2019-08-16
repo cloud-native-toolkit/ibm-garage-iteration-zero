@@ -1,6 +1,7 @@
 output "id" {
   value       = "${data.ibm_container_cluster_config.cluster.id}"
   description = "ID of the cluster."
+  depends_on  = ["null_resource.ibmcloud_apikey_release"]
 }
 
 output "name" {
@@ -37,7 +38,7 @@ output "config_file_path" {
 output "type" {
   value       = "${data.local_file.cluster_type.content}"
   description = "The type of cluster (openshift or kubernetes)"
-  depends_on  = ["null_resource.oc_login"]
+  depends_on  = ["null_resource.ibmcloud_apikey_release"]
 }
 
 output "login_user" {
