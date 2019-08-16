@@ -42,3 +42,11 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Values.resource_group "cluster" | quote -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "ibmcloud.tls_secret_name" -}}
+{{- if .Values.tls_secret_name -}}
+{{- .Values.tls_secret_name -}}
+{{- else -}}
+{{- include "ibmcloud.cluster_name" . -}}
+{{- end -}}
+{{- end -}}

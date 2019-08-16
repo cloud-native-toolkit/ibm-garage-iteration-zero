@@ -14,3 +14,4 @@ data:
   REGION: {{ .Values.region | quote }}
   CLUSTER_NAME: {{ include "ibmcloud.cluster_name" . }}
   INGRESS_SUBDOMAIN: {{ .Values.ingress_subdomain | quote }}
+  TLS_SECRET_NAME: {{ include "ibmcloud.tls_secret_name" . }}

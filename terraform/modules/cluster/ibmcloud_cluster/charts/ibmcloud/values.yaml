@@ -3,10 +3,12 @@
 # Declare variables to be passed into your templates.
 
 apiurl: "https://cloud.ibm.com"
-apikey: "ibmcloud apikey"
-resource_group: "resource group"
+apikey: "ibmcloud-apikey"
+resource_group: "resource-group"
 registry_url: "us.icr.io"
 region: "us-south"
-server_url: "server url"
-cluster_type: "iks"
+server_url: "server-url"
+# cluster_type should be kubernetes or openshift
+cluster_type: "kubernetes"
 ingress_subdomain: "containers.appdomain.cloud"
+#tls_secret_name: ""

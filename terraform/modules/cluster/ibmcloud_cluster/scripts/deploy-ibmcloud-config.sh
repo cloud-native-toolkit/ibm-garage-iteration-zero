@@ -24,6 +24,8 @@ OUTPUT_YAML="${TMP_DIR}/ibmcloud-apikey.yaml"
 kubectl delete -n "${NAMESPACE}" secrets/ibmcloud-apikey
 kubectl delete -n "${NAMESPACE}" configmaps/ibmcloud-config
 
+TLS_SECRET_NAME=$(kubectl get secret -o jsonpath='{ range .items[*] }{ .metadata.name }{ "\n" }{ end }' | grep -E "^${RESOURCE_GROUP}" | xargs echo -n)
+
 echo "*** Generating kube yaml from helm template into ${OUTPUT_YAML}"
 helm init --client-only
 mkdir -p "${TMP_DIR}"
@@ -35,6 +37,7 @@ helm template "${CHART}" \
     --set server_url="${SERVER_URL}" \
     --set cluster_type="${CLUSTER_TYPE}" \
     --set cluster_name="${CLUSTER_NAME}" \
+    --set tls_secret_name="${TLS_SECRET_NAME}" \
     --set ingress_subdomain="${INGRESS_SUBDOMAIN}" > "${OUTPUT_YAML}"
 
 echo "*** Applying kube yaml ${OUTPUT_YAML}"
