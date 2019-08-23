@@ -1,5 +1,4 @@
 provider "ibm" {
-  version = "0.17.2"
 }
 provider "null" {
 }
