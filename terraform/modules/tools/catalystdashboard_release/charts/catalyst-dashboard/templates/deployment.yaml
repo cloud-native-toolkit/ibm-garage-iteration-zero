@@ -37,6 +37,9 @@ spec:
               port: http
           envFrom:
             - configMapRef:
+                name: "ibmcloud-config"
+                optional: true
+            - configMapRef:
                 name: {{ default "sonarqube-config" .Values.configMaps.sonarqube }}
                 optional: true
             - configMapRef:

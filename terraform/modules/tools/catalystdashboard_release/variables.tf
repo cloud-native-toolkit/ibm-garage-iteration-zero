@@ -19,12 +19,15 @@ variable "cluster_type" {
 
 variable "jenkins_secret_name" {
   description = "The name of the secret containing the jenkins information"
+  default     = "jenkins-access"
 }
 
 variable "sonarqube_secret_name" {
   description = "The name of the secret containing the sonarqube information"
+  default     = "sonarqube-access"
 }
 
 variable "pactbroker_secret_name" {
   description = "The name of the secret containing the pact-broker information"
+  default     = "pactbroker-access"
 }
