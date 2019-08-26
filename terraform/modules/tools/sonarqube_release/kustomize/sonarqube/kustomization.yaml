@@ -10,12 +10,6 @@ patchesJson6902:
      version: v1beta1
      kind: Deployment
      name: sonarqube-sonarqube
- - path: patch-ingress.yaml
-   target:
-     group: extensions
-     version: v1beta1
-     kind: Ingress
-     name: sonarqube-sonarqube
 #
 # - path: patch-test.yaml
 #   target:
