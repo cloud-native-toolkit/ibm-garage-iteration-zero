@@ -36,6 +36,7 @@ master:
     - workflow-job
     - credentials-binding
     - git
+    - gitlab
     - greenballs
     - blueocean
     - job-dsl
