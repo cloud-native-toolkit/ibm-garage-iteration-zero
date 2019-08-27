@@ -1,4 +1,6 @@
 
-username: access-admin
-password: admin
+username: admin
+password: password
+adminAccessUser: admin-access
+adminAccessPassword: admin
 url: url
