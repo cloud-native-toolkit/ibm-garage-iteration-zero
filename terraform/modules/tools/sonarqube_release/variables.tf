@@ -64,7 +64,6 @@ variable "plugins" {
     "https://github.com/checkstyle/sonar-checkstyle/releases/download/4.21/checkstyle-sonar-plugin-4.21.jar",
     "https://binaries.sonarsource.com/Distribution/sonar-javascript-plugin/sonar-javascript-plugin-5.2.1.7778.jar",
     "https://binaries.sonarsource.com/Distribution/sonar-python-plugin/sonar-python-plugin-1.14.1.3143.jar",
-    "https://binaries.sonarsource.com/Distribution/sonar-go-plugin/sonar-go-plugin-1.6.0.719.jar",
-    "https://binaries.sonarsource.com/CommercialDistribution/sonar-swift-plugin/sonar-swift-plugin-4.1.0.3087.jar"
+    "https://binaries.sonarsource.com/Distribution/sonar-go-plugin/sonar-go-plugin-1.6.0.719.jar"
   ]
 }
