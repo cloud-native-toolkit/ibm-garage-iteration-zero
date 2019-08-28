@@ -4,6 +4,7 @@ metadata:
   name: {{ include "ibmcloud.name" . }}-config
   labels:
     app: {{ .Release.Name }}
+    group: {{ .Values.group }}
 data:
   CLUSTER_TYPE: {{ .Values.cluster_type | quote }}
   APIURL: {{ .Values.apiurl | quote }}

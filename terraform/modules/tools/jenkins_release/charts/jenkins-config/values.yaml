@@ -2,5 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+group: catalyst-tools
+
 jenkins:
   host: jenkins

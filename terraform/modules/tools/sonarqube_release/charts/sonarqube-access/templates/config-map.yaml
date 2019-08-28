@@ -5,5 +5,6 @@ metadata:
   labels:
     "app.kubernetes.io/name": 'sonarqube'
     "app.kubernetes.io/instance": "sonarqube"
+    group: {{ .Values.group }}
 data:
   SONARQUBE_URL: {{ printf "http://%s" .Values.url }}

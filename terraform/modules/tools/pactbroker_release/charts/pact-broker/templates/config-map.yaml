@@ -4,5 +4,6 @@ metadata:
     name: pactbroker-config
     labels:
         app: {{ include "pact-broker.name" . }}
+        group: {{ .Values.group }}
 data:
     PACTBROKER_URL: {{ printf "\"http://%s\"" (index .Values.ingress.hosts "0").host }}

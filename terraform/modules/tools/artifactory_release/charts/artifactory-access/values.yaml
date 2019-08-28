@@ -1,4 +1,6 @@
 
+group: catalyst-tools
+
 username: admin
 password: password
 adminAccessUser: admin-access

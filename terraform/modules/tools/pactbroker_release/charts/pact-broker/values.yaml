@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+group: catalyst-tools
+
 image:
   repository: pactfoundation/pact-broker
   tag: 2.32.0-2
