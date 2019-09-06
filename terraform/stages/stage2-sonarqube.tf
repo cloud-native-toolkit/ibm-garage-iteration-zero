@@ -1,5 +1,5 @@
 module "dev_serviceaccount_sonarqube" {
-  source = "../modules/cluster/serviceaccount"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules/cluster/serviceaccount"
 
   cluster_type             = "${var.cluster_type}"
   namespace                = "${module.dev_cluster_namespaces.tools_namespace_name}"
@@ -9,7 +9,7 @@ module "dev_serviceaccount_sonarqube" {
 }
 
 module "dev_tools_sonarqube_release" {
-  source = "../modules/tools/sonarqube_release"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules/tools/sonarqube_release"
 
   cluster_type             = "${var.cluster_type}"
   cluster_ingress_hostname = "${module.dev_cluster.ingress_hostname}"
