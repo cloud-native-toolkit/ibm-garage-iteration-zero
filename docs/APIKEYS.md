@@ -26,7 +26,7 @@ Inside the `iteration-zero-ibmcloud` folder, copy `credentials.template` to a fi
     - Click on `Create a classic infrastructure API Key` close the dialog and then click on the `Details` menu for the classic key in the list. If this button does not appear then the key is already created for you account and just view the `Details` for this key.
 
         **Note:** To access or create the keys click on `Manage->Access(IAM>)`  Then select `IBM Cloud API keys` menu. 
-            ![API Keys](./images/apikeys.png)
+        ![API Keys](./images/apikeys.png)
         
         **Note**: If you do not have the Classic API key configured you will have a button at the top asking you to add them.
             ![Classic Keys](./images/classickeys.png)
