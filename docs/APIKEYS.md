@@ -6,11 +6,12 @@ The IasC requires two API Keys from the platform to enable it to provision the n
 - The second key is for the IBM Cloud resources
 
 In the steps that follow, you will generate the required keys and put them into a credentials.properties file.
-    ```properties
+
+    
     classic.username=<CLASSIC_USERNAME>
     classic.api.key=<CLASSIC_API_KEY>
     ibmcloud.api.key=<IBMCLOUD_API_KEY>
-    ```
+
 
 ## Generating and Setting The Keys
 
