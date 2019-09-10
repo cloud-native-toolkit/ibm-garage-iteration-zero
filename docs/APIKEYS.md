@@ -13,7 +13,7 @@ classic.api.key=<CLASSIC_API_KEY>
 ibmcloud.api.key=<IBMCLOUD_API_KEY>
 ```
 
-## Generating and Setting The Keys
+## Generating the Keys and Setting the Properties
 
 ### Step 1. Create the credentials.properties file.
 Inside the `iteration-zero-ibmcloud` folder, copy `credentials.template` to a file named `credentials.properties`
