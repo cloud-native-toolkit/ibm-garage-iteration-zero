@@ -64,7 +64,7 @@ This section discusses deploying IBM Cloud resources with Terraform. This sectio
 Once you have followed the steps in the [Basic Setup](#basic-setup) section, clone this repository to your local filesystem.
 
 ```bash
-$ git clone git@github.ibm.com:garage-catalyst/iteration-zero-iks.git
+$ git clone git@github.ibm.com:garage-catalyst/iteration-zero-ibmcloud.git
 
 $ cd iteration-zero-iks
 ```
