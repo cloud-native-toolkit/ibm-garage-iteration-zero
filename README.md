@@ -144,7 +144,7 @@ This is helpful in sharing files between your host filesystem and your container
 It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for you 
 specific project needs.
 
-### Deploying the Iteration Zero resources
+### Step 6. Deploy the Iteration Zero Resources
 Run the following commands:
 ```bash
 $ ./runTerraform.sh
@@ -158,6 +158,7 @@ After that the Terraform Apply process and begin to create the infrastructure an
 Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process
 takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
 
+## Usage
 ### Development Cluster Dashboard
 
 To make it easy to navigate to the installed tools, there is a simple dashboard that has been deployed that can help you navigate to the consoles for each of the tools.
