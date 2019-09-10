@@ -18,45 +18,43 @@ If necessary, run the following command to set up the jenkins access secrets:
     ```bash
     npm i -g @garage-catalyst/ibm-garage-cloud-cli
     ```
-2. Log in to the ibmcloud and configure the cluster
-    ```bash
-    ibmcloud login -r {REGION} -g {RESOURCE_GROUP} [--sso] [--apiKey {API_KEY}]
-    ibmcloud ks cluster-config --cluster {CLUSTER_NAME}
-    ```
-3. Run the cli to generate the jenkins-access secret
-    ```bash
-    igc jenkins-auth
-    ```
 
-For reference, the following steps can be used to generate the Jenkins API token and can be optionally
-passed into `jenkins-auth` command with the `--jenkinsApiToken` argument.
 
-#### Log into Jenkins and generate an api token
+### Deploying Code into Pipelines
 
-1. Get the Jenkins admin password by running the following command or by looking at the pod in thee kube dashboard
-    ```bash
-    kubectl get secret --namespace tools jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode
-    ```
-2. Go to the Jenkins dashboard - http://jenkins.{cluster}.{region}.containers.appdomain.cloud
-3. Log in as user 'admin' and password from the first step
-4. Click on the 'admin' link in the top-right corner to open the user profile page
-5. Click on `Configure` from the left menu
-6. In the `API Token` section click on `Add new Token` button
-7. Give the token a name and press `Generate`
-8. Save the generated token. Once you leave the page it won't be visible again
+Now you have a working development environment on the IBM Public Cloud. You can now start working with code to deploy into your cluster using Jenkins pipelines. The following instructions help describe this process.
 
-## Register a pipeline for a project/repo
+You can click on the `Starter Kits` tab on the Development Cluster Dashboard and follow the instructions for provisioning a new microservice into your development cluster. You can easily create an microservice by using the github templates listed below:
 
-1. Install the IBM Garage Cloud cli: `npm i -g @garage-catalyst/ibm-garage-cloud-cli`
-2. Open a terminal and change to the directory into which the repository was cloned.
-3. Use the cli to register the pipeline:
+* [12 UI Patterns with React and Node.js](https://github.com/ibm-garage-cloud/template-node-react)
+* [TypeScript Microservice or BFF with Node.js](https://github.com/ibm-garage-cloud/template-node-typescript)
+* [GraphQL BFF with Node.js](https://github.com/ibm-garage-cloud/template-graphql-typescript)
+* [Spring Boot Java Microservice](https://github.com/ibm-garage-cloud/template-java-spring)
+
+Click on the `Use this template` button to create a repo in your git organisation. Then follow the pipeline registration instructions below, you will need to be logged into the OpenShift Console or IKS clusters on the command line. You will also need a [Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) from your git organistaion.
+
 ```bash
-igc register 
+git clone <generated startkit template>
+cd <generated startkit template>
+vi package.json ! rename template
+git add .
+git commit -m "Rename project"
+git push
+igc register ! register pipeline with Jenkins
+? Please provide the username for https://github.com/mjperrins/hello-world-bff.git: mperrins
+? Please provide your password/personal access token: [hidden]
+? Please provide the branch the pipeline should use: master
+Creating git secret
+Copying 'ibmcloud-apikey' secret to dev
+Registering pipeline
+? The build pipeline (mjperrins.hello-world-bff) already exists. Do you want to update it? (Y/n)
 ```
 
-## TODO
+The pipeline will be created in the `dev` namespace in OpenShift and IKS, it will create any necessary secrets required to run the pipeline. The app image will be stored in the IBM Container Registry and deployed into the `dev` name space. You can use the Argo CD Template to help define a deployment configuration from `dev` to `test` and `staging`
 
-* Automate creation of Git webhook and include with Jenkins pipeline registration
-* Incorporate additional Jenkins configuration into terraform build
-* Figure out how to automate the API_TOKEN generation
-* Generalize the Jenkins pipeline a bit more and create some naming conventions for secret names
+If you want to get easy access to your application routes or ingress end points for your apps run the following command. All the `igc` commands run the same on IKS and OpenShift.
+```bash
+igc ingress -n dev
+```
+
+

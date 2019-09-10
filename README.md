@@ -190,6 +190,12 @@ After that the Terraform Apply process and begin to create the infrastructure an
 Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process
 takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
 
+### Setup Operations
+
+Now that your development cluster is configured you can now register `LogDNA` and `SysDig` service instances with your Kubernetes cluster. 
+
+Navigate to the Observability menu from the main console menu and then click on the `Edit Sources` and follow the instructions to configure the log agent and montitoring agents for you development cluster. 
+
 ### Development Cluster Dashboard
 
 To make it easy to navigate to the installed tools, there is a simple dashboard that has been deployed that can help you navigate to the consoles for each of the tools.
@@ -211,48 +217,23 @@ ibmcloud login -a cloud.ibm.com -r us-south -g catalyst-team
 igc credentials
 ```
 
-### Operations
+### Developing with IKS and OpenShift
 
-Now that your development cluster is configured you can now register `LogDNA` and `SysDig` service instances with your Kubernetes cluster. 
+The following topics explain how to create and deploy applications using Continuous Integration with Jenkins. They help explain how to integrate code analysis into your applications with SonarQube. They explain how to move applications into test, staging and production using Continous Deployment techniques with Artifactory and Argo CD and much more.
 
-Navigate to the Observability menu from the main console menu and then click on the `Edit Sources` and follow the instructions to configure the log agent and montitoring agents for you development cluster. 
 
-### Deploying Code into Pipelines
+| Topic                     | Tool        | Link  |
+| -----------------------   |:----------- | -----:|
+| Continuous Integration    | Jenkins     | [Readme](./docs/JENKINS.md) |
+| Code Analysis             | SonarQube   | [Readme](./docs/SONAR.md) |
+| Artifact and Helm Storage | Artifactory | [Readme](./docs/ARTIFACTORY.md) |
+| Continuous Deployment     | ArgoCD      | [Readme](./docs/ARGOCD.md) |
+| Contract API Testing      | Pact        | [Readme](./docs/PACT.md) |
+| Logging                   | LogDNA      | [Readme](./docs/LOGDNA.md) |
+| Monitoring                | SysDig      | [Readme](./docs/SYSDIG.md) |
+| Cloud Service Integration | IBM Cloud   | [Readme](./docs/IBMCLOUD.md) |
 
-Now you have a working development environment on the IBM Public Cloud. You can now start working with code to deploy into your cluster using Jenkins pipelines. The following instructions help describe this process.
 
-You can click on the `Starter Kits` tab on the Development Cluster Dashboard and follow the instructions for provisioning a new microservice into your development cluster. You can easily create an microservice by using the github templates listed below:
-
-* [12 UI Patterns with React and Node.js](https://github.com/ibm-garage-cloud/template-node-react)
-* [TypeScript Microservice or BFF with Node.js](https://github.com/ibm-garage-cloud/template-node-typescript)
-* [GraphQL BFF with Node.js](https://github.com/ibm-garage-cloud/template-graphql-typescript)
-* [Spring Boot Java Microservice](https://github.com/ibm-garage-cloud/template-java-spring)
-
-Click on the `Use this template` button to create a repo in your git organisation. Then follow the pipeline registration instructions below, you will need to be logged into the OpenShift Console or IKS clusters on the command line. You will also need a [Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) from your git organistaion.
-
-```bash
-git clone <generated startkit template>
-cd <generated startkit template>
-vi package.json ! rename template
-git add .
-git commit -m "Rename project"
-git push
-igc register ! register pipeline with Jenkins
-? Please provide the username for https://github.com/mjperrins/hello-world-bff.git: mperrins
-? Please provide your password/personal access token: [hidden]
-? Please provide the branch the pipeline should use: master
-Creating git secret
-Copying 'ibmcloud-apikey' secret to dev
-Registering pipeline
-? The build pipeline (mjperrins.hello-world-bff) already exists. Do you want to update it? (Y/n)
-```
-
-The pipeline will be created in the `dev` namespace in OpenShift and IKS, it will create any necessary secrets required to run the pipeline. The app image will be stored in the IBM Container Registry and deployed into the `dev` name space. You can use the Argo CD Template to help define a deployment configuration from `dev` to `test` and `staging`
-
-If you want to get easy access to your application routes or ingress end points for your apps run the following command. All the `igc` commands run the same on IKS and OpenShift.
-```bash
-igc ingress -n dev
-```
 ### Summary
 
 We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
