@@ -130,7 +130,7 @@ of that cluster.
 
 You can also access this information for the public and private VLANs information by accessing the `Classic Infrastructure` from the IBM Cloud console, and then selecting `Network > IP Management > VLANs` once you have updated your values you can moved to the next step.
 
-#### Step 5 Run Terrform to provision Development Cluster and Tools
+### Step 5 Run Terrform to provision Development Cluster and Tools
 
 Run the following command to launch a Garage [Catalyst CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
 
