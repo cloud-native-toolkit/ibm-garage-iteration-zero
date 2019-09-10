@@ -6,17 +6,17 @@ The IasC requires two API Keys from the platform to enable it to provision the n
 - The second key is for the IBM Cloud resources
 
 In the steps that follow, you will generate the required keys and put them into a credentials.properties file.
-```properties
-classic.username=<CLASSIC_USERNAME>
-classic.api.key=<CLASSIC_API_KEY>
-ibmcloud.api.key=<IBMCLOUD_API_KEY>
-```
+    ```properties
+    classic.username=<CLASSIC_USERNAME>
+    classic.api.key=<CLASSIC_API_KEY>
+    ibmcloud.api.key=<IBMCLOUD_API_KEY>
+    ```
 
 ## Generating and Setting The Keys
 
 ### Step 1. Create the credentials.properties file.
 
-From inside the `iteration-zero-ibmcloud` folder, copy `credentials.template` to a file named `credentials.properties`
+    From inside the `iteration-zero-ibmcloud` folder, copy `credentials.template` to a file named `credentials.properties`
 
 
 ### Step 2: Create a Classic Infrastructure API Key
@@ -25,11 +25,11 @@ From inside the `iteration-zero-ibmcloud` folder, copy `credentials.template` to
 
     - Click on `Create a classic infrastructure API Key` close the dialog and then click on the `Details` menu for the classic key in the list. If this button does not appear then the key is already created for you account and just view the `Details` for this key.
 
-         **Note:** To access or create the keys click on `Manage->Access(IAM>)`  Then select `IBM Cloud API keys` menu. 
-        ![API Keys](./images/apikeys.png)
+        **Note:** To access or create the keys click on `Manage->Access(IAM>)`  Then select `IBM Cloud API keys` menu. 
+            ![API Keys](./images/apikeys.png)
         
         **Note**: If you do not have the Classic API key configured you will have a button at the top asking you to add them.
-        ![Classic Keys](./images/classickeys.png)
+            ![Classic Keys](./images/classickeys.png)
  
 - Open the credentials.properties file and set the values for the "classic.username" and "classic.api.key" properties.
 
