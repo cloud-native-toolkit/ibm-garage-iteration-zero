@@ -31,6 +31,16 @@ This repo contains Terraform resources that will deploy the following developmen
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution and report any issues you find.**
 
+***
+## Deploying with Terraform
+This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) to run the Terraform client.
+
+**NOTE:** The terraform scripts can be run to create a new Kubernetes cluster or modify an
+existing cluster. If an existing cluster is selected, then any existing namespaces named 
+`tools`, `dev`, `test`, and `staging` and any resources contained therein will be destroyed.
+
+**Warning: This has only been tested on MacOS.**
+
 ## Pre-requisites
 The following pre-requisties are required before following the setup instructions. 
 
@@ -40,16 +50,6 @@ The following pre-requisties are required before following the setup instruction
     - a Public and Private VLAN
 - [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on your local machine
 - [Node](https://nodejs.org/en/) installed on your local machine
-
-
-## Deploying with Terraform
-This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) to run the Terraform client.
-
-**NOTE:** The terraform scripts can be run to create a new Kubernetes cluster or modify an
-existing cluster. If an existing cluster is selected, then any existing namespaces named 
-`tools`, `dev`, `test`, and `staging` and any resources contained therein will be destroyed.
-
-**Warning: This has only been tested on MacOS.**
 
 ## Installation
 
@@ -69,96 +69,38 @@ $ cd iteration-zero-iks
 
 ### Step 3. Create the credentials.properties file
 
-Follow the [instructions to generate keys and configure the credenitals.properties file](./docs/APIKEYS.md). 
+Use these [instructions to generate keys and configure the credenitals.properties file](./docs/APIKEYS.md). 
 
 
-### Step 4. Get the the VLAN Informaiton
+### Step 4. Get the the VLAN Information into the terri=aform variables file
 
-To enable Terraform to create a working development cluster we need to obtain the VLAN information from the Classic platform.
+Use these [instructions to obtain the VLAN configuration and persist in terraform variables](./docs/VLAN.md).
 
-To make getting this information as simple as possible we have added a command to the helper CLI tool that will create this information in a format that is easy to cut/pastw into the `terraform.tfvars` settings file. 
+### Step 5. Run Terraform to provision Development Cluster and Tools
+- Run the following command to launch a Garage [Catalyst CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
 
-Follow these steps to get the VLAN information:
+    ```bash
+    $ ./launch.sh
+    ```
+    ***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container. 
 
-Install the [IBM Garage Catalyst Tools CLI](https://github.ibm.com/garage-catalyst/ibmcloud-garage-cli):
-```bash
-npm i -g @garage-catalyst/ibm-garage-cloud-cli
-````
-Log into your IBM Cloud Account with the correct region and resource group:
-```bash
-ibmcloud login -a cloud.ibm.com -r <region> -g <resource group>
-```
-
-Then run the CLI command to obtain the VLAN information:
-```bash
-igc vlan
-```
-
-You will now have a set of properties that can be directly copied into your `terraform.tfvars` open the file and paste the values into the file and save.
-
-```bash
-vi ./terraform/settings/terraform.tfvars
-```
-
-These values should look something like the example below. You should have a resource group `catalyst-team` with private VLAN `2372`, public VLAN `1849` in the DAL10 datacenter. Our `terraform.tfvars` would look accordingly:
-```terraform
-private_vlan_id="237288"
-private_vlan_number="2372"
-private_vlan_router_hostname="bcr01a.dal10"
-public_vlan_id="1849487"
-public_vlan_number="1849"
-public_vlan_router_hostname="fcr01a.dal10"
-vlan_datacenter="dal10"
-vlan_region="us-south"
-resource_group_name="catalyst-team"
-cluster_name="catalyst-team-cluster"
-```
-
-You can install the tools into a brand new cluster or into an existing cluster change the following settings in the same `terraform.tfvars` file. Set the values to `true` if you are using an existing postgres make sure its provisioned into the same data center as the base cluster.
-
-```bash
-# Flag indicating if we are using an existing cluster or creating a new one
-cluster_exists="false"
-# The type of cluster that will be created/used (kubernetes or openshift)
-cluster_type="kubernetes"
-# Flag indicating if we are using an existing postgres server or creating a new one
-postgres_server_exists="false"
-```
-
-**NOTE:** If you would like to use an existing cluster, change the value of `cluster_name` in the `terraform.tfvars` to the name
-of that cluster.
-
-You can also access this information for the public and private VLANs information by accessing the `Classic Infrastructure` from the IBM Cloud console, and then selecting `Network > IP Management > VLANs` once you have updated your values you can moved to the next step.
-
-### Step 5 Run Terrform to provision Development Cluster and Tools
-
-Run the following command to launch a Garage [Catalyst CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
-
-```bash
-./launch.sh
-```
-***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the 
-rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. 
-This is helpful in sharing files between your host filesystem and your container. 
-
-It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for you 
-specific project needs.
+    It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for your specific project needs.
 
 ### Step 6. Deploy the Iteration Zero Resources
-Run the following commands:
-```bash
-$ ./runTerraform.sh
-```
+- Run the following commands:
+    ```bash
+    $ ./runTerraform.sh
+    ```
 
-The script will prompt if you want to create a new cluster or use an existing cluster. If an existing cluster is selected
-the contents will be cleaned up to prepare for the terraform process (the `tools`, `dev`, `test`, and `staging` namespaces).
+    The script will prompt if you want to create a new cluster or use an existing cluster. If an existing cluster is selected the contents will be cleaned up to prepare for the terraform process (the `tools`, `dev`, `test`, and `staging` namespaces).
 
-After that the Terraform Apply process and begin to create the infrastructure and services for your Development Enviroment.
+    After that the Terraform Apply process and begin to create the infrastructure and services for your Development Enviroment.
 
-Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process
-takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
+    Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
 
+***
 ## Usage
+
 ### Development Cluster Dashboard
 
 To make it easy to navigate to the installed tools, there is a simple dashboard that has been deployed that can help you navigate to the consoles for each of the tools.
@@ -222,7 +164,8 @@ If you want to get easy access to your application routes or ingress end points 
 ```bash
 igc ingress -n dev
 ```
-### Summary
+***
+## Summary
 
 We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
 
