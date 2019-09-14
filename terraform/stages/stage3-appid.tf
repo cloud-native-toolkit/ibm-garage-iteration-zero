@@ -1,5 +1,5 @@
 module "dev_infrastructure_appid" {
-  source = "../modules/infrastructure/appid"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules/infrastructure/appid"
 
   resource_group_name = "${module.dev_cluster.resource_group_name}"
   resource_location   = "${module.dev_cluster.region}"

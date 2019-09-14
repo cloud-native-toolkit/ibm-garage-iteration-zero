@@ -1,5 +1,6 @@
 # IBM Garage for Cloud & Solution Engineering
 ## Iteration Zero for IBM Cloud
+
 This repository contains tools and Terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development
 environment ready for cloud native application development with IBM Cloud Kubernetes Service or Red Hat OpenShift for IBM Kubernetes Service. 
 
@@ -31,164 +32,76 @@ This repo contains Terraform resources that will deploy the following developmen
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution and report any issues you find.**
 
-## Basic Setup
-This section will guide you through basic setup of the environment deployment. You will need access an account with the 
-ability to provision on IBM Cloud Public before proceeding.
-
-### Pre-requisites
-The following pre-requisties are required before following the setup instructions. 
-
-- An IBM Cloud account with the ability to provision resources to support Kubernetes environment
-- A IBM Cloud [Resource Group](https://cloud.ibm.com/account/resource-groups) for you development resources
-- Public VLAN, and Private VLAN in IBM Cloud
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on your local machine
-- [Node](https://nodejs.org/en/) installed on your local machine
-
-**Warning: This has only been tested on MacOS.**
-
-### Creating Resource Group
-The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
-development cluster and supporting cloud services. Using the Cloud Console create a unique 
-[Resource Group](https://cloud.ibm.com/account/resource-groups). 
-
+***
+## Deploying with Terraform
+This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) to run the Terraform client.
 
 **NOTE:** The terraform scripts can be run to create a new Kubernetes cluster or modify an
 existing cluster. If an existing cluster is selected, then any existing namespaces named 
 `tools`, `dev`, `test`, and `staging` and any resources contained therein will be destroyed.
 
-## Deploying with Terraform
-This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) to run the Terraform client.
+**Warning: This has only been tested on MacOS.**
 
-### Getting Started
+## Pre-requisites
+The following pre-requisties are required before following the setup instructions. 
 
-Once you have followed the steps in the [Basic Setup](#basic-setup) section, clone this repository to your local filesystem.
+- An IBM Cloud account with: 
+    - the ability to provision resources to support Kubernetes and OpenShift environments
+    - a [Resource Group](https://cloud.ibm.com/account/resource-groups) for your development resources
+    - a Public and Private VLAN
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on your local machine
+- [Node](https://nodejs.org/en/) installed on your local machine
+
+## Installation
+
+### Step 1. Creating Resource Group
+
+The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
+development cluster and supporting cloud services. Using the Cloud Console create a unique 
+[Resource Group](https://cloud.ibm.com/account/resource-groups). 
+
+
+### Step 2. Clone this repository to your local filesystem
 
 ```bash
-$ git clone git@github.ibm.com:garage-catalyst/iteration-zero-iks.git
+$ git clone git@github.ibm.com:garage-catalyst/iteration-zero-ibmcloud.git
 
 $ cd iteration-zero-iks
 ```
 
-Next, copy `credentials.template` to a file called `credentials.properties` then edit the `credentials.properties` file and update the values for the following keys `ibmcloud.api.key`, `classic.username` and `classic.api.key`. 
+### Step 3. Create the credentials.properties file
 
-### Getting API Keys
+Use these [instructions to generate keys and configure the credenitals.properties file](./docs/APIKEYS.md). 
 
-The IasC requires two API Keys from the platform to enable it to provision the necessary resources. The first Key is 
-for the  IBM Cloud resources and the second key is for Classic IaaS Infrastructure resources.
+### Step 4. Get the the VLAN Information into the terri=aform variables file
 
-To generate these keys, please visit the following links:
-- [IBM Cloud API Key](https://console.bluemix.net/docs/iam/userid_keys.html#creating-an-api-key "Creating an API key")
-- [Classic IaaS Infrastructure Username and API Key](https://cloud.ibm.com/docs/iam?topic=iam-classic_keys#classic_keys "Managing classic infrastructure API keys")
+Use these [instructions to obtain the VLAN configuration and persist in terraform variables](./docs/VLAN.md).
 
-The IBM Cloud API Key will later be referred to as: `IBMCLOUD_API_KEY`. The Classic IaaS Infrastructure Key will later 
-be referred to as: `CLASSIC_API_KEY` and the Classic IaaS Infrastructure username for that Infrastructure Key is 
-`CLASSIC_USERNAME`.
+### Step 5. Run Terraform to provision Development Cluster and Tools
 
-**Note:** To access or create the keys click on `Manage->Access(IAM>)`  Then select `IBM Cloud API keys` menu. If you do not have the Classic API key configured you will have a button at the top asking you to add them. 
+- Run the following command to launch a Garage [Catalyst CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
 
-![API Keys](./docs/images/apikeys.png)
+    ```bash
+    $ ./launch.sh
+    ```
+    ***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container. 
 
-Click on `Create a classic infrastructure API Key` close the dialog and then click on the `Details` menu for the classic key in the list. If this button does not appear then the key is already created for you account and just view the `Details` for this key.
+    It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for your specific project needs.
 
-![Classic Keys](./docs/images/classickeys.png)
+### Step 6. Deploy the Iteration Zero Resources
 
-You can cut and paste the `API user name` and use this for the `CLASSIC_USERNAME` and click on the `Copy` button and paste this value `CLASSIC_API_KEY`
+- Run the following commands:
+    ```bash
+    $ ./runTerraform.sh
+    ```
 
-Final part is create an  `Create an IBM Cloud API Key` Enter a name and description. Once it is created save the value and use it for `IBMCLOUD_API_KEY`
+    The script will prompt if you want to create a new cluster or use an existing cluster. If an existing cluster is selected the contents will be cleaned up to prepare for the terraform process (the `tools`, `dev`, `test`, and `staging` namespaces).
 
-Use the values you copied from the console and added them to the `credentials.properties` file and then save it. This file will also be ignored in git.
+    After that the Terraform Apply process and begin to create the infrastructure and services for your Development Enviroment.
 
-```properties
-classic.username=<CLASSIC_USERNAME>
-classic.api.key=<CLASSIC_API_KEY>
-ibmcloud.api.key=<IBMCLOUD_API_KEY>
-```
+    Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
 
-#### Instructions for obtaining VLAN information
-
-To enable Terraform to create a working development cluster we need to obtain the VLAN information from the Classic platform.
-
-To make getting this information as simple as possible we have added a command to the helper CLI tool that will create this information in a format that is easy to cut/pastw into the `terraform.tfvars` settings file. 
-
-Follow these steps to get the VLAN information:
-
-Install the [IBM Garage Catalyst Tools CLI](https://github.ibm.com/garage-catalyst/ibmcloud-garage-cli):
-```bash
-npm i -g @garage-catalyst/ibm-garage-cloud-cli
-````
-Log into your IBM Cloud Account with the correct region and resource group:
-```bash
-ibmcloud login -a cloud.ibm.com -r <region> -g <resource group>
-```
-
-Then run the CLI command to obtain the VLAN information:
-```bash
-igc vlan
-```
-
-You will now have a set of properties that can be directly copied into your `terraform.tfvars` open the file and paste the values into the file and save.
-
-```bash
-vi ./terraform/settings/terraform.tfvars
-```
-
-These values should look something like the example below. You should have a resource group `catalyst-team` with private VLAN `2372`, public VLAN `1849` in the DAL10 datacenter. Our `terraform.tfvars` would look accordingly:
-```terraform
-private_vlan_id="237288"
-private_vlan_number="2372"
-private_vlan_router_hostname="bcr01a.dal10"
-public_vlan_id="1849487"
-public_vlan_number="1849"
-public_vlan_router_hostname="fcr01a.dal10"
-vlan_datacenter="dal10"
-vlan_region="us-south"
-resource_group_name="catalyst-team"
-cluster_name="catalyst-team-cluster"
-```
-
-You can install the tools into a brand new cluster or into an existing cluster change the following settings in the same `terraform.tfvars` file. Set the values to `true` if you are using an existing postgres make sure its provisioned into the same data center as the base cluster.
-
-```bash
-# Flag indicating if we are using an existing cluster or creating a new one
-cluster_exists="false"
-# The type of cluster that will be created/used (kubernetes or openshift)
-cluster_type="kubernetes"
-# Flag indicating if we are using an existing postgres server or creating a new one
-postgres_server_exists="false"
-```
-
-**NOTE:** If you would like to use an existing cluster, change the value of `cluster_name` in the `terraform.tfvars` to the name
-of that cluster.
-
-You can also access this information for the public and private VLANs information by accessing the `Classic Infrastructure` from the IBM Cloud console, and then selecting `Network > IP Management > VLANs` once you have updated your values you can moved to the next step.
-
-### Running Terrform to provision Development Cluster and Tools
-
-Run the following command to launch a Garage [Catalyst CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
-
-```bash
-./launch.sh
-```
-***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the 
-rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. 
-This is helpful in sharing files between your host filesystem and your container. 
-
-It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for you 
-specific project needs.
-
-### Deploying the Iteration Zero resources
-Run the following commands:
-```bash
-$ ./runTerraform.sh
-```
-
-The script will prompt if you want to create a new cluster or use an existing cluster. If an existing cluster is selected
-the contents will be cleaned up to prepare for the terraform process (the `tools`, `dev`, `test`, and `staging` namespaces).
-
-After that the Terraform Apply process and begin to create the infrastructure and services for your Development Enviroment.
-
-Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process
-takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
+## Usage
 
 ### Setup Operations
 
@@ -234,7 +147,7 @@ The following topics explain how to create and deploy applications using Continu
 | Cloud Service Integration | IBM Cloud   | [Readme](./docs/IBMCLOUD.md) |
 
 
-### Summary
+## Summary
 
 We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
 

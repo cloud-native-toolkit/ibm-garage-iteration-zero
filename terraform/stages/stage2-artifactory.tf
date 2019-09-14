@@ -1,5 +1,5 @@
 module "dev_serviceaccount_artifactory" {
-  source = "../modules/cluster/serviceaccount"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules/cluster/serviceaccount"
 
   cluster_type             = "${var.cluster_type}"
   namespace                = "${module.dev_cluster_namespaces.tools_namespace_name}"
@@ -9,7 +9,7 @@ module "dev_serviceaccount_artifactory" {
 }
 
 module "dev_tools_artifactory_release" {
-  source = "../modules/tools/artifactory_release"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules/tools/artifactory_release"
 
   cluster_type             = "${var.cluster_type}"
   service_account          = "${module.dev_serviceaccount_artifactory.name}"

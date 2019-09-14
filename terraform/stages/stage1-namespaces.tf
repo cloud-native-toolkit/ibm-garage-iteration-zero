@@ -1,5 +1,5 @@
 module "dev_cluster_namespaces" {
-  source = "../modules/cluster/namespaces"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules/cluster/namespaces"
 
   cluster_name             = "${module.dev_cluster.name}"
   cluster_type             = "${module.dev_cluster.type}"
