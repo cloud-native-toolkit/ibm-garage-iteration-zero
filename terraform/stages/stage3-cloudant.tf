@@ -1,5 +1,5 @@
 module "dev_infrastructure_cloudant" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules/infrastructure/cloudant"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//infrastructure/cloudant?ref=v1.0.0"
 
   resource_group_name = "${module.dev_cluster.resource_group_name}"
   resource_location   = "${module.dev_cluster.region}"
