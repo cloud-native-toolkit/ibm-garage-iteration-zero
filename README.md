@@ -135,30 +135,30 @@ igc credentials
 The following topics explain how to create and deploy applications using Continuous Integration with Jenkins. They help explain how to integrate code analysis into your applications with SonarQube. They explain how to move applications into test, staging and production using Continous Deployment techniques with Artifactory and Argo CD and much more.
 
 
-| Topic                     | Tool        | Link  |
-| -----------------------   |:----------- | -----:|
-| Continuous Integration    | Jenkins     | [Readme](./docs/JENKINS.md) |
-| Code Analysis             | SonarQube   | [Readme](./docs/SONAR.md) |
-| Artifact and Helm Storage | Artifactory | [Readme](./docs/ARTIFACTORY.md) |
-| Continuous Deployment     | ArgoCD      | [Readme](./docs/ARGOCD.md) |
-| Contract API Testing      | Pact        | [Readme](./docs/PACT.md) |
-| Logging                   | LogDNA      | [Readme](./docs/LOGDNA.md) |
-| Monitoring                | SysDig      | [Readme](./docs/SYSDIG.md) |
-| Cloud Service Integration | IBM Cloud   | [Readme](./docs/IBMCLOUD.md) |
+| Topic                     | Tool        |Description | Link  |
+| -----------------------   |:----------- || -----:|
+| Continuous Integration    | Jenkins     || [Readme](./docs/JENKINS.md) |
+| Code Analysis             | SonarQube   || [Readme](./docs/SONAR.md) |
+| Artifact and Helm Storage | Artifactory || [Readme](./docs/ARTIFACTORY.md) |
+| Continuous Deployment     | ArgoCD      || [Readme](./docs/ARGOCD.md) |
+| Contract API Testing      | Pact        || [Readme](./docs/PACT.md) |
+| Logging                   | LogDNA      || [Readme](./docs/LOGDNA.md) |
+| Monitoring                | SysDig      || [Readme](./docs/SYSDIG.md) |
+| Cloud Service Integration | IBM Cloud   || [Readme](./docs/IBMCLOUD.md) |
 
 
 ## Summary
 
 We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
 
-Thanks Catalyst Team
+Thanks IBM Garage for Cloud Team
 
 ### Destroying
 Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
 
 It is is possible to destory the development environment following these steps.
 
-Run the following command to launch a Garage Catalyst CLI Tools Docker container.
+Run the following command to launch a IBM Garage for Cloud CLI Tools Docker container.
 ```bash
 ./launch.sh
 ```
