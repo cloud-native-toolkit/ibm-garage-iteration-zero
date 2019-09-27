@@ -1,5 +1,5 @@
 module "dev_tools_pactbroker_release" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules/tools/pactbroker_release"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//tools/pactbroker_release?ref=v1.0.0"
 
   cluster_ingress_hostname                      = "${module.dev_cluster.ingress_hostname}"
   cluster_config_file                           = "${module.dev_cluster.config_file_path}"

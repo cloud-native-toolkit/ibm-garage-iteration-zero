@@ -6,6 +6,10 @@ environment ready for cloud native application development with IBM Cloud Kubern
 
 ### Overview
 
+Iteration Zero has been designed to help a team configure a set of popular open source tools that can enable cloud native development. Typically a squad lead or lead developer would use this Terraform package after the initial inception workshop has completed and the development team is ready to write code. The objective and goal of this is to reduce the amount of time a team needs to configure and prepare their Kubernetes or OpenShift development environments. Some key benifits of Iteration Zero is that it makes the whole development lifecycle for IKS and OpenShift much smoother and easier than using the out of the box experience. Using Terraform enables it to be modular in configuration so tools can be easily disabled or new tools added. This combindation of tools are proven in the industry to deliver real value for modern cloud native development. 
+
+The Red Hat Innovation Lab has a very similar approach to how they deliver success with OpenShift, view their approach [here](https://github.com/rht-labs/labs-ci-cd).
+
 This repo contains Terraform resources that will deploy the following development tools into your IKS or OpenShift infrastructure.
 
 - IBM Container Service Cluster (3 nodes) for IKS or OpenShift
