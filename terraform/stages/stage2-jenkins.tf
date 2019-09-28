@@ -1,5 +1,5 @@
 module "dev_tools_jenkins_release" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//tools/jenkins_release?ref=argocd-url"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//tools/jenkins_release?ref=v1.0.5"
 
   cluster_ingress_hostname = "${module.dev_cluster.ingress_hostname}"
   cluster_config_file      = "${module.dev_cluster.config_file_path}"
