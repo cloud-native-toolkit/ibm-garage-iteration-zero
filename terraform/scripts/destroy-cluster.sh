@@ -20,4 +20,4 @@ if [[ -z "${FORCE}" ]]; then
     fi
 fi
 
-ibmcloud ks cluster-rm --cluster "${cluster_name}" -f --force-delete-storage
+ibmcloud ks cluster rm --cluster "${cluster_name}" -f --force-delete-storage
