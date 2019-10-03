@@ -110,17 +110,19 @@ fi
 
 echo ""
 
-PROCEED="x"
-while [[ "${PROCEED}" =~ [^yn] ]]; do
-    echo -n "Do you want to proceed? [Y/n] "
-    read PROCEED
+if [[ "$1" != "--force" ]]; then
+    PROCEED="x"
+    while [[ "${PROCEED}" =~ [^yn] ]]; do
+        echo -n "Do you want to proceed? [Y/n] "
+        read PROCEED
 
-    if [[ -z "${PROCEED}" ]] || [[ "${PROCEED}" =~ [Yy] ]]; then
-        PROCEED="y"
-    elif [[ "${PROCEED}" =~ [Nn] ]]; then
-        exit 1
-    fi
-done
+        if [[ -z "${PROCEED}" ]] || [[ "${PROCEED}" =~ [Yy] ]]; then
+            PROCEED="y"
+        elif [[ "${PROCEED}" =~ [Nn] ]]; then
+            exit 1
+        fi
+    done
+fi
 
 cd ${WORKSPACE_DIR}
 ./apply.sh
