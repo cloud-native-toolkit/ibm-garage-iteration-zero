@@ -43,6 +43,25 @@ necessary to directly reference the pull secret as long as the pod runs under th
 
 ## Created resources
 
+The following resources are all created during the Iteration Zero provisioning process. These resources
+are used generally to expose the config of the installed tools but specifically used by the Jenkins 
+pipeline to interact with the deployed tools. The resources are bound as optional environment variables
+in the containers used within the Jenkins pipeline so if a particular tool has not been installed the
+associated environment variables won't be set. For example:
+
+```yaml
+  envFrom:
+    - configMapRef:
+        name: pactbroker-config
+        optional: true
+    - configMapRef:
+        name: sonarqube-config
+        optional: true
+    - secretRef:
+        name: sonarqube-access
+        optional: true
+```
+
 ### IBM Cloud config
 
 The Iteration Zero script creates a config map and secret named `ibmcloud-config` and `ibmcloud-access`
