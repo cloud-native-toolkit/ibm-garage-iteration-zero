@@ -139,16 +139,17 @@ igc credentials
 The following topics explain how to create and deploy applications using Continuous Integration with Jenkins. They help explain how to integrate code analysis into your applications with SonarQube. They explain how to move applications into test, staging and production using Continous Deployment techniques with Artifactory and Argo CD and much more.
 
 
-| Topic                     | Tool        |Description | Link  |
-| -----------------------   |:----------- || -----:|
-| Continuous Integration    | Jenkins     || [Readme](./docs/JENKINS.md) |
-| Code Analysis             | SonarQube   || [Readme](./docs/SONAR.md) |
-| Artifact and Helm Storage | Artifactory || [Readme](./docs/ARTIFACTORY.md) |
-| Continuous Deployment     | ArgoCD      || [Readme](./docs/ARGOCD.md) |
-| Contract API Testing      | Pact        || [Readme](./docs/PACT.md) |
-| Logging                   | LogDNA      || [Readme](./docs/LOGDNA.md) |
-| Monitoring                | SysDig      || [Readme](./docs/SYSDIG.md) |
-| Cloud Service Integration | IBM Cloud   || [Readme](./docs/IBMCLOUD.md) |
+| Topic                     | Tool           |Description | Link                               |
+| -----------------------   |:-------------- |------------| ----------------------------------:|
+| Cluster configuration     | Kube/OpenShift |            | [Readme](./docs/CLUSTER_CONFIG.md) |
+| Continuous Integration    | Jenkins        |            | [Readme](./docs/JENKINS.md)        |
+| Code Analysis             | SonarQube      |            | [Readme](./docs/SONAR.md)          |
+| Artifact and Helm Storage | Artifactory    |            | [Readme](./docs/ARTIFACTORY.md)    |
+| Continuous Deployment     | ArgoCD         |            | [Readme](./docs/ARGOCD.md)         |
+| Contract API Testing      | Pact           |            | [Readme](./docs/PACT.md)           |
+| Logging                   | LogDNA         |            | [Readme](./docs/LOGDNA.md)         |
+| Monitoring                | SysDig         |            | [Readme](./docs/SYSDIG.md)         |
+| Cloud Service Integration | IBM Cloud      |            | [Readme](./docs/IBMCLOUD.md)       |
 
 
 ## Summary
