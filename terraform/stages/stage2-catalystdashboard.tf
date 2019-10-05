@@ -1,5 +1,5 @@
 module "dev_tools_catalystdashboard_release" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//tools/catalystdashboard_release?ref=v1.0.7"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//tools/catalystdashboard_release?ref=v1.0.19"
 
   cluster_ingress_hostname = "${module.dev_cluster.ingress_hostname}"
   cluster_config_file      = "${module.dev_cluster.config_file_path}"
@@ -12,4 +12,5 @@ module "dev_tools_catalystdashboard_release" {
     "${module.dev_tools_pactbroker_release.config_name}",
     "${module.dev_tools_sonarqube_release.config_name}"
   ]
+  tls_secret_name          = "${module.dev_cluster.tls_secret_name}"
 }
