@@ -141,22 +141,16 @@ The following topics explain how to create and deploy applications using Continu
 
 | Topic                     | Tool           |Description | Link                               |
 | -----------------------   |:-------------- |------------| ----------------------------------:|
-| Cluster configuration     | Kube/OpenShift |            | [Readme](./docs/CLUSTER_CONFIG.md) |
-| Continuous Integration    | Jenkins        |            | [Readme](./docs/JENKINS.md)        |
-| Code Analysis             | SonarQube      |            | [Readme](./docs/SONAR.md)          |
-| Artifact and Helm Storage | Artifactory    |            | [Readme](./docs/ARTIFACTORY.md)    |
-| Continuous Deployment     | ArgoCD         |            | [Readme](./docs/ARGOCD.md)         |
-| Contract API Testing      | Pact           |            | [Readme](./docs/PACT.md)           |
-| Logging                   | LogDNA         |            | [Readme](./docs/LOGDNA.md)         |
-| Monitoring                | SysDig         |            | [Readme](./docs/SYSDIG.md)         |
-| Cloud Service Integration | IBM Cloud      |            | [Readme](./docs/IBMCLOUD.md)       |
+| Cluster configuration     | Kube/OpenShift | Explaination on how the tools are integrated using Secrets and ConfigMaps | [Readme](./docs/CLUSTER_CONFIG.md) |
+| Continuous Integration    | Jenkins        | Explain how you can use Jenkins to delivery Continious Integration           | [Readme](./docs/JENKINS.md)        |
+| Code Analysis             | SonarQube      | Explain how code scanning and analysis can help you manage a quality gate | [Readme](./docs/SONAR.md)          |
+| Artifact and Helm Storage | Artifactory    | Seperation of Helm Chart content into a artifact storage system helps with Continous Delivery | [Readme](./docs/ARTIFACTORY.md)    |
+| Continuous Deployment     | ArgoCD         | Evolving a project to Continous Delivery is easy with Argo CD this explains how this can be done           | [Readme](./docs/ARGOCD.md)         |
+| Contract API Testing      | Pact           | Managing API contracts is key for decoupled software  | [Readme](./docs/PACT.md)           |
+| Logging                   | LogDNA         | How to manage your software logging with LogDNA           | [Readme](./docs/LOGDNA.md)         |
+| Monitoring                | SysDig         | Validating performance and throughput with SysDig     | [Readme](./docs/SYSDIG.md)         |
+| Cloud Service Integration | IBM Cloud      | Extending software with integration with Database, AI and other high value cloud services | [Readme](./docs/IBMCLOUD.md)       |
 
-
-## Summary
-
-We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
-
-Thanks IBM Garage for Cloud Team
 
 ### Destroying
 Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
@@ -183,3 +177,10 @@ If you find that some of the services have failed to create in the time allocate
 ```bash
 rm -rf workspace
 ```
+
+## Summary
+
+We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
+
+Thanks IBM Garage for Cloud Team
+
