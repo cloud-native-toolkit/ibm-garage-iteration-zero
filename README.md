@@ -10,6 +10,8 @@ Iteration Zero has been designed to help a team configure a set of popular open 
 
 The Red Hat Innovation Lab has a very similar approach to how they deliver success with OpenShift, view their approach [here](https://github.com/rht-labs/labs-ci-cd).
 
+You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) if you want more detail on how Iteration Zero fits into the end to end developer story.
+
 This repo contains Terraform resources that will deploy the following development tools into your IKS or OpenShift infrastructure.
 
 - IBM Container Service Cluster (3 nodes) for IKS or OpenShift
@@ -105,13 +107,6 @@ Use these [instructions to obtain the VLAN configuration and persist in terrafor
 
     Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
 
-## Usage
-
-### Setup Operations
-
-Now that your development cluster is configured you can now register `LogDNA` and `SysDig` service instances with your Kubernetes cluster. 
-
-Navigate to the Observability menu from the main console menu and then click on the `Edit Sources` and follow the instructions to configure the log agent and montitoring agents for you development cluster. 
 
 ### Development Cluster Dashboard
 
@@ -133,26 +128,12 @@ Currently the tools are not linked to a single sign on (future plan), other than
 ibmcloud login -a cloud.ibm.com -r us-south -g catalyst-team
 igc credentials
 ```
+### Developer Guide
 
-### Developing with IKS and OpenShift
-
-The following topics explain how to create and deploy applications using Continuous Integration with Jenkins. They help explain how to integrate code analysis into your applications with SonarQube. They explain how to move applications into test, staging and production using Continous Deployment techniques with Artifactory and Argo CD and much more.
-
-
-| Topic                     | Tool           |Description | Link                               |
-| -----------------------   |:-------------- |------------| ----------------------------------:|
-| Cluster configuration     | Kube/OpenShift | Explaination on how the tools are integrated using Secrets and ConfigMaps | [Readme](./docs/CLUSTER_CONFIG.md) |
-| Continuous Integration    | Jenkins        | Explain how you can use Jenkins to delivery Continious Integration           | [Readme](./docs/JENKINS.md)        |
-| Code Analysis             | SonarQube      | Explain how code scanning and analysis can help you manage a quality gate | [Readme](./docs/SONAR.md)          |
-| Artifact and Helm Storage | Artifactory    | Seperation of Helm Chart content into a artifact storage system helps with Continous Delivery | [Readme](./docs/ARTIFACTORY.md)    |
-| Continuous Deployment     | ArgoCD         | Evolving a project to Continous Delivery is easy with Argo CD this explains how this can be done           | [Readme](./docs/ARGOCD.md)         |
-| Contract API Testing      | Pact           | Managing API contracts is key for decoupled software  | [Readme](./docs/PACT.md)           |
-| Logging                   | LogDNA         | How to manage your software logging with LogDNA           | [Readme](./docs/LOGDNA.md)         |
-| Monitoring                | SysDig         | Validating performance and throughput with SysDig     | [Readme](./docs/SYSDIG.md)         |
-| Cloud Service Integration | IBM Cloud      | Extending software with integration with Database, AI and other high value cloud services | [Readme](./docs/IBMCLOUD.md)       |
-
+Use the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) to deep dive into how to use these tools and programming models to make yourself productive with Kubernetes and OpenShift on the IBM Cloud.
 
 ### Destroying
+
 Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
 
 It is is possible to destory the development environment following these steps.
