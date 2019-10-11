@@ -1,5 +1,5 @@
 module "dev_tools_catalystdashboard_release" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//tools/catalystdashboard_release?ref=v1.0.21"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//tools/catalystdashboard_release?ref=v1.0.22"
 
 
   cluster_ingress_hostname = "${module.dev_cluster.ingress_hostname}"
