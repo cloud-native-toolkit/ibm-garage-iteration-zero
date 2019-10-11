@@ -1,5 +1,6 @@
 # IBM Garage for Cloud & Solution Engineering
 ## Iteration Zero for IBM Cloud
+
 This repository contains tools and Terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development
 environment ready for cloud native application development with IBM Cloud Kubernetes Service or Red Hat OpenShift for IBM Kubernetes Service. 
 
@@ -8,6 +9,8 @@ environment ready for cloud native application development with IBM Cloud Kubern
 Iteration Zero has been designed to help a team configure a set of popular open source tools that can enable cloud native development. Typically a squad lead or lead developer would use this Terraform package after the initial inception workshop has completed and the development team is ready to write code. The objective and goal of this is to reduce the amount of time a team needs to configure and prepare their Kubernetes or OpenShift development environments. Some key benifits of Iteration Zero is that it makes the whole development lifecycle for IKS and OpenShift much smoother and easier than using the out of the box experience. Using Terraform enables it to be modular in configuration so tools can be easily disabled or new tools added. This combindation of tools are proven in the industry to deliver real value for modern cloud native development. 
 
 The Red Hat Innovation Lab has a very similar approach to how they deliver success with OpenShift, view their approach [here](https://github.com/rht-labs/labs-ci-cd).
+
+You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) if you want more detail on how Iteration Zero fits into the end to end developer story.
 
 This repo contains Terraform resources that will deploy the following development tools into your IKS or OpenShift infrastructure.
 
@@ -49,7 +52,7 @@ existing cluster. If an existing cluster is selected, then any existing namespac
 The following pre-requisties are required before following the setup instructions. 
 
 - An IBM Cloud account with: 
-    - the ability to provision resources to support Kubernetes environment
+    - the ability to provision resources to support Kubernetes and OpenShift environments
     - a [Resource Group](https://cloud.ibm.com/account/resource-groups) for your development resources
     - a Public and Private VLAN
 - [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on your local machine
@@ -58,6 +61,7 @@ The following pre-requisties are required before following the setup instruction
 ## Installation
 
 ### Step 1. Creating Resource Group
+
 The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
 development cluster and supporting cloud services. Using the Cloud Console create a unique 
 [Resource Group](https://cloud.ibm.com/account/resource-groups). 
@@ -75,12 +79,12 @@ $ cd iteration-zero-iks
 
 Use these [instructions to generate keys and configure the credenitals.properties file](./docs/APIKEYS.md). 
 
-
 ### Step 4. Get the the VLAN Information into the terri=aform variables file
 
 Use these [instructions to obtain the VLAN configuration and persist in terraform variables](./docs/VLAN.md).
 
 ### Step 5. Run Terraform to provision Development Cluster and Tools
+
 - Run the following command to launch a Garage [Catalyst CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
 
     ```bash
@@ -91,6 +95,7 @@ Use these [instructions to obtain the VLAN configuration and persist in terrafor
     It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for your specific project needs.
 
 ### Step 6. Deploy the Iteration Zero Resources
+
 - Run the following commands:
     ```bash
     $ ./runTerraform.sh
@@ -102,8 +107,6 @@ Use these [instructions to obtain the VLAN configuration and persist in terrafor
 
     Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
 
-***
-## Usage
 
 ### Development Cluster Dashboard
 
@@ -125,62 +128,17 @@ Currently the tools are not linked to a single sign on (future plan), other than
 ibmcloud login -a cloud.ibm.com -r us-south -g catalyst-team
 igc credentials
 ```
+### Developer Guide
 
-### Operations
-
-Now that your development cluster is configured you can now register `LogDNA` and `SysDig` service instances with your Kubernetes cluster. 
-
-Navigate to the Observability menu from the main console menu and then click on the `Edit Sources` and follow the instructions to configure the log agent and montitoring agents for you development cluster. 
-
-### Deploying Code into Pipelines
-
-Now you have a working development environment on the IBM Public Cloud. You can now start working with code to deploy into your cluster using Jenkins pipelines. The following instructions help describe this process.
-
-You can click on the `Starter Kits` tab on the Development Cluster Dashboard and follow the instructions for provisioning a new microservice into your development cluster. You can easily create an microservice by using the github templates listed below:
-
-* [12 UI Patterns with React and Node.js](https://github.com/ibm-garage-cloud/template-node-react)
-* [TypeScript Microservice or BFF with Node.js](https://github.com/ibm-garage-cloud/template-node-typescript)
-* [GraphQL BFF with Node.js](https://github.com/ibm-garage-cloud/template-graphql-typescript)
-* [Spring Boot Java Microservice](https://github.com/ibm-garage-cloud/template-java-spring)
-
-Click on the `Use this template` button to create a repo in your git organisation. Then follow the pipeline registration instructions below, you will need to be logged into the OpenShift Console or IKS clusters on the command line. You will also need a [Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) from your git organistaion.
-
-```bash
-git clone <generated startkit template>
-cd <generated startkit template>
-vi package.json ! rename template
-git add .
-git commit -m "Rename project"
-git push
-igc register ! register pipeline with Jenkins
-? Please provide the username for https://github.com/mjperrins/hello-world-bff.git: mperrins
-? Please provide your password/personal access token: [hidden]
-? Please provide the branch the pipeline should use: master
-Creating git secret
-Copying 'ibmcloud-apikey' secret to dev
-Registering pipeline
-? The build pipeline (mjperrins.hello-world-bff) already exists. Do you want to update it? (Y/n)
-```
-
-The pipeline will be created in the `dev` namespace in OpenShift and IKS, it will create any necessary secrets required to run the pipeline. The app image will be stored in the IBM Container Registry and deployed into the `dev` name space. You can use the Argo CD Template to help define a deployment configuration from `dev` to `test` and `staging`
-
-If you want to get easy access to your application routes or ingress end points for your apps run the following command. All the `igc` commands run the same on IKS and OpenShift.
-```bash
-igc ingress -n dev
-```
-***
-## Summary
-
-We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
-
-Thanks Catalyst Team
+Use the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) to deep dive into how to use these tools and programming models to make yourself productive with Kubernetes and OpenShift on the IBM Cloud.
 
 ### Destroying
+
 Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
 
 It is is possible to destory the development environment following these steps.
 
-Run the following command to launch a Garage Catalyst CLI Tools Docker container.
+Run the following command to launch a IBM Garage for Cloud CLI Tools Docker container.
 ```bash
 ./launch.sh
 ```
@@ -200,3 +158,10 @@ If you find that some of the services have failed to create in the time allocate
 ```bash
 rm -rf workspace
 ```
+
+## Summary
+
+We are working to make Kubernetes and OpenShift development as easy as possible, any feedback on the use of the project will be most welcome.
+
+Thanks IBM Garage for Cloud Team
+
