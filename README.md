@@ -68,7 +68,7 @@ $ cd iteration-zero-iks
 
 ### Step 1. Create a Resource Group
 
-The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
+The next step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
 development cluster and supporting cloud services. Using the Cloud Console create a unique 
 [Resource Group](https://cloud.ibm.com/account/resource-groups). 
 
