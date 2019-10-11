@@ -36,17 +36,15 @@ This repo contains Terraform resources that will deploy the following developmen
 
 ![Provisioned environment](./docs/images/catalyst-provisioned-environment.png)
 
-**Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution and report any issues you find.**
 
-***
 ## Deploying with Terraform
-This section discusses deploying IBM Cloud resources with Terraform. This section uses the [Garage Catalyst Docker Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) to run the Terraform client.
+This section discusses deploying IBM Cloud resources with Terraform. The [IBM Garage for Cloud Docker Tools Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) is used to run the Terraform commands. The `terraform/workspace` can be run with IBM Cloud Schematics service.
 
 **NOTE:** The terraform scripts can be run to create a new Kubernetes cluster or modify an
 existing cluster. If an existing cluster is selected, then any existing namespaces named 
 `tools`, `dev`, `test`, and `staging` and any resources contained therein will be destroyed.
 
-**Warning: This has only been tested on MacOS.**
+**Warning: This has only been tested on Mac OS**
 
 ## Pre-requisites
 The following pre-requisties are required before following the setup instructions. 
@@ -60,14 +58,7 @@ The following pre-requisties are required before following the setup instruction
 
 ## Installation
 
-### Step 1. Creating Resource Group
-
-The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
-development cluster and supporting cloud services. Using the Cloud Console create a unique 
-[Resource Group](https://cloud.ibm.com/account/resource-groups). 
-
-
-### Step 2. Clone this repository to your local filesystem
+### Step 1. Clone this repository to your local filesystem
 
 ```bash
 $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-ibmcloud.git
@@ -75,11 +66,17 @@ $ git clone git@github.ibm.com:garage-catalyst/iteration-zero-ibmcloud.git
 $ cd iteration-zero-iks
 ```
 
+### Step 1. Create a Resource Group
+
+The first step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
+development cluster and supporting cloud services. Using the Cloud Console create a unique 
+[Resource Group](https://cloud.ibm.com/account/resource-groups). 
+
 ### Step 3. Create the credentials.properties file
 
 Use these [instructions to generate keys and configure the credenitals.properties file](./docs/APIKEYS.md). 
 
-### Step 4. Get the the VLAN Information into the terri=aform variables file
+### Step 4. Get the the VLAN Information into the terraform variables file
 
 Use these [instructions to obtain the VLAN configuration and persist in terraform variables](./docs/VLAN.md).
 
