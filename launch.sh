@@ -75,9 +75,8 @@ docker run -itd --name ${CONTAINER_NAME} \
    -v ${SRC_DIR}:/home/devops/src \
    -e TF_VAR_ibmcloud_api_key="${IBMCLOUD_API_KEY}" \
    -e IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}" \
-   -e BM_API_KEY="${IBMCLOUD_API_KEY}" \
-   -e SL_USERNAME="${CLASSIC_USERNAME}" \
-   -e SL_API_KEY="${CLASSIC_API_KEY}" \
+   -e IAAS_CLASSIC_USERNAME="${CLASSIC_USERNAME}" \
+   -e IAAS_CLASSIC_API_KEY="${CLASSIC_API_KEY}" \
    -w /home/devops/src \
    ${DOCKER_IMAGE} 1> /dev/null 2> /dev/null
 
