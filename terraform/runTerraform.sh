@@ -18,6 +18,11 @@ TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" ${TFVARS} | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
 CLUSTER_NAME=$(grep -E "^cluster_name" ${TFVARS} | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
 
+if [[ -z "${CLUSTER_NAME}" ]]; then
+  CLUSTER_NAME="${RESOURCE_GROUP_NAME}-cluster"
+  echo "cluster_name=\"${CLUSTER_NAME}\"" >> ${TFVARS}
+fi
+
 CLUSTER_EXISTS=$(grep -E "^cluster_exists" ${TFVARS} | sed -E "s/^cluster_exists=\"(.*)\".*/\1/g")
 if [[ -z "${CLUSTER_EXISTS}" ]]; then
     ANSWER="x"
