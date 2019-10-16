@@ -83,6 +83,7 @@ variable "staging_namespace" {
 variable "cluster_name" {
   type        = "string"
   description = "The name of the cluster"
+  default     = ""
 }
 
 variable "cluster_type" {
@@ -93,9 +94,11 @@ variable "cluster_type" {
 variable "cluster_exists" {
   type        = "string"
   description = "Flag indicating if the cluster already exists (true or false)"
+  default     = "false"
 }
 
 variable "postgres_server_exists" {
   type        = "string"
   description = "Flag indicating if the postgres server already exists (true or false)"
+  default     = "false"
 }
