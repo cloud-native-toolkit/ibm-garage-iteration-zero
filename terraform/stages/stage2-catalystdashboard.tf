@@ -14,5 +14,4 @@ module "dev_tools_catalystdashboard_release" {
     "${module.dev_tools_sonarqube_release.config_name}"
   ]
   tls_secret_name          = "${module.dev_cluster.tls_secret_name}"
-  image_tag                = "dev"
 }
