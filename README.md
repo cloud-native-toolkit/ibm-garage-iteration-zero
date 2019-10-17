@@ -81,7 +81,7 @@ Use these [instructions to obtain the VLAN configuration and persist in terrafor
 
 ### Step 5. Run Terraform to provision Development Cluster and Tools
 
-- Run the following command to launch a Garage [IBM Garage CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
+- Run the following command to launch a Garage [IBM Garage CLI Tools Docker container](https://hub.docker.com/r/garagecatalyst/ibm-garage-cli-tools).
 
     ```bash
     $ ./launch.sh
