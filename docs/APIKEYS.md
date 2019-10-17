@@ -37,7 +37,7 @@ Inside the `iteration-zero-ibmcloud` folder, copy `credentials.template` to a fi
 ### Step 3: Create and Set the IBM Cloud Resources Key
 
 - Follow these instructions to generate a key:
-[IBM Cloud API Key](https://console.bluemix.net/docs/iam/userid_keys.html#creating-an-api-key "Creating an API key")
+[IBM Cloud API Key](https://cloud.ibm.com/docs/iam?topic=iam-userapikey#creating-an-api-key "Creating an API key")
 
 
 - Open the credentials.properties file and set it as the value for the "ibmcloud.api.key" property.
