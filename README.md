@@ -36,7 +36,6 @@ This repo contains Terraform resources that will deploy the following developmen
 
 ![Provisioned environment](./docs/images/catalyst-provisioned-environment.png)
 
-
 ## Deploying with Terraform
 This section discusses deploying IBM Cloud resources with Terraform. The [IBM Garage for Cloud Docker Tools Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) is used to run the Terraform commands. The `terraform/workspace` can be run with IBM Cloud Schematics service.
 
@@ -61,7 +60,7 @@ The following pre-requisties are required before following the setup instruction
 ### Step 1. Clone this repository to your local filesystem
 
 ```bash
-$ git clone git@github.ibm.com:garage-catalyst/iteration-zero-ibmcloud.git
+$ git clone git@github.com:ibm-garage-cloud/ibm-garage-iteration-zero.git
 
 $ cd iteration-zero-iks
 ```
@@ -82,7 +81,7 @@ Use these [instructions to obtain the VLAN configuration and persist in terrafor
 
 ### Step 5. Run Terraform to provision Development Cluster and Tools
 
-- Run the following command to launch a Garage [Catalyst CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
+- Run the following command to launch a Garage [IBM Garage CLI Tools Docker container](https://github.ibm.com/garage-catalyst/client-tools-image).
 
     ```bash
     $ ./launch.sh
