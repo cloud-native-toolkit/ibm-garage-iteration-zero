@@ -56,7 +56,7 @@ then
     helpFunction "Some of the credentials values are empty. "
 fi
 
-DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:0.0.23"
+DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:0.0.24"
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
 CONTAINER_NAME="ibm-garage-cli-tools-${SUFFIX}"
@@ -78,7 +78,7 @@ docker run -itd --name ${CONTAINER_NAME} \
    -e IAAS_CLASSIC_USERNAME="${CLASSIC_USERNAME}" \
    -e IAAS_CLASSIC_API_KEY="${CLASSIC_API_KEY}" \
    -w /home/devops/src \
-   ${DOCKER_IMAGE} 1> /dev/null 2> /dev/null
+   ${DOCKER_IMAGE}
 
 echo "Attaching to running container..."
 docker attach ${CONTAINER_NAME}
