@@ -6,12 +6,14 @@ cluster_type="kubernetes"
 postgres_server_exists="false"
 
 # Vlan config
-private_vlan_number="2372"
-private_vlan_router_hostname="bcr01a.dal10"
-public_vlan_number="1849"
-public_vlan_router_hostname="fcr01a.dal10"
-vlan_datacenter="dal10"
-vlan_region="us-south"
+vlan_datacenter="wdc04"
+private_vlan_id="2440701"
+private_vlan_number="915"
+private_vlan_router_hostname="bcr04a.wdc04"
+public_vlan_id="2440699"
+public_vlan_number="880"
+public_vlan_router_hostname="fcr04a.wdc04"
+vlan_region="us-east"
 resource_group_name="<resource group>"
 # The cluster name can be provided (particularly if using existing cluster) or it will
 # default to '${resource_group_name}-cluster'
