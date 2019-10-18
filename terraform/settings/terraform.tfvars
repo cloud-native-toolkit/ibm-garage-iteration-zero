@@ -1,7 +1,7 @@
 # Flag indicating if we are using an existing cluster or creating a new one
 cluster_exists="false"
 # The type of cluster that will be created/used (kubernetes or openshift)
-cluster_type="kubernetes"
+#cluster_type="kubernetes"
 # Flag indicating if we are using an existing postgres server or creating a new one
 postgres_server_exists="false"
 

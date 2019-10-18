@@ -130,4 +130,4 @@ if [[ "$1" != "--force" ]]; then
 fi
 
 cd ${WORKSPACE_DIR}
-./apply.sh
+./apply.sh "${CLUSTER_TYPE}"
