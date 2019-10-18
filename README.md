@@ -10,7 +10,7 @@ Iteration Zero has been designed to help a team configure a set of popular open 
 
 The Red Hat Innovation Lab has a very similar approach to how they deliver success with OpenShift, view their approach [here](https://github.com/rht-labs/labs-ci-cd).
 
-You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) if you want more detail on how Iteration Zero fits into the end to end developer story.
+You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/) if you want more detail on how Iteration Zero fits into the end to end developer story.
 
 This repo contains Terraform resources that will deploy the following development tools into your IKS or OpenShift infrastructure.
 
