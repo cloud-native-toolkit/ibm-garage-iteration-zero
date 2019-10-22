@@ -1,159 +1,64 @@
 # IBM Garage for Cloud & Solution Engineering
 ## Iteration Zero for IBM Cloud
 
-This repository contains tools and Terraform infrastructure as code (IasC) to help setup an IBM Cloud Public development
-environment ready for cloud native application development with IBM Cloud Kubernetes Service or Red Hat OpenShift for IBM Kubernetes Service. 
+This repository contains infrastructure as code (IasC) scripting to create an IBM Garage for Cloud Developer Tools environment ready for cloud-native application development with IBM Cloud Kubernetes Service or Red Hat OpenShift on IBM Cloud. 
 
 ### Overview
 
-Iteration Zero has been designed to help a team configure a set of popular open source tools that can enable cloud native development. Typically a squad lead or lead developer would use this Terraform package after the initial inception workshop has completed and the development team is ready to write code. The objective and goal of this is to reduce the amount of time a team needs to configure and prepare their Kubernetes or OpenShift development environments. Some key benifits of Iteration Zero is that it makes the whole development lifecycle for IKS and OpenShift much smoother and easier than using the out of the box experience. Using Terraform enables it to be modular in configuration so tools can be easily disabled or new tools added. This combindation of tools are proven in the industry to deliver real value for modern cloud native development. 
+Iteration Zero creates an IBM Garage for Cloud Developer Tools environment in IBM Cloud, complete with tools and services needed for continious delivery of typical cloud-native applications to a [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers) or [Red Hat OpenShift on IBM Cloud](https://cloud.ibm.com/docs/openshift) cluster. Typically a squad lead or lead developer would create this environment after the initial inception workshop has completed and the development team is ready to write code.
 
-The Red Hat Innovation Lab has a very similar approach to how they deliver success with OpenShift, view their approach [here](https://github.com/rht-labs/labs-ci-cd).
+The objective of this environment is to reduce the amount of time and effort a team needs to spend creating and configuring their Kubernetes or OpenShift development environments. Rather than the lead having to reinvent the wheel deciding how to set up a continious development environment and perform the manual effort to create, install, and configure the cluster, tools, and services, these infrastructure as code (IasC) scripts automate the process to consistently create an environment as needed that embodies these best practices. The scripts are modular so tools can be easily disabled or added. This combindation of tools are proven in the industry to deliver real value for modern cloud-native development. 
 
+<<<<<<< HEAD
+The Red Hat [Open Innovation Labs](https://github.com/rht-labs/labs-ci-cd) has a very similar approach to how they deliver success with OpenShift.
+=======
 You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/) if you want more detail on how Iteration Zero fits into the end to end developer story.
+>>>>>>> b54a252ddd3761d9d3d0002acced82de2f93ecfa
 
-This repo contains Terraform resources that will deploy the following development tools into your IKS or OpenShift infrastructure.
+You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) if you want more detail on how the Cloud Developer Tools environment fits into the end-to-end development story.
 
-- IBM Container Service Cluster (3 nodes) for IKS or OpenShift
-- Create *dev*,*test*,*staging* and *tools* namespaces
-- Install the following tools:
+This repo contains Terraform resources that will create an environment containing the following development tools:
+- IBM Container Service cluster (3 nodes) for Kubernetes or OpenShift
+- Namespaces for *dev*, *test*, *staging*, and *tools*
+- Tools for continious delivery:
     - [Jenkins CI](https://jenkins.io/)
     - [Argo CD](https://argoproj.github.io/argo-cd/)
     - [SonarQube](https://www.sonarqube.org/) 
     - [Pack Broker](https://docs.pact.io/)
     - [Artefactory](https://jfrog.com/open-source/)
     - [Eclipse CHE](https://www.eclipse.org/che/)
+-  Cloud services for cloud-native applications:
+    - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid) 
+    - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant)
+    - [Cloud Object Storage Storage](https://cloud.ibm.com/docs/services/cloud-object-storage)
+    - [LogDNA Logging](https://cloud.ibm.com/docs/services/Log-Analysis-with-LogDNA)
+    - [SysDig Monitoring](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig)
+    - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql) (used by SonarQube)
 
-- Create and bind the following Cloud Services to your Cluster:
-    - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid?topic=appid-service-access-management) 
-    - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant?topic=cloudant-getting-started)
-    - [Cloud Object Storage Storage](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-getting-started)
-    - [LogDNA Logging](https://cloud.ibm.com/docs/services/Log-Analysis-with-LogDNA?topic=LogDNA-getting-started)
-    - [SysDig Monitoring](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig?topic=Sysdig-getting-started)
-    - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql?topic=databases-for-postgresql-about) (used by SonarQube)
+## Developer Tools
 
-## Development Tools
+This diagram illustrates the components in a Cloud Developer Tools environment:
 
 ![Provisioned environment](./docs/images/catalyst-provisioned-environment.png)
 
-## Deploying with Terraform
-This section discusses deploying IBM Cloud resources with Terraform. The [IBM Garage for Cloud Docker Tools Image](https://cloud.docker.com/u/garagecatalyst/repository/docker/garagecatalyst/ibm-garage-cli-tools) is used to run the Terraform commands. The `terraform/workspace` can be run with IBM Cloud Schematics service.
+## Developer Guide
 
-**NOTE:** The terraform scripts can be run to create a new Kubernetes cluster or modify an
-existing cluster. If an existing cluster is selected, then any existing namespaces named 
-`tools`, `dev`, `test`, and `staging` and any resources contained therein will be destroyed.
+[Developer Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) explains how to use the Cloud Developer Tools environment.
+Use it to deep dive into how to use these tools and programming models to make yourself productive with Kubernetes and OpenShift on the IBM Cloud.
 
-**Warning: This has only been tested on Mac OS**
+### Create the Cloud Developer Tools environment
 
-## Pre-requisites
-The following pre-requisties are required before following the setup instructions. 
+Start with the [installation instructions](https://ibm-garage-cloud.github.io/garage-developer-guide/getting-started/installation/) for creating the Cloud Developer Tools environment.
 
-- An IBM Cloud account with: 
-    - the ability to provision resources to support Kubernetes and OpenShift environments
-    - a [Resource Group](https://cloud.ibm.com/account/resource-groups) for your development resources
-    - a Public and Private VLAN
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on your local machine
-- [Node](https://nodejs.org/en/) installed on your local machine
+### Cloud Developer Tools Dashboard
 
-## Installation
-
-### Step 1. Clone this repository to your local filesystem
-
-```bash
-$ git clone git@github.com:ibm-garage-cloud/ibm-garage-iteration-zero.git
-
-$ cd iteration-zero-iks
-```
-
-### Step 1. Create a Resource Group
-
-The next step is to create a dedicated Resource Group for your development team. This Resource Group will contain your 
-development cluster and supporting cloud services. Using the Cloud Console create a unique 
-[Resource Group](https://cloud.ibm.com/account/resource-groups). 
-
-### Step 3. Create the credentials.properties file
-
-Use these [instructions to generate keys and configure the credenitals.properties file](./docs/APIKEYS.md). 
-
-### Step 4. Get the the VLAN Information into the terraform variables file
-
-Use these [instructions to obtain the VLAN configuration and persist in terraform variables](./docs/VLAN.md).
-
-### Step 5. Run Terraform to provision Development Cluster and Tools
-
-- Run the following command to launch a Garage [IBM Garage CLI Tools Docker container](https://hub.docker.com/r/garagecatalyst/ibm-garage-cli-tools).
-
-    ```bash
-    $ ./launch.sh
-    ```
-    ***NOTE:*** This will install the Cloud Garage Tools docker image and exec shell into the running container. You will run the rest of the commands from inside this container. The container will mount the `./terraform/` directory as `/home/devops/src/`. This is helpful in sharing files between your host filesystem and your container. 
-
-    It will also allow you to continue to extend or modify the base Terraform IasC that has been supplied and tailor it for your specific project needs.
-
-### Step 6. Deploy the Iteration Zero Resources
-
-- Run the following commands:
-    ```bash
-    $ ./runTerraform.sh
-    ```
-
-    The script will prompt if you want to create a new cluster or use an existing cluster. If an existing cluster is selected the contents will be cleaned up to prepare for the terraform process (the `tools`, `dev`, `test`, and `staging` namespaces).
-
-    After that the Terraform Apply process and begin to create the infrastructure and services for your Development Enviroment.
-
-    Creating a new cluster takes about 1.5 hours on average (but can also take considerably longer) and the rest of the process takes about 30 minutes. At the end, you should have your Iteration Zero resources fully provisioned and configured, enjoy!
-
-
-### Development Cluster Dashboard
-
-To make it easy to navigate to the installed tools, there is a simple dashboard that has been deployed that can help you navigate to the consoles for each of the tools.
-
-To access the dashboard take the the ingress subdomain from the Cluster and prefix it with the word `dashboard`. 
-
-```bash
-https://dashboard.catalyst-dev-cluster.us-south.containers.appdomain.cloud
-
-````
-This will present you with the following dashboard.
-
-![Dashboard](./docs/images/devcluster.png)
-
-Currently the tools are not linked to a single sign on (future plan), other than Jenkins in OpenShift, to obtain the credentials for the tools login into ibm cloud account on the command line and run `igc credentials` this will list the userids and passwords secrets for each tool installed.
-
-```bash
-ibmcloud login -a cloud.ibm.com -r us-south -g catalyst-team
-igc credentials
-```
-### Developer Guide
-
-Use the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) to deep dive into how to use these tools and programming models to make yourself productive with Kubernetes and OpenShift on the IBM Cloud.
+[Cloud Developer Tools Dashboard](https://ibm-garage-cloud.github.io/garage-developer-guide/getting-started/dashboard/)
+explains how to open the dashbard for using the Cloud Developer Tools environment.
 
 ### Destroying
 
-Once your development tools are configured Terraform stores the state of the creation in the `workspace` folder. 
+The scripts that created the Cloud Developer Tools environment can also be used to destroy it. See [destroy](https://ibm-garage-cloud.github.io/garage-developer-guide/getting-started/destroy/) for instructions.
 
-It is is possible to destory the development environment following these steps.
-
-Run the following command to launch a IBM Garage for Cloud CLI Tools Docker container.
-```bash
-./launch.sh
-```
-Follow these instructions to run the terraform tool from your `workspace` directory.
-```bash
-cd workspace
-terraform destroy
-```
-This will remove the development cluster and all the services that were created previously.
-
-## Possible Issues
-
-If you find that that the Terraform provisioning has failed try re-running the `runTerraform.sh` script again. The state will be saved and Terraform will try and apply the configuration to match the desired end state.
-
-If you find that some of the services have failed to create in the time allocated. You can manually delete the instances in your resource group. You can then re-run the `runTerraform.sh` but you need to delete the `workspace` directory first. This will remove any state that has been created by Terraform. 
-
-```bash
-rm -rf workspace
-```
 
 ## Summary
 
