@@ -44,7 +44,7 @@ Use it to deep dive into how to use these tools and programming models to make y
 
 ### Create the Cloud Developer Tools environment
 
-Start with the [installation instructions](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/installation/) for creating the Cloud Developer Tools environment.
+Start with the [installation instructions](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/installation/) for creating the Cloud Developer Tools environment. It contains the instructions for how to setup and run the scripts in this repo.
 
 ### Cloud Developer Tools Dashboard
 
@@ -53,7 +53,7 @@ explains how to open the dashbard for using the Cloud Developer Tools environmen
 
 ### Destroying
 
-The scripts that created the Cloud Developer Tools environment can also be used to destroy it. See [destroy](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/destroy/) for instructions.
+The scripts that created the Cloud Developer Tools environment can also be used to destroy it. See [destroy](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/destroying/) for instructions.
 
 
 ## Summary
