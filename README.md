@@ -11,7 +11,7 @@ The objective of this environment is to reduce the amount of time and effort a t
 
 The Red Hat [Open Innovation Labs](https://github.com/rht-labs/labs-ci-cd) has a very similar approach to how they deliver success with OpenShift.
 
-You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) if you want more detail on how the Cloud Developer Tools environment fits into the end-to-end development story.
+You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/) if you want more detail on how the Cloud Developer Tools environment fits into the end-to-end development story.
 
 This repo contains Terraform resources that will create an environment containing the following development tools:
 - IBM Container Service cluster (3 nodes) for Kubernetes or OpenShift
@@ -39,21 +39,21 @@ This diagram illustrates the components in a Cloud Developer Tools environment:
 
 ## Developer Guide
 
-[Developer Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) explains how to use the Cloud Developer Tools environment.
+[Developer Guide](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/) explains how to use the Cloud Developer Tools environment.
 Use it to deep dive into how to use these tools and programming models to make yourself productive with Kubernetes and OpenShift on the IBM Cloud.
 
 ### Create the Cloud Developer Tools environment
 
-Start with the [installation instructions](https://ibm-garage-cloud.github.io/garage-developer-guide/getting-started/installation/) for creating the Cloud Developer Tools environment.
+Start with the [installation instructions](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/installation/) for creating the Cloud Developer Tools environment.
 
 ### Cloud Developer Tools Dashboard
 
-[Cloud Developer Tools Dashboard](https://ibm-garage-cloud.github.io/garage-developer-guide/getting-started/dashboard/)
+[Cloud Developer Tools Dashboard](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/dashboard/)
 explains how to open the dashbard for using the Cloud Developer Tools environment.
 
 ### Destroying
 
-The scripts that created the Cloud Developer Tools environment can also be used to destroy it. See [destroy](https://ibm-garage-cloud.github.io/garage-developer-guide/getting-started/destroy/) for instructions.
+The scripts that created the Cloud Developer Tools environment can also be used to destroy it. See [destroy](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/destroy/) for instructions.
 
 
 ## Summary
