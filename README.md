@@ -9,11 +9,7 @@ Iteration Zero creates an IBM Garage for Cloud Developer Tools environment in IB
 
 The objective of this environment is to reduce the amount of time and effort a team needs to spend creating and configuring their Kubernetes or OpenShift development environments. Rather than the lead having to reinvent the wheel deciding how to set up a continious development environment and perform the manual effort to create, install, and configure the cluster, tools, and services, these infrastructure as code (IasC) scripts automate the process to consistently create an environment as needed that embodies these best practices. The scripts are modular so tools can be easily disabled or added. This combindation of tools are proven in the industry to deliver real value for modern cloud-native development. 
 
-<<<<<<< HEAD
 The Red Hat [Open Innovation Labs](https://github.com/rht-labs/labs-ci-cd) has a very similar approach to how they deliver success with OpenShift.
-=======
-You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/) if you want more detail on how Iteration Zero fits into the end to end developer story.
->>>>>>> b54a252ddd3761d9d3d0002acced82de2f93ecfa
 
 You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.io/garage-developer-guide/) if you want more detail on how the Cloud Developer Tools environment fits into the end-to-end development story.
 
