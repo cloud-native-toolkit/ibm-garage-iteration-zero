@@ -44,7 +44,7 @@ Use it to deep dive into how to use these tools and programming models to make y
 
 ### Create the Cloud Developer Tools environment
 
-Start with the [installation instructions](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/installation/) for creating the Cloud Developer Tools environment. It contains the instructions for how to setup and run the scripts in this repo.
+Start with the [installation instructions](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/overview) for creating the Cloud Developer Tools environment. It contains the instructions for how to setup and run the Terraform Infrastructure as Code scripts in this repo.
 
 ### Cloud Developer Tools Dashboard
 
