@@ -20,17 +20,21 @@ variable "ibmcloud_api_key" {
 variable "private_vlan_id" {
   type        = "string"
   description = "Existing private VLAN id for cluster creation."
+  default     = ""
 }
 
 variable "public_vlan_id" {
   type        = "string"
   description = "Existing public VLAN number for cluster creation."
+  default     = ""
 }
 
 variable "vlan_datacenter" {
   type        = "string"
   description = "Datacenter for VLANs defined in private_vlan_number and public_vlan_number."
+  default     = ""
 }
+
 variable "vlan_region" {
   type        = "string"
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
@@ -101,4 +105,10 @@ variable "postgres_server_exists" {
   type        = "string"
   description = "Flag indicating if the postgres server already exists (true or false)"
   default     = "false"
+}
+
+variable "name_prefix" {
+  type        = "string"
+  description = "Prefix name that should be used for the cluster and services. If not provided then resource_group_name will be used"
+  default     = ""
 }

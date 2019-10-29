@@ -17,9 +17,17 @@ TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 
 RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" ${TFVARS} | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
 CLUSTER_NAME=$(grep -E "^cluster_name" ${TFVARS} | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+NAME_PREFIX=$(grep -E "^name_prefix" ${TFVARS} | sed -E "s/^name_prefix=\"(.*)\".*/\1/g")
+
+CLUSTER_MANAGEMENT="ibmcloud"
 
 if [[ -z "${CLUSTER_NAME}" ]]; then
-  CLUSTER_NAME="${RESOURCE_GROUP_NAME}-cluster"
+  if [[ -n "${NAME_PREFIX}" ]]; then
+    CLUSTER_NAME="${NAME_PREFIX}-cluster"
+  else
+    CLUSTER_NAME="${RESOURCE_GROUP_NAME}-cluster"
+  fi
+
   echo "cluster_name=\"${CLUSTER_NAME}\"" >> ${TFVARS}
 fi
 
@@ -52,9 +60,9 @@ if [[ -z "${CLUSTER_TYPE}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^ok] ]]; do
         if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
-            echo -n "Do you want to create a (k)ubernetes cluster or an OpenShift cluster? [K/o] "
+            echo -n "Do you want to create a (k)ubernetes cluster or an [O]penShift cluster? [K/o] "
         else
-            echo -n "Is your existing cluster (k)ubernetes or OpenShift? [K/o] "
+            echo -n "Is your existing cluster (k)ubernetes, [O]penShift, or [C]odeReady Container? [K/o/c] "
         fi
         read ANSWER
 
@@ -62,11 +70,16 @@ if [[ -z "${CLUSTER_TYPE}" ]]; then
             ANSWER="k"
         elif [[ "${ANSWER}" =~ [Oo] ]]; then
             ANSWER="o"
+        elif [[ "${ANSWER}" =~ [Cc] ]]; then
+            ANSWER="c"
         fi
     done
 
     if [[ "${ANSWER}" == "k" ]]; then
         CLUSTER_TYPE="kubernetes"
+    elif [[ "${ANSWER}" == "c" ]]; then
+        CLUSTER_TYPE="openshift"
+        CLUSTER_MANAGEMENT="crc"
     else
         CLUSTER_TYPE="openshift"
     fi
@@ -113,6 +126,11 @@ else
     echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools, dev, test, prod\033[0m"
 fi
 
+STAGES_DIRECTORY="stages"
+
+cp ${SRC_DIR}/${STAGES_DIRECTORY}/variables.tf "${WORKSPACE_DIR}"
+cp ${SRC_DIR}/${STAGES_DIRECTORY}/stage*.tf "${WORKSPACE_DIR}"
+
 echo ""
 
 if [[ "$1" != "--force" ]]; then
@@ -130,4 +148,5 @@ if [[ "$1" != "--force" ]]; then
 fi
 
 cd ${WORKSPACE_DIR}
+
 ./apply.sh
