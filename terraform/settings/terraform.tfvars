@@ -10,6 +10,7 @@ cluster_exists="false"
 # Vlan config
 resource_group_name="<resource group>"
 vlan_region="us-east"
+#name_prefix="<name prefix for cluster and services>"
 
 # The following values tell the IBMCloud terraform provider the details about the new
 # cluster it will create.
