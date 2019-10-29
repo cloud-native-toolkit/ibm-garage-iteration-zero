@@ -7,7 +7,8 @@ SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 WORKSPACE_DIR="${SRC_DIR}/workspace"
 mkdir -p ${WORKSPACE_DIR}/.tmp
 
-cp ${SRC_DIR}/settings/* ${WORKSPACE_DIR}
+cat ${SRC_DIR}/settings/environment.tfvars > ${WORKSPACE_DIR}/terraform.tfvars
+cat ${SRC_DIR}/settings/vlan.tfvars >> ${WORKSPACE_DIR}/terraform.tfvars
 cp ${SRC_DIR}/scripts/* ${WORKSPACE_DIR}
 
 # Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set

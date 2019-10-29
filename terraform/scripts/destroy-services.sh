@@ -4,7 +4,7 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
-. ${SCRIPT_DIR}/../settings/terraform.tfvars
+. ${SCRIPT_DIR}/../settings/environment.tfvars
 
 echo "Looking for services in resource group: ${resource_group_name}"
 

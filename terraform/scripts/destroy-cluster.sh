@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 
-. ${SCRIPT_DIR}/../settings/terraform.tfvars
+. ${SCRIPT_DIR}/../settings/environment.tfvars
 
 FORCE=$(echo "$@" | grep -- "--force")
 
