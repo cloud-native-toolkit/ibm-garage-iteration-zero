@@ -59,7 +59,7 @@ fi
 CLUSTER_TYPE=$(grep -E "^cluster_type" ${TFVARS} | sed -E "s/^cluster_type=\"(.*)\".*/\1/g")
 if [[ -z "${CLUSTER_TYPE}" ]]; then
     ANSWER="x"
-    while [[ "${ANSWER}" =~ [^ok] ]]; do
+    while [[ "${ANSWER}" =~ [^okc] ]]; do
         if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
             echo -n "Do you want to create a (k)ubernetes cluster or an [O]penShift cluster? [K/o] "
         else
@@ -79,14 +79,19 @@ if [[ -z "${CLUSTER_TYPE}" ]]; then
     if [[ "${ANSWER}" == "k" ]]; then
         CLUSTER_TYPE="kubernetes"
     elif [[ "${ANSWER}" == "c" ]]; then
-        CLUSTER_TYPE="openshift"
-        CLUSTER_MANAGEMENT="crc"
+        CLUSTER_TYPE="crc"
     else
         CLUSTER_TYPE="openshift"
     fi
-
-    echo "cluster_type=\"${CLUSTER_TYPE}\"" >> ${TFVARS}
 fi
+
+
+if [[ "${CLUSTER_TYPE}" == "crc" ]]; then
+    CLUSTER_TYPE="openshift"
+    CLUSTER_MANAGEMENT="crc"
+fi
+
+echo "cluster_type=\"${CLUSTER_TYPE}\"" >> ${TFVARS}
 
 POSTGRES_SERVER_EXISTS=$(grep -E "^postgres_server_exists" ${TFVARS} | sed -E "s/^postgres_server_exists=\"(.*)\".*/\1/g")
 if [[ -z "${POSTGRES_SERVER_EXISTS}" ]]; then
@@ -127,7 +132,11 @@ else
     echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools, dev, test, prod\033[0m"
 fi
 
-STAGES_DIRECTORY="stages"
+if [[ "crc" ==  ${CLUSTER_MANAGEMENT} ]]; then
+	STAGES_DIRECTORY="stages-crc"
+else
+	STAGES_DIRECTORY="stages"
+fi
 
 cp ${SRC_DIR}/${STAGES_DIRECTORY}/variables.tf "${WORKSPACE_DIR}"
 cp ${SRC_DIR}/${STAGES_DIRECTORY}/stage*.tf "${WORKSPACE_DIR}"
