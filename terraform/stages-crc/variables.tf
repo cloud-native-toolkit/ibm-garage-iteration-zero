@@ -9,6 +9,7 @@ variable "user_home_dir" {
 variable "resource_group_name" {
   type        = "string"
   description = "Existing resource group where the IKS cluster will be provisioned."
+  default     = ""
 }
 
 variable "ibmcloud_api_key" {
@@ -38,6 +39,7 @@ variable "vlan_datacenter" {
 variable "vlan_region" {
   type        = "string"
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
+  default     = ""
 }
 
 # Cluster Variables
