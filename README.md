@@ -51,16 +51,6 @@ Start with the [installation instructions](https://ibm-garage-cloud.github.io/ib
 [Cloud Developer Tools Dashboard](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/dashboard/)
 explains how to open the dashbard for using the Cloud Developer Tools environment.
 
-
-### Tekton
-
-Install the tekton tasks on the target namespace, for example for the `dev` namespace use the following
-```bash
-kubectl create -f tekton/ -n dev
-```
-
-Then each template application contains a sample Tekton Pipeline.
-
 ### Destroying
 
 The scripts that created the Cloud Developer Tools environment can also be used to destroy it. See [destroy](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/destroying/) for instructions.
