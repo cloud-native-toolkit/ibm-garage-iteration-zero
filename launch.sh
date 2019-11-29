@@ -5,6 +5,8 @@
 SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
 SRC_DIR="$(cd "${SCRIPT_DIR}/terraform" ; pwd -P)"
 
+DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:0.0.24"
+
 helpFunction()
 {
     RED='\033[0;31m'
@@ -55,8 +57,6 @@ if [[ -z "${IBMCLOUD_API_KEY}" ]] || [[ -z "${CLASSIC_USERNAME}" ]] || [[ -z "${
 then
     helpFunction "Some of the credentials values are empty. "
 fi
-
-DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:0.0.24"
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
 CONTAINER_NAME="ibm-garage-cli-tools-${SUFFIX}"
