@@ -6,9 +6,15 @@ function join_by { local IFS="$1"; shift; echo "$*"; }
 
 . ${SCRIPT_DIR}/../settings/environment.tfvars
 
-echo "Looking for services in resource group: ${resource_group_name}"
+if [[ -n "${name_prefix}" ]]; then
+  PREFIX="${name_prefix}"
+else
+  PREFIX="${resource_group_name}"
+fi
 
-SERVICES=$(ibmcloud resource service-instances -g ${resource_group_name} | grep -E "^${resource_group_name}" | sed -E "s/(${resource_group_name}[^ ]*).*/\1/g")
+echo "Looking for services in resource group: ${PREFIX}"
+
+SERVICES=$(ibmcloud resource service-instances -g ${resource_group_name} | grep -E "^${PREFIX}" | sed -E "s/(${PREFIX}[^ ]*).*/\1/g")
 
 FILTER=$(join_by "|" $@)
 FORCE=$(echo "$@" | grep -- "--force")
