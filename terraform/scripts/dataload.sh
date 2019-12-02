@@ -1,6 +1,9 @@
 #!/bin/sh
 # Cloudant Database Data Load Utility
 
+# Load data from a file by passing the file name as the first (and only) argument 
+# OR provide the database contents via stdin (e.g. `./dataload.sh < file` or `cat file | ./dataload.sh`
+
 # Credentials from IBM Cloud add API_KEY and USERNAME from Cloudant
 CLOUDANT_API_KEY=
 CLOUDANT_USERNAME=
@@ -22,7 +25,7 @@ fi
 
 
 # Get a Bearer Token from IBM Cloud IAM
-IAM_AUTH=$(curl -k -X POST \
+IAM_AUTH=$(curl -s -k -X POST \
   --header "Content-Type: application/x-www-form-urlencoded" \
   --header "Accept: application/json" \
   --data-urlencode "grant_type=urn:ibm:params:oauth:grant-type:apikey" \
@@ -35,13 +38,23 @@ BEARER_TOKEN="Bearer ${TOKEN}"
 
 
 # credentials to post data to cloudant for bulk document upload
-ACURL="curl -s --proto '=https' -iv -g -H 'Authorization: ${BEARER_TOKEN}'"
-HOST="https://${CLOUDANT_USERNAME}.cloudant.com"
+ACURL="curl -s --proto '=https' -g -H 'Authorization: ${BEARER_TOKEN}'"
+HOST="https://${CLOUDANT_USERNAME}.cloudantnosqldb.appdomain.cloud"
 
 # Inventory
-eval ${ACURL} -X DELETE '${HOST}/${DATABASE}'
-eval ${ACURL} -X PUT '${HOST}/${DATABASE}'
-eval ${ACURL} -H "Content-Type:application/json" -d @inventory.json -vX POST '${HOST}/${DATABASE}/_bulk_docs'
+echo "Deleting existing database: ${DATABASE}"
+echo "  \c"
+eval ${ACURL} -X DELETE "${HOST}/${DATABASE}"
 
+echo "Creating new database: ${DATABASE}"
+echo "  \c"
+eval ${ACURL} -X PUT "${HOST}/${DATABASE}"
 
+if [[ "${1:--}" == "-" ]]; then
+  echo "Loading data into database from stdin"
+else
+  echo "Loading data into database from ${1}"
+fi
+echo "  \c"
+eval ${ACURL} -H "Content-Type:application/json" -d "@${1:--}" -X POST "${HOST}/${DATABASE}/_bulk_docs"
 
