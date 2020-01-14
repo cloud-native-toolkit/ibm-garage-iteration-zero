@@ -6,16 +6,16 @@
 # Full RedHat and IKS development, but limited access and creation of new Services , 
 # ideal for a development team with control from a system administrator
 #
-# Author: Matthew Perrins
-# eMail: mjperrin@us.ibm.com
-# Date: 12th January 2020
+# Author    : Matthew Perrins
+# eMail     : mjperrin@us.ibm.com
+# Date      : 12th January 2020
 #
 # Notes: Replace the Access Group name  Resource Group Names and the Kubernetes instances IDs
 # --------------------------------------------------------------------------------------------------------
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp <ACCESS_GROUP> <RESOURCE_GROUP> <PREFIX>"
+    echo "Usage: acp <ACCESS_GROUP> <RESOURCE_GROUP> <PREFIX> <REGION>"
     echo "Create the Access Policies for an Access Group associated with a Resource Group"
     exit
 fi
@@ -23,6 +23,7 @@ fi
 ACCESS_GROUP=$1
 RESOURCE_GROUP=$2
 PREFIX=$3
+REGION=$4
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
@@ -37,9 +38,16 @@ fi
 
 # input validation
 if [ -z "${PREFIX}" ]; then
-    echo "Please provide the PREFIX name"
+    echo "Please provide the PREFIX label"
     exit
 fi
+
+# input validation
+if [ -z "${REGION}" ]; then
+    echo "Please provide the REGION"
+    exit
+fi
+
 
 # Define the Polices for the Access Group, this are limited to usage patterns not adminstration patterns
 
@@ -47,7 +55,7 @@ fi
 ic iam access-group-policy-create ${ACCESS_GROUP} --roles Editor,Manager --resource-group-name ${RESOURCE_GROUP} --service-name cloudantnosqldb
 
 # Container Register 41
-ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader  --service-name container-registry --region jp-tok
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader  --service-name container-registry --region ${REGION}
 
 # Resource Group  - 32
 ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader --resource-group-name ${RESOURCE_GROUP} 
