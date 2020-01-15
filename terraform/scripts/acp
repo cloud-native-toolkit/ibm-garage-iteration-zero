@@ -1,0 +1,88 @@
+#!/bin/bash
+# --------------------------------------------------------------------------------------------------------
+# Name : Developement Team Access Group Policies
+#
+# Description : Define the Policies for a Locked Down Resource Group and Access Group to allow
+# Full RedHat and IKS development, but limited access and creation of new Services , 
+# ideal for a development team with control from a system administrator
+#
+# Author    : Matthew Perrins
+# eMail     : mjperrin@us.ibm.com
+# Date      : 12th January 2020
+#
+# Notes: Replace the Access Group name  Resource Group Names and the Kubernetes instances IDs
+# --------------------------------------------------------------------------------------------------------
+#
+# input validation
+if [ -z "$1" ]; then
+    echo "Usage: acp <ACCESS_GROUP> <RESOURCE_GROUP> <PREFIX> <REGION>"
+    echo "Create the Access Policies for an Access Group associated with a Resource Group"
+    exit
+fi
+
+ACCESS_GROUP=$1
+RESOURCE_GROUP=$2
+PREFIX=$3
+REGION=$4
+
+# input validation
+if [ -z "${ACCESS_GROUP}" ]; then
+    echo "Please provide the ACCESS_GROUP name"
+    exit
+fi
+# input validation
+if [ -z "${RESOURCE_GROUP}" ]; then
+    echo "Please provide the RESOURCE_GROUP name"
+    exit
+fi
+
+# input validation
+if [ -z "${PREFIX}" ]; then
+    echo "Please provide the PREFIX label"
+    exit
+fi
+
+# input validation
+if [ -z "${REGION}" ]; then
+    echo "Please provide the REGION"
+    exit
+fi
+
+
+# Define the Polices for the Access Group, this are limited to usage patterns not adminstration patterns
+
+# Cloudant - 94
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Editor,Manager --resource-group-name ${RESOURCE_GROUP} --service-name cloudantnosqldb
+
+# Container Register 41
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader  --service-name container-registry --region ${REGION}
+
+# Resource Group  - 32
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader --resource-group-name ${RESOURCE_GROUP} 
+
+# SysDig - 37
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Writer,Reader,Viewer,Operator --resource-group-name ${RESOURCE_GROUP} --service-name sysdig-monitor
+
+# LogDNA - 37
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles "Standard Member,Manager,Reader,Editor,Operator,Viewer" --resource-group-name ${RESOURCE_GROUP} --service-name logdna
+
+# COS - 197
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager --resource-group-name ${RESOURCE_GROUP} --service-name cloud-object-storage 
+
+# Resource Group  - 17
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-group-name ${RESOURCE_GROUP} --attributes "resourceType=resource-group,resource=${RESOURCE_GROUP}"
+
+# Kubernetes 73
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager  --service-name containers-kubernetes
+
+# Kubernetes 73 with Instance - OCP
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager --service-name containers-kubernetes --service-instance ${PREFIX}-ocp-cluster
+
+# Kubernetes 73 with Instance - IKS
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager --service-name containers-kubernetes --service-instance ${PREFIX}-iks-cluster
+
+# AppID - 257
+ic iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager --resource-group-name ${RESOURCE_GROUP} --service-name appid
+
+
+echo "Completed creating polices!"
