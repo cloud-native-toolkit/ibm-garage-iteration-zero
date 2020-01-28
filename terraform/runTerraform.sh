@@ -134,6 +134,8 @@ fi
 
 if [[ "crc" ==  ${CLUSTER_MANAGEMENT} ]]; then
 	STAGES_DIRECTORY="stages-crc"
+elif [[ "ocp4" == ${CLUSTER_TYPE} ]]; then
+	STAGES_DIRECTORY="stages-ocp4"
 else
 	STAGES_DIRECTORY="stages"
 fi
