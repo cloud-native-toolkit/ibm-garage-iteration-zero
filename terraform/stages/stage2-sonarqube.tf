@@ -1,5 +1,5 @@
 module "dev_serviceaccount_sonarqube" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/cluster/serviceaccount?ref=v2.0.7"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/cluster/serviceaccount?ref=ocp43"
 
   cluster_type             = "${var.cluster_type}"
   namespace                = "${module.dev_cluster_namespaces.tools_namespace_name}"
