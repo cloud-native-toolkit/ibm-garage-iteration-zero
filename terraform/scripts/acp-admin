@@ -1,0 +1,52 @@
+#!/bin/bash
+# --------------------------------------------------------------------------------------------------------
+# Name : Environment Administrator Access Group Policies
+#
+# Description: Set the policies in an Access Group to allow installation and administration
+# of the Developer Tools environment into a new or existing OpenShift or Kubernetes cluster.
+#
+# Author    : Bobby Woolf (thanks to Matthew Perrins)
+# eMail     : bwoolf@us.ibm.com
+# Date      : 29th January 2020
+#
+# --------------------------------------------------------------------------------------------------------
+#
+# input validation
+if [ -z "$1" ]; then
+    echo "Usage: acp-admin <ACCESS_GROUP> <RESOURCE_GROUP>"
+    echo "Create the administration Access Policies for an Access Group associated with a Resource Group"
+    exit
+fi
+
+ACCESS_GROUP=$1
+RESOURCE_GROUP=$2
+
+# input validation
+if [ -z "${ACCESS_GROUP}" ]; then
+    echo "Please provide the ACCESS_GROUP name"
+    exit
+fi
+
+# input validation
+if [ -z "${RESOURCE_GROUP}" ]; then
+    echo "Please provide the RESOURCE_GROUP name"
+    exit
+fi
+
+
+# Define the Polices for the Access Group to enable installation and adminstration
+
+# All IAM Services in all Regions in Resource Group  - 40
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --resource-group-name ${RESOURCE_GROUP}
+
+# Resource Group  - 10
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-group-name ${RESOURCE_GROUP} --attributes "resourceType=resource-group,resource=${RESOURCE_GROUP}"
+
+# Kubernetes service in all Regions - 45
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name containers-kubernetes
+
+# Container Registery in all Regions - 64
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name container-registry
+
+
+echo "Completed creating polices!"
