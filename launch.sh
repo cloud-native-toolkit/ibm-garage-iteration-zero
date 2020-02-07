@@ -5,7 +5,7 @@
 SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
 SRC_DIR="$(cd "${SCRIPT_DIR}/terraform" ; pwd -P)"
 
-DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:0.0.24"
+DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:next"
 
 helpFunction()
 {
