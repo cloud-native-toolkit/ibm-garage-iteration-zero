@@ -16,7 +16,7 @@ fi
 
 echo "Looking for services in cluster: ${CLUSTER_NAME}"
 
-SERVICES=$(kubectl get services.ibmcloud -A -o jsonpath='{range .items[*]}{.metadata.namespace}{"/"}{.metadata.name}{"\n"}{end}')
+SERVICES=$(kubectl get services.ibmcloud --all-namespaces -o jsonpath='{range .items[*]}{.metadata.namespace}{"/"}{.metadata.name}{"\n"}{end}')
 
 FILTER=$(join_by "|" "$@")
 FORCE=$(echo "$@" | grep -- "--force")
