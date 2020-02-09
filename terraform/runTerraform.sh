@@ -7,14 +7,16 @@ SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 WORKSPACE_DIR="${SRC_DIR}/workspace"
 mkdir -p "${WORKSPACE_DIR}/.tmp"
 
-cat "${SRC_DIR}/settings/environment.tfvars" > "${WORKSPACE_DIR}/terraform.tfvars"
-cat "${SRC_DIR}/settings/vlan.tfvars" >> "${WORKSPACE_DIR}/terraform.tfvars"
+TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
+
+cat "${SRC_DIR}/settings/environment.tfvars" > "${TFVARS}"
+cat "${SRC_DIR}/settings/vlan.tfvars" >> "${TFVARS}"
+echo "" >> "${TFVARS}"
 cp "${SRC_DIR}"/scripts/* "${WORKSPACE_DIR}"
 
 # Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
 # If not, get them from the user and write them to a file
 
-TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 
 RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" "${TFVARS}" | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
 CLUSTER_NAME=$(grep -E "^cluster_name" "${TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
