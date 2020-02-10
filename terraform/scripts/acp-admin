@@ -36,15 +36,21 @@ fi
 
 # Define the Polices for the Access Group to enable installation and adminstration
 
+# https://cloud.ibm.com/docs/iam?topic=iam-userroles
 # All IAM Services in all Regions in Resource Group  - 40
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --resource-group-name ${RESOURCE_GROUP}
 
+# https://cloud.ibm.com/docs/iam?topic=iam-userroles
 # Resource Group  - 10
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-group-name ${RESOURCE_GROUP} --attributes "resourceType=resource-group,resource=${RESOURCE_GROUP}"
 
+# "Prepare to create clusters at the account level"
+# https://cloud.ibm.com/docs/containers?topic=containers-clusters#cluster_prepare
 # Kubernetes service in all Regions - 45
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name containers-kubernetes
 
+# "Updating existing clusters to use the API key image pull secret"
+# https://cloud.ibm.com/docs/containers?topic=containers-images#imagePullSecret_migrate_api_key
 # Container Registery in all Regions - 64
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name container-registry
 

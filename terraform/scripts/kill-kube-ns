@@ -12,6 +12,13 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 ###############################################################################
+#
+# input validation
+if [ -z "$1" ]; then
+    echo "Usage: kill-kube-ns <NAMESPACE>"
+    echo "Delete the namespace. kubectl must be logged into the cluster."
+    exit
+fi
 
 set -eo pipefail
 
