@@ -14,4 +14,5 @@ module "dev_infrastructure_appid" {
   service_namespace   = module.dev_software_cloud_operator.namespace
   cluster_config_file = module.dev_cluster.config_file_path
   cluster_name        = module.dev_cluster.name
+  tags                = [module.dev_cluster.tag]
 }

@@ -8,4 +8,5 @@ module "dev_infrastructure_sysdig" {
   cluster_type             = var.cluster_type
   name_prefix              = var.name_prefix
   service_namespace        = module.dev_software_cloud_operator.namespace
+  tags                     = [module.dev_cluster.tag]
 }

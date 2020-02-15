@@ -15,4 +15,5 @@ module "dev_infrastructure_postgres" {
   name_prefix         = var.name_prefix
   service_namespace   = module.dev_software_cloud_operator.namespace
   cluster_config_file = module.dev_cluster.config_file_path
+  tags                = [module.dev_cluster.tag]
 }
