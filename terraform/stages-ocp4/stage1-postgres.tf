@@ -1,5 +1,5 @@
 module "dev_infrastructure_postgres" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//cloud-managed/operator-services/postgres?ref=ocp43"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//cloud-managed/services/postgres?ref=ocp43"
 
   resource_group_name = var.resource_group_name
   resource_location   = var.vlan_region
@@ -13,7 +13,5 @@ module "dev_infrastructure_postgres" {
   ]
   namespace_count     = 4
   name_prefix         = var.name_prefix
-  service_namespace   = module.dev_software_cloud_operator.namespace
-  cluster_config_file = module.dev_cluster.config_file_path
   tags                = [module.dev_cluster.tag]
 }
