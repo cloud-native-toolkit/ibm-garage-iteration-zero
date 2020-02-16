@@ -9,5 +9,6 @@ module "dev_infrastructure_cloudant" {
     module.dev_cluster_namespaces.test_namespace_name,
     module.dev_cluster_namespaces.staging_namespace_name
   ]
+  namespace_count     = 3
   name_prefix         = var.name_prefix
 }
