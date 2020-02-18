@@ -1,5 +1,5 @@
 module "dev_infrastructure_appid" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//cloud-managed/services/appid?ref=ocp43"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//cloud-managed/services/appid?ref=v2.2.0"
 
   resource_group_name = module.dev_cluster.resource_group_name
   resource_location   = module.dev_cluster.region
