@@ -17,6 +17,12 @@
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 
+NAMESPACE="${1}"
+if [[ -z "${NAMESPACE}" ]]; then
+  echo "The target namespace is required as the first parameter"
+  exit 1
+fi
+
 CREDENTIAL_FILE="${SCRIPT_DIR}/../../credentials.properties"
 
 function prop {
@@ -32,6 +38,8 @@ else
     echo "The credentials.properties file is not found"
     exit 1
 fi
+
+set +x
 
 # Create a kustomization.yaml file with ConfigMapGenerator
 cat <<EOF > ./kustomization.yaml
@@ -50,4 +58,7 @@ secretGenerator:
   - classic.username=$CLASSIC_USERNAME
 EOF
 
-kubectl apply -k .
+kubectl apply -n "${NAMESPACE}" -k .
+
+rm ./kustomization.yaml
+
