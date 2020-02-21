@@ -38,12 +38,9 @@ kind: Pod
 spec:
   serviceAccountName: jenkins
   volumes:
-    - name: environment-tfvars
+    - name: terraform-tfvars
       configMap:
-        name: environment-tfvars
-    - name: vlan-tfvars
-      configMap:
-        name: vlan-tfvars
+        name: terraform-tfvars
   containers:
     - name: setup-image
       image: alpine:3.9.5
@@ -54,10 +51,8 @@ spec:
         - name: HOME
           value: ${workingDir}
       volumeMounts:
-        - name: environment-tfvars
-          mountPath: /etc/config/environment.tfvars
-        - name: vlan-tfvars
-          mountPath: /etc/config/vlan.tfvars
+        - name: terraform-tfvars
+          mountPath: /etc/settings
     - name: tools-image
       image: ${toolsImage}
       tty: true
@@ -95,8 +90,7 @@ spec:
                 sh '''
                     set +x
 
-                    cp /etc/config/environment.tfvars ./terraform/settings
-                    cp /etc/config/vlan.tfvars ./terraform/settings
+                    cp -v /etc/settings/* ./terraform/settings
 
                     echo "*** Terraform settings copied"
                     echo ""

@@ -39,14 +39,14 @@ else
     exit 1
 fi
 
-kubectl delete configmap/environment-tfvars -n "${NAMESPACE}" 1> /dev/null 2> /dev/null
-kubectl delete configmap/vlan-tfvars -n "${NAMESPACE}" 1> /dev/null 2> /dev/null
+kubectl delete configmap/terraform-tfvars -n "${NAMESPACE}" 1> /dev/null 2> /dev/null
 kubectl delete secret/terraform-credentials -n "${NAMESPACE}" 1> /dev/null 2> /dev/null
 
 set +x
 
-kubectl create configmap environment-tfvars -n "${NAMESPACE}" --from-file=environment.tfvars
-kubectl create configmap vlan-tfvars -n "${NAMESPACE}" --from-file=vlan.tfvars
+kubectl create configmap terraform-tfvars -n "${NAMESPACE}" \
+  --from-file=environment.tfvars \
+  --from-file=vlan.tfvars
 cat <<EOF | kubectl apply -n "${NAMESPACE}" -f -
 apiVersion: v1
 kind: Secret
