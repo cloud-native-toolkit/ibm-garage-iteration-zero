@@ -48,7 +48,7 @@ spec:
     - name: setup-image
       image: alpine:3.9.5
       tty: true
-      command: ["/bin/bash"]
+      command: ["/bin/sh"]
       workingDir: ${workingDir}
       env:
         - name: HOME
@@ -89,10 +89,10 @@ spec:
 """
 ) {
     node(buildLabel) {
-        container(name: 'setup-image', shell: '/bin/bash') {
+        container(name: 'setup-image') {
             checkout scm
             stage('Copy settings') {
-                sh '''#!/bin/bash
+                sh '''
                     set +x
 
                     cp /etc/config/environment.tfvars ./terraform/settings
