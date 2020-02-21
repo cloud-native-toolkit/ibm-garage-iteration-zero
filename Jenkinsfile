@@ -39,7 +39,7 @@ spec:
       configMap:
         name: vlan-tfvars
   containers:
-    - name: setupImage
+    - name: setup-image
       image: alpine:3.9.5
       tty: true
       command: ["/bin/bash"]
@@ -52,7 +52,7 @@ spec:
           mountPath: /etc/config/environment.tfvars
         - name: vlan-tfvars
           mountPath: /etc/config/vlan.tfvars
-    - name: toolsImage
+    - name: tools-image
       image: ${toolsImage}
       tty: true
       command: ["/bin/bash"]
@@ -83,7 +83,7 @@ spec:
 """
 ) {
     node(buildLabel) {
-        container(name: 'setupImage', shell: '/bin/bash') {
+        container(name: 'setup-image', shell: '/bin/bash') {
             checkout scm
             stage('Copy settings') {
                 sh '''#!/bin/bash
@@ -102,7 +102,7 @@ spec:
                 '''
             }
         }
-        container(name: 'toolsImage', shell: '/bin/bash') {
+        container(name: 'tools-image', shell: '/bin/bash') {
             stage('Provision cluster') {
                 sh '''
                     set +x

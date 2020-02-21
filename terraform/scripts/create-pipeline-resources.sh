@@ -39,26 +39,21 @@ else
     exit 1
 fi
 
+kubectl delete configmap/environment-tfvars -n "${NAMESPACE}" 1> /dev/null 2> /dev/null
+kubectl delete configmap/vlan-tfvars -n "${NAMESPACE}" 1> /dev/null 2> /dev/null
+kubectl delete secret/terraform-credentials -n "${NAMESPACE}" 1> /dev/null 2> /dev/null
+
 set +x
 
-# Create a kustomization.yaml file with ConfigMapGenerator
-cat <<EOF > ./kustomization.yaml
-configMapGenerator:
-- name: environment-tfvars
-  files:
-  - environment.tfvars
-- name: vlan-tfvars
-  files:
-  - vlan.tfvars
-secretGenerator:
-- name: terraform-credentials
-  literals:
-  - ibmcloud.api.key=$IBMCLOUD_API_KEY
-  - classic.api.key=$CLASSIC_API_KEY
-  - classic.username=$CLASSIC_USERNAME
+kubectl create configmap environment-tfvars -n "${NAMESPACE}" --from-file=environment.tfvars
+kubectl create configmap vlan-tfvars -n "${NAMESPACE}" --from-file=vlan.tfvars
+cat <<EOF | kubectl apply -n "${NAMESPACE}" -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: terraform-credentials
+stringData:
+  ibmcloud.api.key: $IBMCLOUD_API_KEY
+  classic.api.key: $CLASSIC_API_KEY
+  classic.username: $CLASSIC_USERNAME
 EOF
-
-kubectl apply -n "${NAMESPACE}" -k .
-
-rm ./kustomization.yaml
-
