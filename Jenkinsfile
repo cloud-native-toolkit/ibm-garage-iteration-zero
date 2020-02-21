@@ -9,17 +9,23 @@
  * to run in both Kubernetes and OpenShift environments.
  */
 
-def buildAgentName(String jobName, String buildNumber) {
+def buildAgentName(String jobNameWithNamespace, String buildNumber, String namespace) {
+    def jobName = removeNamespaceFromJobName(jobNameWithNamespace, namespace);
+
     if (jobName.length() > 55) {
         jobName = jobName.substring(0, 55);
     }
 
-    return "a.${jobName}${buildNumber}".replace('_', '-').replace('/', '-').replace('-.', '.');
+    return "a.${jobName}${buildNumber}".replaceAll('_', '-').replaceAll('/', '-').replaceAll('-.', '.');
+}
+
+def removeNamespaceFromJobName(String jobName, String namespace) {
+    return jobName.replaceAll(namespace + '-', '');
 }
 
 def toolsImage="ibmgaragecloud/cli-tools:0.1.1"
 
-def buildLabel = buildAgentName(env.JOB_NAME, env.BUILD_NUMBER);
+def buildLabel = buildAgentName(env.JOB_NAME, env.BUILD_NUMBER, env.NAMESPACE);
 def namespace = env.NAMESPACE ?: "dev"
 def cloudName = env.CLOUD_NAME == "openshift" ? "openshift" : "kubernetes"
 def workingDir = "/home/jenkins/agent"
