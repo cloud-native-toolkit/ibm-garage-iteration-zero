@@ -66,22 +66,16 @@ variable "tools_namespace" {
   default     = "tools"
 }
 
-variable "dev_namespace" {
-  type        = string
+variable "other_namespaces" {
+  type        = list(string)
   description = "Namespace for dev"
-  default     = "dev"
+  default     = ["dev", "test", "staging"]
 }
 
-variable "test_namespace" {
-  type        = string
-  description = "Namespace for test"
-  default     = "test"
-}
-
-variable "staging_namespace" {
-  type        = string
-  description = "Namespace for staging"
-  default     = "staging"
+variable "other_namespace_count" {
+  type        = number
+  description = "Namespace for dev"
+  default     = count(var.other_namespaces)
 }
 
 variable "cluster_name" {
