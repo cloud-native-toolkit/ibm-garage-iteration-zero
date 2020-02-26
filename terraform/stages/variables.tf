@@ -66,6 +66,12 @@ variable "tools_namespace" {
   default     = "tools"
 }
 
+variable "sre_namespace" {
+  type        = string
+  description = "Namespace for SRE tools"
+  default     = "ibm-observe"
+}
+
 variable "release_namespaces" {
   type        = list(string)
   description = "Namespace for dev"
