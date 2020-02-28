@@ -1,6 +1,6 @@
 .idea/
 *.iml
-credentials.properties
+credentials*.properties
 
 .bash_history
 .terraform.d/
