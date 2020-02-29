@@ -1,4 +1,4 @@
-# IBM Garage for Cloud & Solution Engineering
+# IBM Garage Solution Engineering
 ## Iteration Zero for IBM Cloud
 
 This repository contains infrastructure as code (IasC) scripting to create an IBM Garage Clout Native Toolkit development  environment ready for cloud-native application development with IBM Cloud Kubernetes Service or Red Hat OpenShift. 
@@ -62,5 +62,5 @@ The scripts that created the Cloud Developer Tools environment can also be used 
 
 We are working to make Kubernetes and OpenShift development as easy as possible this toolkit adds what feels like a PaaS layer to a Kubernetes environment, any feedback on the use of the project will be most welcome.
 
-Thanks IBM Garage Team
+Thanks IBM Garage Solution Engineering
 
