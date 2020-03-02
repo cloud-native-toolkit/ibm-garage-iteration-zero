@@ -90,8 +90,9 @@ if [[ -z "${CLUSTER_TYPE}" ]]; then
 fi
 
 if [[ "${CLUSTER_TYPE}" == "crc" ]]; then
-    CLUSTER_TYPE="openshift"
+    CLUSTER_TYPE="ocp4"
     CLUSTER_MANAGEMENT="crc"
+    MANAGED_BY=" managed by \033[1;33mcrc\033[0m"
 fi
 
 sed "s/^cluster_type=.*/cluster_type=\"${CLUSTER_TYPE}\"/g" < "${TFVARS}" > "${TFVARS}.tmp" && \
@@ -131,9 +132,9 @@ else
     echo -e "  - Use an existing postgres instance"
 fi
 if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
-    echo -e "  - Create a new \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m"
+    echo -e "  - Create a new \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
 else
-    echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m"
+    echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
     echo ""
     echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools, dev, test, staging\033[0m"
 fi
