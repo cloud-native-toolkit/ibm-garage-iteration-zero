@@ -1,4 +1,4 @@
-module "dev_tools_catalystdashboard_release" {
+module "dev_tools_dashboard_release" {
   source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/developerdashboard_release?ref=ocp43-lite"
 
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname
