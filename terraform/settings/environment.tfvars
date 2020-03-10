@@ -1,4 +1,4 @@
-# The type of cluster that will be created/used (kubernetes or openshift)
+# The type of cluster that will be created/used (kubernetes, openshift, ocp4, or crc) Use "openshift" for OpenShift 3.11
 cluster_type="kubernetes"
 # Flag indicating if we are using an existing cluster or creating a new one
 cluster_exists="false"
