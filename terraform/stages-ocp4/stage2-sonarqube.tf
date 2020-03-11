@@ -7,7 +7,6 @@ module "dev_infrastructure_postgres" {
   cluster_id          = module.dev_cluster.id
   namespaces          = concat([module.dev_cluster_namespaces.tools_namespace_name], module.dev_cluster_namespaces.release_namespaces)
   namespace_count     = var.release_namespace_count+1
-  postgresql_database = "sonarqube-psql"
   cluster_type        = var.cluster_type
 }
 
