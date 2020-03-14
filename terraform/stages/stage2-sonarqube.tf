@@ -9,7 +9,7 @@ module "dev_serviceaccount_sonarqube" {
 }
 
 module "dev_tools_sonarqube_release" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/sonarqube_release?ref=ocp43-lite"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/sonarqube_release?ref=v2.2.2"
 
   cluster_type             = var.cluster_type
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname
