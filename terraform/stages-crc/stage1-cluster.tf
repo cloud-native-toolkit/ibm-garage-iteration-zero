@@ -1,5 +1,5 @@
 module "dev_cluster" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//self-managed/cluster/openshift_cluster?ref=v2.2.2"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//self-managed/cluster/openshift_cluster?ref=ibmcloud-config"
 
   resource_group_name     = var.resource_group_name
   cluster_name            = var.cluster_name
