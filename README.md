@@ -5,7 +5,7 @@ This repository contains infrastructure as code (IasC) scripting to create an IB
 
 ### Overview
 
-Iteration Zero creates an IBM Garage for Cloud Developer Tools environment in IBM Cloud, complete with tools and services needed for continious delivery of typical cloud-native applications to a [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers) or [Red Hat OpenShift on IBM Cloud](https://cloud.ibm.com/docs/openshift) cluster. Typically a squad lead or lead developer would create this environment after the initial inception workshop has completed and the development team is ready to write code.
+Iteration Zero creates an IBM Garage for Cloud Developer Tools environment in IBM Cloud, complete with tools and services needed for continuous delivery of typical cloud-native applications to a [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers) or [Red Hat OpenShift on IBM Cloud](https://cloud.ibm.com/docs/openshift) cluster. Typically a squad lead or lead developer would create this environment after the initial inception workshop has completed and the development team is ready to write code.
 
 The objective of this environment is to reduce the amount of time and effort a team needs to spend creating and configuring their Kubernetes or OpenShift development environments. Rather than the lead having to reinvent the wheel deciding how to set up a continious development environment and perform the manual effort to create, install, and configure the cluster, tools, and services, these infrastructure as code (IasC) scripts automate the process to consistently create an environment as needed that embodies these best practices. The scripts are modular so tools can be easily disabled or added. This combindation of tools are proven in the industry to deliver real value for modern cloud-native development. 
 
@@ -16,13 +16,14 @@ You can jump straight to the [Developers Guide](https://ibm-garage-cloud.github.
 This repo contains Terraform resources that will create an environment containing the following development tools:
 - IBM Container Service cluster (3 nodes) for Kubernetes or OpenShift
 - Namespaces for *dev*, *test*, *staging*, and *tools*
-- Tools for continious delivery:
+- Tools for continuous delivery:
+    - [Tekton CI](https://github.com/tektoncd/pipeline)
     - [Jenkins CI](https://jenkins.io/)
     - [Argo CD](https://argoproj.github.io/argo-cd/)
     - [SonarQube](https://www.sonarqube.org/) 
-    - [Pack Broker](https://docs.pact.io/)
+    - [Pact Broker](https://docs.pact.io/)
     - [Artefactory](https://jfrog.com/open-source/)
-    - [Eclipse CHE](https://www.eclipse.org/che/)
+    - [Eclipse Che](https://www.eclipse.org/che/)
 -  Cloud services for cloud-native applications:
     - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid) 
     - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant)
