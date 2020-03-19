@@ -15,7 +15,7 @@
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp-dev <ACCESS_GROUP> <RESOURCE_GROUP> <REGION> <PREFIX>"
+    echo "Usage: acp-users <ACCESS_GROUP> <RESOURCE_GROUP> <REGION> <PREFIX>"
     echo "Create the developer Access Policies for an Access Group associated with a Resource Group"
     exit
 fi
