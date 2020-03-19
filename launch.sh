@@ -5,7 +5,7 @@
 SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
 SRC_DIR="$(cd "${SCRIPT_DIR}/terraform" ; pwd -P)"
 
-DOCKER_IMAGE="garagecatalyst/ibm-garage-cli-tools:0.0.24"
+DOCKER_IMAGE="ibmgaragecloud/cli-tools:0.1.4"
 
 helpFunction()
 {
@@ -40,7 +40,7 @@ helpFunction()
 ENV="credentials"
 
 function prop {
-    grep "${1}" ${ENV}.properties|cut -d'=' -f2
+    grep "${1}" ${ENV}.properties | cut -d'=' -f2
 }
 
 if [[ -f "${ENV}.properties" ]]; then
@@ -62,16 +62,18 @@ SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g"
 CONTAINER_NAME="ibm-garage-cli-tools-${SUFFIX}"
 
 echo "Cleaning up old container: ${CONTAINER_NAME}"
-docker kill ${CONTAINER_NAME} 1> /dev/null 2> /dev/null
-docker rm ${CONTAINER_NAME} 1> /dev/null 2> /dev/null
+
+DOCKER_CMD="docker"
+${DOCKER_CMD} kill ${CONTAINER_NAME} 1> /dev/null 2> /dev/null
+${DOCKER_CMD} rm ${CONTAINER_NAME} 1> /dev/null 2> /dev/null
 
 if [[ -n "$1" ]]; then
-    echo "Pulling docker image: ${DOCKER_IMAGE}"
-    docker pull "${DOCKER_IMAGE}"
+    echo "Pulling container image: ${DOCKER_IMAGE}"
+    ${DOCKER_CMD} pull "${DOCKER_IMAGE}"
 fi
 
 echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
-docker run -itd --name ${CONTAINER_NAME} \
+${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
    -v ${SRC_DIR}:/home/devops/src \
    -e TF_VAR_ibmcloud_api_key="${IBMCLOUD_API_KEY}" \
    -e IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}" \
@@ -81,4 +83,4 @@ docker run -itd --name ${CONTAINER_NAME} \
    ${DOCKER_IMAGE}
 
 echo "Attaching to running container..."
-docker attach ${CONTAINER_NAME}
+${DOCKER_CMD} attach ${CONTAINER_NAME}

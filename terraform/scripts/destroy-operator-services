@@ -16,7 +16,7 @@ fi
 
 echo "Looking for services in cluster: ${CLUSTER_NAME}"
 
-SERVICES=$(kubectl get services.ibmcloud -A -o jsonpath='{range .items[*]}{.metadata.namespace}{"/"}{.metadata.name}{"\n"}{end}')
+SERVICES=$(kubectl get services.ibmcloud --all-namespaces -o jsonpath='{range .items[*]}{.metadata.namespace}{"/"}{.metadata.name}{"\n"}{end}')
 
 FILTER=$(join_by "|" "$@")
 FORCE=$(echo "$@" | grep -- "--force")
@@ -54,8 +54,16 @@ if [[ -z "${FORCE}" ]]; then
     fi
 fi
 
-echo "${FILTERED_LIST}" | while read service; do
+echo "${FILTERED_LIST}" | while read -r service; do
     service_namespace=$(echo "${service}" | sed -E "s/(.*)\/(.*)/\1/g")
     service_name=$(echo "${service}" | sed -E "s/(.*)\/(.*)/\2/g")
+
+    kubectl get binding.ibmcloud --all-namespaces -o jsonpath="{range .items[?(@.spec.serviceName == \"${service_name}\")]}{.metadata.namespace}{\"/\"}{.metadata.name}{\"\n\"}{end}" | while read -r binding; do
+      binding_namespace=$(echo "${binding}" | sed -E "s/(.*)\/(.*)/\1/g")
+      binding_name=$(echo "${binding}" | sed -E "s/(.*)\/(.*)/\2/g")
+
+      kubectl delete "binding.ibmcloud/${binding_name}" -n "${binding_namespace}"
+    done
+
     kubectl delete "service.ibmcloud/${service_name}" -n "${service_namespace}"
 done

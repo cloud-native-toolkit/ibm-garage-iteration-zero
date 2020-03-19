@@ -14,7 +14,7 @@ fi
 
 echo "Looking for services in resource group: ${PREFIX}"
 
-SERVICES=$(ibmcloud resource service-instances -g ${resource_group_name} | grep -E "^${PREFIX}" | sed -E "s/(${PREFIX}[^ ]*).*/\1/g")
+SERVICES=$(ibmcloud resource service-instances -g "${resource_group_name}" | grep -E "^${PREFIX}" | sed -E "s/(${PREFIX}[^ ]*).*/\1/g" | sort | uniq)
 
 FILTER=$(join_by "|" $@)
 FORCE=$(echo "$@" | grep -- "--force")
@@ -53,5 +53,10 @@ if [[ -z "${FORCE}" ]]; then
 fi
 
 echo "${FILTERED_LIST}" | while read service; do
-    ibmcloud resource service-instance-delete "${service}" --recursive -f
+    SERVICE_IDS=$(ibmcloud resource service-instance "${service}" -g "${resource_group_name}" --id | grep -E "^crn" | sed -E "s/(.*::).*/\1/g")
+
+    echo "${SERVICE_IDS}" | while read -r service_id; do
+      echo "Service: ${service}, ID: ${service_id}"
+      ibmcloud resource service-instance-delete "${service_id}" --recursive -f
+    done
 done

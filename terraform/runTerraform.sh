@@ -1,24 +1,26 @@
 #!/bin/bash
 set -e
 
-SCRIPT_DIR=$(dirname $0)
+SCRIPT_DIR=$(dirname "$0")
 SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 
 WORKSPACE_DIR="${SRC_DIR}/workspace"
-mkdir -p ${WORKSPACE_DIR}/.tmp
+mkdir -p "${WORKSPACE_DIR}/.tmp"
 
-cat ${SRC_DIR}/settings/environment.tfvars > ${WORKSPACE_DIR}/terraform.tfvars
-cat ${SRC_DIR}/settings/vlan.tfvars >> ${WORKSPACE_DIR}/terraform.tfvars
-cp ${SRC_DIR}/scripts/* ${WORKSPACE_DIR}
+TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
+
+cat "${SRC_DIR}/settings/environment.tfvars" > "${TFVARS}"
+cat "${SRC_DIR}/settings/vlan.tfvars" >> "${TFVARS}"
+echo "" >> "${TFVARS}"
+cp "${SRC_DIR}"/scripts/* "${WORKSPACE_DIR}"
 
 # Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
 # If not, get them from the user and write them to a file
 
-TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 
-RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" ${TFVARS} | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
-CLUSTER_NAME=$(grep -E "^cluster_name" ${TFVARS} | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
-NAME_PREFIX=$(grep -E "^name_prefix" ${TFVARS} | sed -E "s/^name_prefix=\"(.*)\".*/\1/g")
+RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" "${TFVARS}" | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
+CLUSTER_NAME=$(grep -E "^cluster_name" "${TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+NAME_PREFIX=$(grep -E "^name_prefix" "${TFVARS}" | sed -E "s/^name_prefix=\"(.*)\".*/\1/g")
 
 CLUSTER_MANAGEMENT="ibmcloud"
 
@@ -29,15 +31,15 @@ if [[ -z "${CLUSTER_NAME}" ]]; then
     CLUSTER_NAME="${RESOURCE_GROUP_NAME}-cluster"
   fi
 
-  echo "cluster_name=\"${CLUSTER_NAME}\"" >> ${TFVARS}
+  echo "cluster_name=\"${CLUSTER_NAME}\"" >> "${TFVARS}"
 fi
 
-CLUSTER_EXISTS=$(grep -E "^cluster_exists" ${TFVARS} | sed -E "s/^cluster_exists=\"(.*)\".*/\1/g")
+CLUSTER_EXISTS=$(grep -E "^cluster_exists" "${TFVARS}" | sed -E "s/^cluster_exists=\"(.*)\".*/\1/g")
 if [[ -z "${CLUSTER_EXISTS}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^ne] ]]; do
         echo -n "Do you want to create a (n)ew cluster or configure an (e)xisting cluster? [N/e] "
-        read ANSWER
+        read -r ANSWER
 
         if [[ -z "${ANSWER}" ]] || [[ "${ANSWER}" =~ [Nn] ]]; then
             ANSWER="n"
@@ -50,13 +52,13 @@ if [[ -z "${CLUSTER_EXISTS}" ]]; then
         CLUSTER_EXISTS="true"
     else
         CLUSTER_EXISTS="false"
-        echo "cluster_exists=\"false\"" >> ${TFVARS}
+        echo "cluster_exists=\"false\"" >> "${TFVARS}"
     fi
 
-    echo "cluster_exists=\"${CLUSTER_EXISTS}\"" >> ${TFVARS}
+    echo "cluster_exists=\"${CLUSTER_EXISTS}\"" >> "${TFVARS}"
 fi
 
-CLUSTER_TYPE=$(grep -E "^cluster_type" ${TFVARS} | sed -E "s/^cluster_type=\"(.*)\".*/\1/g")
+CLUSTER_TYPE=$(grep -E "^cluster_type" "${TFVARS}" | sed -E "s/^cluster_type=\"(.*)\".*/\1/g")
 if [[ -z "${CLUSTER_TYPE}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^okc] ]]; do
@@ -65,7 +67,7 @@ if [[ -z "${CLUSTER_TYPE}" ]]; then
         else
             echo -n "Is your existing cluster (k)ubernetes, [O]penShift, or [C]odeReady Container? [K/o/c] "
         fi
-        read ANSWER
+        read -r ANSWER
 
         if [[ -z "${ANSWER}" ]] || [[ "${ANSWER}" =~ [Kk] ]]; then
             ANSWER="k"
@@ -83,22 +85,27 @@ if [[ -z "${CLUSTER_TYPE}" ]]; then
     else
         CLUSTER_TYPE="openshift"
     fi
-fi
 
+    echo "cluster_type=\"${CLUSTER_TYPE}\"" >> "${TFVARS}"
+fi
 
 if [[ "${CLUSTER_TYPE}" == "crc" ]]; then
-    CLUSTER_TYPE="openshift"
+    CLUSTER_TYPE="ocp4"
     CLUSTER_MANAGEMENT="crc"
+    MANAGED_BY=" managed by \033[1;33mcrc\033[0m"
 fi
 
-echo "cluster_type=\"${CLUSTER_TYPE}\"" >> ${TFVARS}
+sed "s/^cluster_type=.*/cluster_type=\"${CLUSTER_TYPE}\"/g" < "${TFVARS}" > "${TFVARS}.tmp" && \
+    rm "${TFVARS}" && \
+    mv "${TFVARS}.tmp" "${TFVARS}"
+#echo "cluster_type=\"${CLUSTER_TYPE}\"" >> ${TFVARS}
 
-POSTGRES_SERVER_EXISTS=$(grep -E "^postgres_server_exists" ${TFVARS} | sed -E "s/^postgres_server_exists=\"(.*)\".*/\1/g")
+POSTGRES_SERVER_EXISTS=$(grep -E "^postgres_server_exists" "${TFVARS}" | sed -E "s/^postgres_server_exists=\"(.*)\".*/\1/g")
 if [[ -z "${POSTGRES_SERVER_EXISTS}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^ne] ]]; do
         echo -n "Do you want to create a (n)ew postgres server or configure an (e)xisting postgres server? [N/e] "
-        read ANSWER
+        read -r ANSWER
 
         if [[ -z "${ANSWER}" ]] || [[ "${ANSWER}" =~ [Nn] ]]; then
             ANSWER="n"
@@ -113,7 +120,7 @@ if [[ -z "${POSTGRES_SERVER_EXISTS}" ]]; then
         POSTGRES_SERVER_EXISTS="false"
     fi
 
-    echo "postgres_server_exists=\"${POSTGRES_SERVER_EXISTS}\"" >> ${TFVARS}
+    echo "postgres_server_exists=\"${POSTGRES_SERVER_EXISTS}\"" >> "${TFVARS}"
 fi
 
 echo -e ""
@@ -125,21 +132,23 @@ else
     echo -e "  - Use an existing postgres instance"
 fi
 if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
-    echo -e "  - Create a new \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m"
+    echo -e "  - Create a new \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
 else
-    echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m"
+    echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
     echo ""
     echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools, dev, test, staging\033[0m"
 fi
 
-if [[ "crc" ==  ${CLUSTER_MANAGEMENT} ]]; then
+if [[ "crc" ==  "${CLUSTER_MANAGEMENT}" ]]; then
 	STAGES_DIRECTORY="stages-crc"
+elif [[ "ocp4" == "${CLUSTER_TYPE}" ]]; then
+	STAGES_DIRECTORY="stages-ocp4"
 else
 	STAGES_DIRECTORY="stages"
 fi
 
-cp ${SRC_DIR}/${STAGES_DIRECTORY}/variables.tf "${WORKSPACE_DIR}"
-cp ${SRC_DIR}/${STAGES_DIRECTORY}/stage*.tf "${WORKSPACE_DIR}"
+cp "${SRC_DIR}/${STAGES_DIRECTORY}/variables.tf" "${WORKSPACE_DIR}"
+cp "${SRC_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
 
 echo ""
 
@@ -147,7 +156,7 @@ if [[ "$1" != "--force" ]]; then
     PROCEED="x"
     while [[ "${PROCEED}" =~ [^yn] ]]; do
         echo -n "Do you want to proceed? [Y/n] "
-        read PROCEED
+        read -r PROCEED
 
         if [[ -z "${PROCEED}" ]] || [[ "${PROCEED}" =~ [Yy] ]]; then
             PROCEED="y"
@@ -157,6 +166,6 @@ if [[ "$1" != "--force" ]]; then
     done
 fi
 
-cd ${WORKSPACE_DIR}
+cd "${WORKSPACE_DIR}"
 
 ./apply.sh
