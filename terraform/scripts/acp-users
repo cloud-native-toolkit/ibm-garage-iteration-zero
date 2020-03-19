@@ -1,11 +1,11 @@
 #!/bin/bash
 # --------------------------------------------------------------------------------------------------------
-# Name : Developement Team Access Group Policies
+# Name : User Access Group Policies
 #
-# Description: Set the policies in an Access Group to allow developer access to resources in
-# a Resource Group. Allow full access for IKS and Open Shift development, but limited access
+# Description: Set the policies in an Access Group to allow user access to resources in
+# a Resource Group. Allow full access for using Kubernetes and OpenShift, but limited access
 # to existing services, and block creation of new services. Ideal for a system administrator
-# to grant access to a development team.
+# to grant access to a team of users.
 #
 # Author    : Matthew Perrins
 # eMail     : mjperrin@us.ibm.com
@@ -16,7 +16,7 @@
 # input validation
 if [ -z "$1" ]; then
     echo "Usage: acp-users <ACCESS_GROUP> <RESOURCE_GROUP> <REGION> <PREFIX>"
-    echo "Create the developer Access Policies for an Access Group associated with a Resource Group"
+    echo "Create the user Access Policies for an Access Group associated with a Resource Group"
     exit
 fi
 
@@ -50,7 +50,7 @@ if [ -z "${PREFIX}" ]; then
 fi
 
 
-# Define the Polices for the Access Group, this are limited to usage patterns not adminstration patterns
+# Define the Polices for the Access Group, this are limited to usage patterns not administration patterns
 
 # Resource Group - 32
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader --resource-group-name ${RESOURCE_GROUP}
