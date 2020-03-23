@@ -5,21 +5,19 @@
 # Description: Set the policies in an Access Group to allow installation and administration
 # of the Developer Tools environment into a new or existing OpenShift or Kubernetes cluster.
 #
-# Author    : Bobby Woolf (thanks to Matthew Perrins)
-# eMail     : bwoolf@us.ibm.com
-# Date      : 29th January 2020
-#
 # --------------------------------------------------------------------------------------------------------
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp-admin <ACCESS_GROUP> <RESOURCE_GROUP>"
+    echo "Usage: acp-admin <ACCESS_GROUP> <RESOURCE_GROUP> <RESOURCE_GROUP_ID>"
     echo "Create the administration Access Policies for an Access Group associated with a Resource Group"
+    echo "To find the ID for a resource group, run 'ibmcloud resource group <RESOURCE_GROUP>'"
     exit
 fi
 
 ACCESS_GROUP=$1
 RESOURCE_GROUP=$2
+RESOURCE_GROUP_ID=$3
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
@@ -33,25 +31,38 @@ if [ -z "${RESOURCE_GROUP}" ]; then
     exit
 fi
 
+# input validation
+if [ -z "${RESOURCE_GROUP_ID}" ]; then
+    echo "Please provide the RESOURCE_GROUP_ID"
+    exit
+fi
 
-# Define the Polices for the Access Group to enable installation and adminstration
+
+# Define the Polices for the Access Group to enable installation and administration
 
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles
-# All IAM Services in all Regions in Resource Group  - 40
+# All IAM Services in all Regions in Resource Group - 40
+# Grant access to admin and manage all services in the resource group, including to create and delete services
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --resource-group-name ${RESOURCE_GROUP}
 
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles
-# Resource Group  - 10
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-group-name ${RESOURCE_GROUP} --attributes "resourceType=resource-group,resource=${RESOURCE_GROUP}"
+# Resource Group - 10
+# Grant access to view the resource group itself, so the resource group can be specified when creating a service
+#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-group-name ${RESOURCE_GROUP} --attributes "resourceType=resource-group,resource=${RESOURCE_GROUP}"
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-type "resource-group" --resource ${RESOURCE_GROUP_ID}
 
 # "Prepare to create clusters at the account level"
 # https://cloud.ibm.com/docs/containers?topic=containers-clusters#cluster_prepare
 # Kubernetes service in all Regions - 45
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name containers-kubernetes
+# Grant access to create, manage, and delete clusters in the resource group
+# To create clusters, the user will also need Administrator access to the image registry
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --resource-group-name ${RESOURCE_GROUP} --service-name containers-kubernetes
 
-# "Updating existing clusters to use the API key image pull secret"
-# https://cloud.ibm.com/docs/containers?topic=containers-images#imagePullSecret_migrate_api_key
-# Container Registery in all Regions - 64
+# "Managing user access with Identity and Access Management"
+# https://cloud.ibm.com/docs/Registry?topic=registry-iam
+# Container Registry in all Regions - 64
+# Manager role grants access to create namespaces for the environment in the image registry
+# Administrator role is needed to create clusters
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name container-registry
 
 
