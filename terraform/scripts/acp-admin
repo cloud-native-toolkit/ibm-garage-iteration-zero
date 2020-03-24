@@ -9,15 +9,13 @@
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp-admin <ACCESS_GROUP> <RESOURCE_GROUP> <RESOURCE_GROUP_ID>"
+    echo "Usage: acp-admin <ACCESS_GROUP> <RESOURCE_GROUP>"
     echo "Create the administration Access Policies for an Access Group associated with a Resource Group"
-    echo "To find the ID for a resource group, run 'ibmcloud resource group <RESOURCE_GROUP>'"
     exit
 fi
 
 ACCESS_GROUP=$1
 RESOURCE_GROUP=$2
-RESOURCE_GROUP_ID=$3
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
@@ -31,12 +29,9 @@ if [ -z "${RESOURCE_GROUP}" ]; then
     exit
 fi
 
-# input validation
-if [ -z "${RESOURCE_GROUP_ID}" ]; then
-    echo "Please provide the RESOURCE_GROUP_ID"
-    exit
-fi
 
+RESOURCE_GROUP_ID=$(ibmcloud resource group ${RESOURCE_GROUP} | grep -E "^ID" | sed -E "s/ID: *(.*)/\1/g")
+echo "ID for resource group" ${RESOURCE_GROUP} "is" ${RESOURCE_GROUP_ID}
 
 # Define the Polices for the Access Group to enable installation and administration
 
