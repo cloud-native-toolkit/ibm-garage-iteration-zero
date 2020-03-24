@@ -50,42 +50,15 @@ fi
 
 # Container Registry - 21
 # Grant access to use (push, pull, etc.) the environment's namespace in the image registry
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader --service-name container-registry --region ${REGION}
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Reader,Writer --service-name container-registry --region ${REGION} --resource-type namespace --resource ${RESOURCE_GROUP}
 
 # Kubernetes - 42
 # Grant access to use all clusters in the resource group, but not to create or delete clusters
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager  --service-name containers-kubernetes
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader,Writer,Manager --resource-group-name ${RESOURCE_GROUP} --service-name containers-kubernetes
-
-# Kubernetes - 73 with IKS instance
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager --service-name containers-kubernetes --service-instance ${PREFIX}-iks-cluster
-
-# Kubernetes - 73 with OCP instance
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager --service-name containers-kubernetes --service-instance ${PREFIX}-ocp-cluster
 
 # Resource Group - 36
 # Grant access to use all services in the resource group, but not to create or delete services
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader,Writer,Manager --resource-group-name ${RESOURCE_GROUP}
-
-# Resource Group - 10
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-group-name ${RESOURCE_GROUP} --attributes "resourceType=resource-group,resource=${RESOURCE_GROUP}"
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-type "resource-group" --resource ${RESOURCE_GROUP_ID}
-
-# Cloudant - 94
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Editor,Manager --resource-group-name ${RESOURCE_GROUP} --service-name cloudantnosqldb
-
-# COS - 197
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager --resource-group-name ${RESOURCE_GROUP} --service-name cloud-object-storage
-
-# SysDig - 37
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Writer,Reader,Viewer,Operator --resource-group-name ${RESOURCE_GROUP} --service-name sysdig-monitor
-
-# LogDNA - 69
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles "Standard Member,Manager,Reader,Editor,Operator,Viewer" --resource-group-name ${RESOURCE_GROUP} --service-name logdna
-
-# AppID - 257
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Editor,Reader,Writer,Manager --resource-group-name ${RESOURCE_GROUP} --service-name appid
 
 
 echo "Completed creating polices!"
