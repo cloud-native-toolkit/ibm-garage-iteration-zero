@@ -58,18 +58,20 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Ma
 # "Prepare to create clusters at the account level"
 # https://cloud.ibm.com/docs/containers?topic=containers-clusters#cluster_prepare
 # Kubernetes Service service in All regions - 45
-# Grant access to create, manage, and delete clusters in the resource group
+# Administrator role grants access to create and delete clusters, plus more
+# Manager role grants access to manage clusters
 # To create clusters, the user will also need Administrator access to the image registry
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name containers-kubernetes
 
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles
 # All resources in account (including future IAM enabled services) in All regions - 40
-# Grant access to admin and manage all services in the resource group, including to create and delete services
+# Administrator role grants access to create and delete service instances (any IAM service), plus more
+# Manager role grants access to manage service instances
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager
 
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles
 # Resource Group - 10
-# Grant access to view the resource group itself, so the resource group can be specified when creating a service
+# Viewer roles grants access to view the resource group itself, so the resource group can be specified when creating a service
 #ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-group-name ${RESOURCE_GROUP} --attributes "resourceType=resource-group,resource=${RESOURCE_GROUP}"
 #ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-type "resource-group" --resource ${RESOURCE_GROUP_ID}
 
