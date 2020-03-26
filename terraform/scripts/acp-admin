@@ -44,24 +44,23 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Ma
 
 # "Prepare to create clusters at the account level"
 # https://cloud.ibm.com/docs/containers?topic=containers-clusters#cluster_prepare
-# Kubernetes Service service in All regions in Resource Group - 34
-# Editor role grants access to create and delete clusters in the resource group
-# Manager role grants access to manage clusters in the resource group
+# Kubernetes Service service in All regions in Resource Group - 45
+# Administrator role grants access to create and delete clusters in the resource group
+# Manager role grants access to manage existing clusters in the resource group
 # To create clusters, the user will also need Administrator access to the image registry
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Editor,Manager --resource-group-name ${RESOURCE_GROUP} --service-name containers-kubernetes
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --resource-group-name ${RESOURCE_GROUP} --service-name containers-kubernetes
 
 # "IAM access"
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles
 # All IAM Services in All regions in Resource Group - 31
 # Editor role grants access to create and delete service instances (any IAM service)
-# Manager role grants access to manage service instances in the resource group
+# Manager role grants access to manage existing service instances in the resource group
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Editor,Manager --resource-group-name ${RESOURCE_GROUP}
 
 # "IAM access"
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles
 # Resource Group - 10
 # Viewer roles grants access to view the resource group itself, so the resource group can be specified when creating a service
-#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-group-name ${RESOURCE_GROUP} --attributes "resourceType=resource-group,resource=${RESOURCE_GROUP}"
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer --resource-type "resource-group" --resource ${RESOURCE_GROUP_ID}
 
 
