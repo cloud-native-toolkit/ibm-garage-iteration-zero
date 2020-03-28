@@ -9,7 +9,7 @@ module "dev_serviceaccount_artifactory" {
 }
 
 module "dev_tools_artifactory_release" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/artifactory_release?ref=v2.2.2"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/artifactory_release?ref=v2.3.1"
 
   cluster_type             = var.cluster_type
   service_account          = module.dev_serviceaccount_artifactory.name
