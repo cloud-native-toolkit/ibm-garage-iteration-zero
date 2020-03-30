@@ -4,4 +4,6 @@ module "dev_software_olm_release" {
   cluster_config_file      = module.dev_cluster.config_file_path
   cluster_version          = module.dev_cluster.version
   cluster_type             = var.cluster_type
+  olm_version              = "0.14.1"
+
 }
