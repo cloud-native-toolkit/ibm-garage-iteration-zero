@@ -27,13 +27,13 @@ This repo contains Terraform resources that will create an environment containin
     - [Eclipse Che](https://www.eclipse.org/che/)
 -  Cloud services for cloud-native applications:
     - Installed by default:
-       - [Cloud Object Storage Storage](https://cloud.ibm.com/docs/services/cloud-object-storage)
        - [LogDNA Logging](https://cloud.ibm.com/docs/services/Log-Analysis-with-LogDNA)
        - [SysDig Monitoring](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig)
     - Optional (move terrform file from `_tmp`to `stages*` directory):
        - [AppID Application Authentication](https://cloud.ibm.com/docs/services/appid) 
+       - [Cloud Object Storage Storage](https://cloud.ibm.com/docs/services/cloud-object-storage)
        - [Cloudant NoSQL Database](https://cloud.ibm.com/docs/services/Cloudant)
-       - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql) (used by SonarQube)
+       - [PostgreSQL](https://cloud.ibm.com/docs/services/databases-for-postgresql)
 
 ## Developer Tools
 
