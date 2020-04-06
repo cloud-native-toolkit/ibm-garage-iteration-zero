@@ -4,25 +4,11 @@ set -e
 SCRIPT_DIR=$(dirname "$0")
 SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 
-WORKSPACE_DIR="${SRC_DIR}/workspace"
-mkdir -p "${WORKSPACE_DIR}/.tmp"
+ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment.tfvars"
 
-TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
-
-cat "${SRC_DIR}/settings/environment.tfvars" > "${TFVARS}"
-cat "${SRC_DIR}/settings/vlan.tfvars" >> "${TFVARS}"
-echo "" >> "${TFVARS}"
-cp "${SRC_DIR}"/scripts/* "${WORKSPACE_DIR}"
-
-# Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
-# If not, get them from the user and write them to a file
-
-
-RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" "${TFVARS}" | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
-CLUSTER_NAME=$(grep -E "^cluster_name" "${TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
-NAME_PREFIX=$(grep -E "^name_prefix" "${TFVARS}" | sed -E "s/^name_prefix=\"(.*)\".*/\1/g")
-
-CLUSTER_MANAGEMENT="ibmcloud"
+CLUSTER_NAME=$(grep -E "^cluster_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
+NAME_PREFIX=$(grep -E "^name_prefix" "${ENVIRONMENT_TFVARS}" | sed -E "s/^name_prefix=\"(.*)\".*/\1/g")
 
 if [[ -z "${CLUSTER_NAME}" ]]; then
   if [[ -n "${NAME_PREFIX}" ]]; then
@@ -31,6 +17,25 @@ if [[ -z "${CLUSTER_NAME}" ]]; then
     CLUSTER_NAME="${RESOURCE_GROUP_NAME}-cluster"
   fi
 
+  WRITE_CLUSTER_NAME="true"
+fi
+
+WORKSPACE_DIR="${SRC_DIR}/workspaces/${CLUSTER_NAME}"
+mkdir -p "${WORKSPACE_DIR}/.tmp"
+
+TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
+
+cat "${ENVIRONMENT_TFVARS}" > "${TFVARS}"
+cat "${SRC_DIR}/settings/vlan.tfvars" >> "${TFVARS}"
+echo "" >> "${TFVARS}"
+cp "${SRC_DIR}"/scripts/* "${WORKSPACE_DIR}"
+
+# Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
+# If not, get them from the user and write them to a file
+
+CLUSTER_MANAGEMENT="ibmcloud"
+
+if [[ -n "${WRITE_CLUSTER_NAME}" ]]; then
   echo "cluster_name=\"${CLUSTER_NAME}\"" >> "${TFVARS}"
 fi
 
