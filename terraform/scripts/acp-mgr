@@ -1,16 +1,16 @@
 #!/bin/bash
 # --------------------------------------------------------------------------------------------------------
-# Name : Account Administrator Access Group Policies
+# Name : Account Manager Access Group Policies
 #
-# Description: Set the policies in an Access Group to allow administration of an Account
-# so Developer Tools environments can be installed.
+# Description: Set the policies in an Access Group to allow management of an Account
+# so Developer Environments can be installed.
 #
 # --------------------------------------------------------------------------------------------------------
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp-acct <ACCESS_GROUP>"
-    echo "Create an Access Group with the Access Policies for an account administrator"
+    echo "Usage: acp-mgr <ACCESS_GROUP>"
+    echo "Create an Access Group with the Access Policies for an account manager"
     exit
 fi
 
@@ -23,7 +23,7 @@ if [ -z "${ACCESS_GROUP}" ]; then
 fi
 
 
-# Define the Polices for the Access Group to enable administering an account
+# Define the Polices for the Access Group to enable managing an account
 
 # ACCOUNT MANAGEMENT POLICIES
 
