@@ -1,19 +1,21 @@
 #!/bin/bash
 # --------------------------------------------------------------------------------------------------------
-# Name: User Access Group Policies
+# Name: Environment User Access Group Policies
 #
-# Description: Set the policies in an Access Group to allow user access to resources in
-# a Resource Group. Allow full access for using Kubernetes and OpenShift, but limited access
-# to existing services, and block creation of new services. Ideal for a system administrator
-# to grant access to a team of users.
+# Description: Add policies to an access group that allow user access to resources in
+# a resource group. Don't allow create/delete of clusters and service instances, but do allow
+# use of existing clusters and services, including changing their service-specific resources.
 #
 # --------------------------------------------------------------------------------------------------------
 #
 # input validation
 if [ -z "$1" ]; then
     echo "Usage: acp-user <ACCESS_GROUP> <RESOURCE_GROUP> <REGION>"
-    echo "Create the user Access Policies for an Access Group associated with a Resource Group"
-    exit
+    echo "Add policies to an access group for using resources in a resource group"
+    echo "<ACCESS_GROUP> - The name of the access group (ex: <RESOURCE_GROUP>-USER)"
+    echo "<RESOURCE_GROUP> - The name of the resource group for the environment (ex: garage-apps)"
+    echo "<REGION> - The name of the region for the environment (ex: us-south)"
+   exit
 fi
 
 ACCESS_GROUP=$1
@@ -22,19 +24,19 @@ REGION=$3
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
-    echo "Please provide the ACCESS_GROUP name"
+    echo "Please provide the name of the access group (ex: <RESOURCE_GROUP>-USER)"
     exit
 fi
 
 # input validation
 if [ -z "${RESOURCE_GROUP}" ]; then
-    echo "Please provide the RESOURCE_GROUP name"
+    echo "Please provide the name of the resource group for the environment (ex: garage-apps)"
     exit
 fi
 
 # input validation
 if [ -z "${REGION}" ]; then
-    echo "Please provide the REGION"
+    echo "Please provide the name of the region for the environment (ex: us-south)"
     exit
 fi
 
@@ -48,17 +50,32 @@ fi
 
 # Define the Polices for the Access Group, this are limited to usage patterns not administration patterns
 
+# "Managing user access with Identity and Access Management"
+# https://cloud.ibm.com/docs/Registry?topic=registry-iam
 # Container Registry - 21
-# Grant access to use (push, pull, etc.) the environment's namespace in the image registry
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Reader,Writer --service-name container-registry --region ${REGION} --resource-type namespace --resource ${RESOURCE_GROUP}
+# Grant access to the image registry to use (push, pull, etc.) images in the environment's namespace
+# The registry namespace for a Developer Environment is named the same as the resource group
+# Reader role grants access to view namespaces and pull images
+# Writer role grants access to build, push, delete, and restore images
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name container-registry --resource-type namespace --resource ${RESOURCE_GROUP} --region ${REGION} --roles Reader,Writer
 
+# "Granting users access to your cluster through IBM Cloud IAM"
+# https://cloud.ibm.com/docs/containers?topic=containers-users#platform
+# "User access permissions"
+# https://cloud.ibm.com/docs/containers?topic=containers-access_reference
 # Kubernetes - 42
 # Grant access to use all clusters in the resource group, but not to create or delete clusters
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader,Writer,Manager --resource-group-name ${RESOURCE_GROUP} --service-name containers-kubernetes
+# Editor role grants access to bind services, work with Ingress resources, and set up log forwarding for their apps
+# Writer role grants access to the Kubernetes dashboard and Kubernetes resources in namespaces
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name containers-kubernetes --resource-group-name ${RESOURCE_GROUP} --roles Editor,Writer
 
+# "Cloud IAM roles"
+# https://cloud.ibm.com/docs/iam?topic=iam-userroles#iamusermanrol
 # Resource Group - 36
 # Grant access to use all services in the resource group, but not to create or delete services
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Viewer,Operator,Reader,Writer,Manager --resource-group-name ${RESOURCE_GROUP}
+# Operator role grants access to view service instances and manage aliases, bindings, and credentials
+# Manager role grants access to view, create, edit, and complete privileged actions as defined by the service on service-specific resources
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-group-name ${RESOURCE_GROUP} --roles Operator,Manager
 
 
 echo "Completed creating polices!"
