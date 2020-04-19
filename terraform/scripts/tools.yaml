@@ -6,7 +6,7 @@ spec:
   applicationMenu:
     imageURL: https://cloud.ibm.com/favicon.ico
     section: Cloud Native Toolkit
-  href: https://dashboard-tools.gct-showcase-ocp4-cluster-0143c5dd31acd8e030a1d6e0ab1380e3-0000.us-east.containers.appdomain.cloud
+  href: https://dashboard-tools-tools.#CLUSTER_INGRESS_URL
   location: ApplicationMenu
   text: Developer Dashboard
 ---
@@ -18,7 +18,7 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/sonarqube
     section: Cloud Native Toolkit
-  href: https://dashboard-tools-tools.#CLUSTER_INGRESS_URL
+  href: https://sonarqube-tools-tools.#CLUSTER_INGRESS_URL
   location: ApplicationMenu
   text: SonarQube
 ---
@@ -112,8 +112,20 @@ metadata:
   name: toolkit-github
 spec:
   applicationMenu:
-    imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/ir
+    imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/github
     section: Cloud Native Toolkit
   href: https://github.com
   location: ApplicationMenu
   text: GitHub
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: toolkit-ir
+spec:
+  applicationMenu:
+    imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/ir
+    section: Cloud Native Toolkit
+  href: https://#IR_URL/
+  location: ApplicationMenu
+  text: Image Registry
