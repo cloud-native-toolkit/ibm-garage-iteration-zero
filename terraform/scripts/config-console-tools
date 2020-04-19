@@ -22,12 +22,4 @@ if [ -z "${CLUSTER_INGRESS_URL}" ]; then
 fi
 
 cat tools.yaml | sed "s/#CLUSTER_INGRESS_URL/${CLUSTER_INGRESS_URL}/g" | kubectl apply -f -
-
-
-
-
-
-
-
-
-echo "Completed creating polices!"
+echo "Completed configuring OpenShift Menu to access the cloud native toolkit tools!"

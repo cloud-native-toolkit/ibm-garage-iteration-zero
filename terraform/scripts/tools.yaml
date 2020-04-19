@@ -18,7 +18,7 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/sonarqube
     section: Cloud Native Toolkit
-  href: https://sonarqube-tools-tools.#CLUSTER_INGRESS_URL
+  href: https://sonarqube-tools.#CLUSTER_INGRESS_URL
   location: ApplicationMenu
   text: SonarQube
 ---
