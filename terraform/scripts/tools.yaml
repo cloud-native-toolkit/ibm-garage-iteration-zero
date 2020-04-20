@@ -1,4 +1,4 @@
-apiVersion: console.openshift.io/v1 
+apiVersion: console.openshift.io/v1
 kind: ConsoleLink
 metadata:
   name: toolkit-dashboard
@@ -6,7 +6,7 @@ spec:
   applicationMenu:
     imageURL: https://cloud.ibm.com/favicon.ico
     section: Cloud Native Toolkit
-  href: https://dashboard-tools-tools.#CLUSTER_INGRESS_URL
+  href: https://dashboard-tools.#CLUSTER_INGRESS_URL
   location: ApplicationMenu
   text: Developer Dashboard
 ---
@@ -78,7 +78,7 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/logdna
     section: Cloud Native Toolkit
-  href: https://#LOGDNA_URL/
+  href: https://LOGDNA_URL
   location: ApplicationMenu
   text: LogDNA
 ---
@@ -90,19 +90,7 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/sysdig
     section: Cloud Native Toolkit
-  href: https://#SYSDIG_URL/
-  location: ApplicationMenu
-  text: Sysdig
----
-apiVersion: console.openshift.io/v1
-kind: ConsoleLink
-metadata:
-  name: toolkit-sysdig
-spec:
-  applicationMenu:
-    imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/sysdig
-    section: Cloud Native Toolkit
-  href: https://#SYSDIG_URL/
+  href: https://#SYSDIG_URL
   location: ApplicationMenu
   text: Sysdig
 ---
@@ -114,7 +102,7 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/github
     section: Cloud Native Toolkit
-  href: https://github.com
+  href: https://github.com/
   location: ApplicationMenu
   text: GitHub
 ---
@@ -126,6 +114,6 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/ir
     section: Cloud Native Toolkit
-  href: https://#IR_URL/
+  href: https://cloud.ibm.com/kubernetes/registry/main/images?platformType=openshift
   location: ApplicationMenu
   text: Image Registry
