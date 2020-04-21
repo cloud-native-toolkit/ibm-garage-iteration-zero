@@ -10,7 +10,7 @@
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp-mgr <ACCESS_GROUP>"
+    echo "Usage: acp-mgr.sh <ACCESS_GROUP>"
     echo "Add account management policies to an access group"
     echo "<ACCESS_GROUP> - The name of the access group (ex: ACCOUNT-MGR)"
     exit

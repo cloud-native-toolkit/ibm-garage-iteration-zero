@@ -10,7 +10,7 @@
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp-user <ACCESS_GROUP> <RESOURCE_GROUP> <REGION>"
+    echo "Usage: acp-user.sh <ACCESS_GROUP> <RESOURCE_GROUP> <REGION>"
     echo "Add policies to an access group for using resources in a resource group"
     echo "<ACCESS_GROUP> - The name of the access group (ex: <RESOURCE_GROUP>-USER)"
     echo "<RESOURCE_GROUP> - The name of the resource group for the environment (ex: garage-apps)"

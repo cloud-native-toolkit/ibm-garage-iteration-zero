@@ -10,7 +10,7 @@
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp-mgr-iaas <USER_EMAIL>"
+    echo "Usage: acp-mgr-iaas.sh <USER_EMAIL>"
     echo "Grant the user the classic infrastructure permissions needed to create and manage an IKS cluster"
     echo "<USER_EMAIL> - The user's email address (ex: john@ibm.com)"
     exit
