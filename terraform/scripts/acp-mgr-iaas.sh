@@ -32,6 +32,13 @@ echo "Softlayer ID for user" ${USER_EMAIL} "is" ${USER_ID}
 # To show all Softlayer permissions and whether the user has them:
 # ibmcloud sl user permissions ${USER_ID}
 
+
+# Create VLANs
+# (No documentation. Determined through trial and error. VLANs are a service?!)
+ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_ADD --enable true       # Add/Upgrade Services
+ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_CANCEL --enable true    # Cancel Services
+
+
 # "Classic infrastructure roles" for Kubernetes Service
 # https://cloud.ibm.com/docs/containers?topic=containers-access_reference#infra
 #
