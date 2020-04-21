@@ -30,6 +30,10 @@ fi
 
 # ACCOUNT MANAGEMENT POLICIES
 
+# This doc explains the range of account management services and how to enable them:
+# "Assigning access to account management services"
+# https://cloud.ibm.com/docs/iam?topic=iam-account-services
+
 # "Who can create resource groups?"
 # https://cloud.ibm.com/docs/resources?topic=resources-resources-faq#create-resource
 # All account management services - 38
