@@ -40,14 +40,14 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --account-management --r
 
 # "Inviting users to an account"
 # https://cloud.ibm.com/docs/iam?topic=iam-iamuserinv#invite-access
-# User Management service - 79
+# User Management service - 41
 # Grant access to invite and view users
 # Redundant with --account-management
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name user-management --roles Editor
 
 # "Setting up access groups"
 # https://cloud.ibm.com/docs/iam?topic=iam-groups
-# IAM Access Groups Service service - 79
+# IAM Access Groups Service service - 43
 # Grant access to create and view access groups
 # Redundant with --account-management
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name iam-groups --roles Editor
