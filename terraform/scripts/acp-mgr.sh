@@ -20,6 +20,7 @@ ACCESS_GROUP=$1
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
+    echo "Usage: acp-mgr.sh <ACCESS_GROUP>"
     echo "Please provide the name of the access group (ex: ACCOUNT-MGR)"
     exit
 fi

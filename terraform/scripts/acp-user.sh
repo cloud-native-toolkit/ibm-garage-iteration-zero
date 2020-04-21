@@ -24,18 +24,21 @@ REGION=$3
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
+    echo "Usage: acp-user.sh <ACCESS_GROUP> <RESOURCE_GROUP> <REGION>"
     echo "Please provide the name of the access group (ex: <RESOURCE_GROUP>-USER)"
     exit
 fi
 
 # input validation
 if [ -z "${RESOURCE_GROUP}" ]; then
+    echo "Usage: acp-user.sh <ACCESS_GROUP> <RESOURCE_GROUP> <REGION>"
     echo "Please provide the name of the resource group for the environment (ex: garage-apps)"
     exit
 fi
 
 # input validation
 if [ -z "${REGION}" ]; then
+    echo "Usage: acp-user.sh <ACCESS_GROUP> <RESOURCE_GROUP> <REGION>"
     echo "Please provide the name of the region for the environment (ex: us-south)"
     exit
 fi

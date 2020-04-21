@@ -20,6 +20,7 @@ USER_EMAIL=$1
 
 # input validation
 if [ -z "${USER_EMAIL}" ]; then
+    echo "Usage: acp-mgr-iaas.sh <USER_EMAIL>"
     echo "Please provide the user's email address (ex: john@ibm.com)"
     exit
 fi

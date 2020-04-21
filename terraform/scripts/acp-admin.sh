@@ -21,12 +21,14 @@ RESOURCE_GROUP=$2
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
+    echo "Usage: acp-admin.sh <ACCESS_GROUP> <RESOURCE_GROUP>"
     echo "Please provide the name of the access group (ex: <RESOURCE_GROUP>-ADMIN)"
     exit
 fi
 
 # input validation
 if [ -z "${RESOURCE_GROUP}" ]; then
+    echo "Usage: acp-admin.sh <ACCESS_GROUP> <RESOURCE_GROUP>"
     echo "Please provide the name of the resource group for the environment (ex: garage-apps)"
     exit
 fi

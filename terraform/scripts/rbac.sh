@@ -19,6 +19,7 @@ ACCESS_GROUP=$1
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
+    echo "Usage: rbac.sh <ACCESS_GROUP>"
     echo "Please provide the name of the admin group (i.e. <resource_group>-ADMIN)"
     exit
 fi
