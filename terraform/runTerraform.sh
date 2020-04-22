@@ -100,37 +100,9 @@ sed "s/^cluster_type=.*/cluster_type=\"${CLUSTER_TYPE}\"/g" < "${TFVARS}" > "${T
     mv "${TFVARS}.tmp" "${TFVARS}"
 #echo "cluster_type=\"${CLUSTER_TYPE}\"" >> ${TFVARS}
 
-POSTGRES_SERVER_EXISTS=$(grep -E "^postgres_server_exists" "${TFVARS}" | sed -E "s/^postgres_server_exists=\"(.*)\".*/\1/g")
-if [[ -z "${POSTGRES_SERVER_EXISTS}" ]]; then
-    ANSWER="x"
-    while [[ "${ANSWER}" =~ [^ne] ]]; do
-        echo -n "Do you want to create a (n)ew postgres server or configure an (e)xisting postgres server? [N/e] "
-        read -r ANSWER
-
-        if [[ -z "${ANSWER}" ]] || [[ "${ANSWER}" =~ [Nn] ]]; then
-            ANSWER="n"
-        elif [[ "${ANSWER}" =~ [Ee] ]]; then
-            ANSWER="e"
-        fi
-    done
-
-    if [[ "${ANSWER}" == "e" ]]; then
-        POSTGRES_SERVER_EXISTS="true"
-    else
-        POSTGRES_SERVER_EXISTS="false"
-    fi
-
-    echo "postgres_server_exists=\"${POSTGRES_SERVER_EXISTS}\"" >> "${TFVARS}"
-fi
-
 echo -e ""
 echo -e "Terraform is about to run with the following settings:"
 echo -e "  - Resource group \033[1;33m${RESOURCE_GROUP_NAME}\033[0m"
-if [[ "${POSTGRES_SERVER_EXISTS}" == "false" ]]; then
-    echo -e "  - Create a new postgres instance"
-else
-    echo -e "  - Use an existing postgres instance"
-fi
 if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
     echo -e "  - Create a new \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
 else
