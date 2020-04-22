@@ -37,23 +37,28 @@ fi
 # "Who can create resource groups?"
 # https://cloud.ibm.com/docs/resources?topic=resources-resources-faq#create-resource
 # All account management services - 38
+# Grant access to all account management services
+# This policy alone essentially gives the users all the permissions of the account owner (except classic infrastructure and Cloud Foundry permissions)
+# Includes permissions to create resource groups, manage users, and create access groups
+#ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --account-management --roles Administrator
+
+# This command grants resource group abilities only, not the rest of account management abilities
+# All resource group - 38
 # Grant access to create and view resource groups
-# Also grants access to IAM functions for managing users and access groups
-# (This policy alone gives an account admin ~50% of the permissions of an account owner.)
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --account-management --roles Administrator
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-type "resource-group" --roles Administrator
 
 # "Inviting users to an account"
 # https://cloud.ibm.com/docs/iam?topic=iam-iamuserinv#invite-access
 # User Management service - 41
 # Grant access to invite and view users
-# Redundant with --account-management
+# Redundant with --account-management but independent of --resource-type "resource-group"
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name user-management --roles Editor
 
 # "Setting up access groups"
 # https://cloud.ibm.com/docs/iam?topic=iam-groups
 # IAM Access Groups Service service - 43
 # Grant access to create and view access groups
-# Redundant with --account-management
+# Redundant with --account-management but independent of --resource-type "resource-group"
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name iam-groups --roles Editor
 
 
