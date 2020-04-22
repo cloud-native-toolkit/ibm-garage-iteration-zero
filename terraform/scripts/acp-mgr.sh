@@ -2,15 +2,17 @@
 # --------------------------------------------------------------------------------------------------------
 # Name : Account Manager Access Group Policies
 #
-# Description: Set the policies in an Access Group to allow management of an Account
-# so Developer Environments can be installed.
+# Description: Add policies to an access group that allow management of an IBM Cloud account
+# so it can be set up with resource groups and access groups that will allow access to
+# Developer Environments created by the Cloud Native Toolkit.
 #
 # --------------------------------------------------------------------------------------------------------
 #
 # input validation
 if [ -z "$1" ]; then
-    echo "Usage: acp-mgr <ACCESS_GROUP>"
-    echo "Create an Access Group with the Access Policies for an account manager"
+    echo "Usage: acp-mgr.sh <ACCESS_GROUP>"
+    echo "Add account management policies to an access group"
+    echo "<ACCESS_GROUP> - The name of the access group (ex: ACCOUNT-MGR)"
     exit
 fi
 
@@ -18,7 +20,8 @@ ACCESS_GROUP=$1
 
 # input validation
 if [ -z "${ACCESS_GROUP}" ]; then
-    echo "Please provide the ACCESS_GROUP name"
+    echo "Usage: acp-mgr.sh <ACCESS_GROUP>"
+    echo "Please provide the name of the access group (ex: ACCOUNT-MGR)"
     exit
 fi
 
@@ -27,27 +30,31 @@ fi
 
 # ACCOUNT MANAGEMENT POLICIES
 
+# This doc explains the range of account management services and how to enable them:
+# "Assigning access to account management services"
+# https://cloud.ibm.com/docs/iam?topic=iam-account-services
+
 # "Who can create resource groups?"
 # https://cloud.ibm.com/docs/resources?topic=resources-resources-faq#create-resource
 # All account management services - 38
 # Grant access to create and view resource groups
 # Also grants access to IAM functions for managing users and access groups
 # (This policy alone gives an account admin ~50% of the permissions of an account owner.)
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator --account-management
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --account-management --roles Administrator
 
 # "Inviting users to an account"
 # https://cloud.ibm.com/docs/iam?topic=iam-iamuserinv#invite-access
-# User Management service - 79
+# User Management service - 41
 # Grant access to invite and view users
 # Redundant with --account-management
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Editor --service-name user-management
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name user-management --roles Editor
 
 # "Setting up access groups"
 # https://cloud.ibm.com/docs/iam?topic=iam-groups
-# IAM Access Groups Service service - 79
+# IAM Access Groups Service service - 43
 # Grant access to create and view access groups
 # Redundant with --account-management
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Editor --service-name iam-groups
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name iam-groups --roles Editor
 
 
 # IAM SERVICES POLICIES
@@ -59,7 +66,7 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Editor --service
 # Container Registry service in All regions - 64
 # Manager role grants access to create namespaces for the environment in the image registry
 # Administrator role is needed to create clusters
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name container-registry
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name container-registry --roles Administrator,Manager
 
 # "Prepare to create clusters at the account level"
 # https://cloud.ibm.com/docs/containers?topic=containers-clusters#cluster_prepare
@@ -67,7 +74,7 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Ma
 # Administrator role grants access to create and delete clusters, plus more
 # Manager role grants access to manage clusters
 # To create clusters, the user will also need Administrator access to the image registry
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager --service-name containers-kubernetes
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name containers-kubernetes --roles Administrator,Manager
 
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles
 # All resources in account (including future IAM enabled services) in All regions - 40
