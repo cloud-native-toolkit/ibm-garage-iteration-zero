@@ -8,7 +8,7 @@ module "dev_tools_tekton_release" {
 }
 
 module "dev_tools_tekton_resources" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/tekton_resources?ref=v2.2.17"
+  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/tekton_resources?ref=v2.4.2"
 
   cluster_config_file_path = module.dev_cluster.config_file_path
   tekton_namespace         = module.dev_tools_tekton_release.namespace
