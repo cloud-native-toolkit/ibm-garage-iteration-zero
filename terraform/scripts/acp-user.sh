@@ -80,5 +80,11 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name container
 # Manager role grants access to view, create, edit, and complete privileged actions as defined by the service on service-specific resources
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-group-name ${RESOURCE_GROUP} --roles Operator,Manager
 
+# "Assigning access to resource groups and the resources within them"
+# https://cloud.ibm.com/docs/resources?topic=resources-bp_resourcegroups#assigning_access_rgs
+# Resource Group - 10
+# Viewer role grants access to view the resource group itself, so that resources in the resource group are visable in the resource list
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-type "resource-group" --resource ${RESOURCE_GROUP_ID} --roles Viewer
+
 
 echo "Completed creating polices!"

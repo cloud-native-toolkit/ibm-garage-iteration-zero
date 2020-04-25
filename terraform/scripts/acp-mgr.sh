@@ -36,30 +36,42 @@ fi
 
 # "Who can create resource groups?"
 # https://cloud.ibm.com/docs/resources?topic=resources-resources-faq#create-resource
+# "Assigning access to account management services > All account management services option"
+# https://cloud.ibm.com/docs/iam?topic=iam-account-services#all-account-management
 # All account management services - 38
-# Grant access to all account management services
+# Administrator role grants that role for all account management services
 # This policy alone essentially gives the users all the permissions of the account owner (except classic infrastructure and Cloud Foundry permissions)
 # Includes permissions to create resource groups, manage users, and create access groups
 #ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --account-management --roles Administrator
 
-# This command grants resource group abilities only, not the rest of account management abilities
-# All resource group - 38
-# Grant access to create and view resource groups
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-type "resource-group" --roles Administrator
+# This command grants resource group capabilities only, not the rest of account management capabilities
+# Provides ability to do this:
+# "Managing resource groups"
+# https://cloud.ibm.com/docs/resources?topic=resources-rgs
+# All resource group - 29
+# Editor role grants access to create and view resource groups (Administrators can also assign access)
+# Redundant with --account-management
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-type "resource-group" --roles Editor
 
+# "Assigning access to account management services > User management"
+# https://cloud.ibm.com/docs/iam?topic=iam-account-services#user-management-account-management
+# Provides ability to do this:
 # "Inviting users to an account"
 # https://cloud.ibm.com/docs/iam?topic=iam-iamuserinv#invite-access
 # User Management service - 41
-# Grant access to invite and view users
+# Editor role grants access to create and invite users (Administrators can also assign access)
 # Redundant with --account-management but independent of --resource-type "resource-group"
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name user-management --roles Editor
 
+# "Assigning access to account management services > Access groups"
+# https://cloud.ibm.com/docs/iam?topic=iam-account-services#access-groups-account-management
+# Provides ability to do this:
 # "Setting up access groups"
 # https://cloud.ibm.com/docs/iam?topic=iam-groups
-# IAM Access Groups Service service - 43
-# Grant access to create and view access groups
+# IAM Access Groups Service service - 52
+# Administrator role grants access to create groups, add users, and assign access (Editors can't assign access)
 # Redundant with --account-management but independent of --resource-type "resource-group"
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name iam-groups --roles Editor
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name iam-groups --roles Administrator
 
 
 # IAM SERVICES POLICIES
@@ -76,14 +88,15 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name container
 # "Prepare to create clusters at the account level"
 # https://cloud.ibm.com/docs/containers?topic=containers-clusters#cluster_prepare
 # Kubernetes Service service in All regions - 45
-# Administrator role grants access to create and delete clusters, plus more
+# Administrator role grants access to create and delete clusters
 # Manager role grants access to manage clusters
 # To create clusters, the user will also need Administrator access to the image registry
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name containers-kubernetes --roles Administrator,Manager
 
+# "IAM access"
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles
 # All resources in account (including future IAM enabled services) in All regions - 40
-# Administrator role grants access to create and delete service instances (any IAM service), plus more
+# Administrator role grants access to create and delete service instances (any IAM service)
 # Manager role grants access to manage service instances
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --roles Administrator,Manager
 
