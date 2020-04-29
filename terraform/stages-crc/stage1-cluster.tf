@@ -14,4 +14,6 @@ module "dev_cluster" {
   cluster_type            = var.cluster_type
   cluster_exists          = var.cluster_exists
   ibmcloud_api_key        = var.ibmcloud_api_key
+  server_url              = "https://c100-e.us-south.containers.cloud.ibm.com:32740"
+  login_user              = "apikey"
 }
