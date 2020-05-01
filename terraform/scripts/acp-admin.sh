@@ -33,6 +33,8 @@ if [ -z "${RESOURCE_GROUP}" ]; then
     exit
 fi
 
+
+# Get ID for resource group
 RESOURCE_GROUP_ID=$(ibmcloud resource group ${RESOURCE_GROUP} | grep -E "^ID" | sed -E "s/ID: *(.*)/\1/g")
 echo "ID for resource group" ${RESOURCE_GROUP} "is" ${RESOURCE_GROUP_ID}
 

@@ -34,7 +34,7 @@ echo "Softlayer ID for user" ${USER_EMAIL} "is" ${USER_ID}
 
 
 # Create VLANs
-# (No documentation. Determined through trial and error. VLANs are a service?!)
+# https://cloud.ibm.com/catalog/infrastructure/vlan requires SERVICE_ADD
 ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_ADD --enable true       # Add/Upgrade Services
 ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_CANCEL --enable true    # Cancel Services
 
@@ -49,6 +49,9 @@ ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_CANCEL --enable
 #    Required: Add Server
 #    Required: Cancel Server
 #    Required: OS Reloads and Rescue Kernel
+#    Required: Add Support Case
+#    Required: Edit Support Case
+#    Required: View Support Case
 #    Required: View Virtual Server Details
 #    Suggested: Access All Virtual Servers
 #    Suggested: Add Compute with Public Network Port
@@ -59,10 +62,16 @@ ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_CANCEL --enable
 #    Required: Add Server
 #    Required: Cancel Server
 #    Required: OS Reloads and Rescue Kernel
+#    Required: Add Support Case
+#    Required: Edit Support Case
+#    Required: View Support Case
 #    Suggested: Access All Hardware
 #    Suggested: Add Compute with Public Network Port
 #
 # Network Permissions:
+#    Required: Add Support Case
+#    Required: Edit Support Case
+#    Required: View Support Case
 #    Suggested: Manage DNS
 #    Suggested: Edit Hostname/Domain
 #    Suggested: Add IP Addresses
@@ -73,6 +82,9 @@ ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_CANCEL --enable
 #    Suggested: View Certificates (SSL)
 #
 # Storage Permissions:
+#    Required: Add Support Case
+#    Required: Edit Support Case
+#    Required: View Support Case
 #    Suggested: Add/Upgrade Storage (StorageLayer)
 #    Suggested: Storage Manage
 #
