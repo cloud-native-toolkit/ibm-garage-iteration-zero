@@ -50,6 +50,8 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name container
 
 # "Prepare to create clusters at the account level"
 # https://cloud.ibm.com/docs/containers?topic=containers-clusters#cluster_prepare
+# "Understanding access to the infrastructure portfolio"
+# https://cloud.ibm.com/docs/containers?topic=containers-users#understand_infra
 # Kubernetes Service service in All regions in Resource Group - 45
 # Administrator role grants access to create and delete clusters in the resource group
 # Manager role grants access to manage existing clusters in the resource group
