@@ -2,7 +2,7 @@
 # --------------------------------------------------------------------------------------------------------
 # Name : Account Manager Classic Infrastructure Permissions
 #
-# Description: Add permissions to a user, the Classic Infrastructure (aka Softlayer) permissions
+# Description: Add permissions to a user, the Classic Infrastructure (aka SoftLayer) permissions
 # needed to create a cluster using the IBM Cloud Kubernetes Service (IKS). Infrastructure
 # permissions cannot be added to a group, they have to be added to a user.
 #
@@ -12,7 +12,7 @@
 if [ -z "$1" ]; then
     echo "Usage: acp-mgr-iaas.sh <USER_EMAIL>"
     echo "Grant the user the classic infrastructure permissions needed to create and manage an IKS cluster"
-    echo "<USER_EMAIL> - The user's email address (ex: john@ibm.com)"
+    echo "<USER_EMAIL> - The user's email address"
     exit
 fi
 
@@ -21,15 +21,22 @@ USER_EMAIL=$1
 # input validation
 if [ -z "${USER_EMAIL}" ]; then
     echo "Usage: acp-mgr-iaas.sh <USER_EMAIL>"
-    echo "Please provide the user's email address (ex: john@ibm.com)"
+    echo "Please provide the user's email address"
     exit
 fi
 
 USER_ID=$(ibmcloud sl user list | grep -e "${USER_EMAIL}" | cut -b 1-7)
-echo "Softlayer ID for user" ${USER_EMAIL} "is" ${USER_ID}
+echo "SoftLayer ID for user" ${USER_EMAIL} "is" ${USER_ID}
 
 
-# To show all Softlayer permissions and whether the user has them:
+# "IBM Cloud Kubernetes Service CLI > ibmcloud ks api-key reset"
+# https://cloud.ibm.com/docs/containers-cli-plugin?topic=containers-cli-plugin-kubernetes-service-cli#cs_api_key_reset
+# Kubernetes Service service in All regions - 42
+# Administrator role grants permission to reset the key
+ibmcloud iam user-policy-create ${USER_EMAIL} --service-name containers-kubernetes --roles Administrator
+
+
+# To show all SoftLayer permissions and whether the user has them:
 # ibmcloud sl user permissions ${USER_ID}
 
 
