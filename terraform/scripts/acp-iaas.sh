@@ -2,9 +2,15 @@
 # --------------------------------------------------------------------------------------------------------
 # Name : Account Manager Classic Infrastructure Permissions
 #
-# Description: Add permissions to a user, the Classic Infrastructure (aka SoftLayer) permissions
-# needed to create a cluster using the IBM Cloud Kubernetes Service (IKS). Infrastructure
-# permissions cannot be added to a group, they have to be added to a user.
+# Description: This user will own the API keys that Kubernetes Service (IKS) uses to create clusters.
+# Grant all IAM roles and classic infrastructure (aka SoftLayer) permissions needed to create clusters
+# and to reset API keys.
+#
+# "Understanding access to the infrastructure portfolio"
+# https://cloud.ibm.com/docs/containers?topic=containers-users#understand_infra
+#
+# "IBM Cloud Kubernetes Service CLI > ibmcloud ks api-key reset"
+# https://cloud.ibm.com/docs/containers-cli-plugin?topic=containers-cli-plugin-kubernetes-service-cli#cs_api_key_reset
 #
 # --------------------------------------------------------------------------------------------------------
 #
@@ -29,11 +35,17 @@ USER_ID=$(ibmcloud sl user list | grep -e "${USER_EMAIL}" | cut -b 1-7)
 echo "SoftLayer ID for user" ${USER_EMAIL} "is" ${USER_ID}
 
 
-# "IBM Cloud Kubernetes Service CLI > ibmcloud ks api-key reset"
-# https://cloud.ibm.com/docs/containers-cli-plugin?topic=containers-cli-plugin-kubernetes-service-cli#cs_api_key_reset
-# Kubernetes Service service in All regions - 42
-# Administrator role grants permission to reset the key
-ibmcloud iam user-policy-create ${USER_EMAIL} --service-name containers-kubernetes --roles Administrator
+# Grant all IAM roles needed to create clusters and reset API keys
+
+# Container Registry service in All regions - 42
+# Administrator role is needed to create clusters
+ibmcloud iam user-policy-create ${USER_EMAIL} --service-name container-registry --roles Administrator
+
+# Kubernetes Service service in All regions - 45
+# Administrator role grants access to create and delete clusters and reset the key
+# Writer (or Editor) role is also needed to create clusters
+# To create clusters, the user will also need Administrator access to the image registry
+ibmcloud iam user-policy-create ${USER_EMAIL} --service-name containers-kubernetes --roles Administrator,Writer
 
 
 # To show all SoftLayer permissions and whether the user has them:
@@ -42,6 +54,7 @@ ibmcloud iam user-policy-create ${USER_EMAIL} --service-name containers-kubernet
 
 # Create VLANs
 # https://cloud.ibm.com/catalog/infrastructure/vlan requires SERVICE_ADD
+# https://cloud.ibm.com/classic/network/vlan/provision does not need this permission
 ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_ADD --enable true       # Add/Upgrade Services
 ibmcloud sl user permission-edit ${USER_ID} --permission SERVICE_CANCEL --enable true    # Cancel Services
 
