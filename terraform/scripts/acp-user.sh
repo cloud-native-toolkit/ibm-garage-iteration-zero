@@ -71,19 +71,23 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name container
 # https://cloud.ibm.com/docs/containers?topic=containers-users#platform
 # "User access permissions"
 # https://cloud.ibm.com/docs/containers?topic=containers-access_reference
-# Kubernetes Service service - 34
+# Kubernetes Service service in Resource Group - 34
 # Grant access to use all clusters in the resource group, but not to create or delete clusters
 # Editor role grants access to bind services, work with Ingress resources, and set up log forwarding for their apps
+# Don't grant Operator role -- That allows the user to add and remove worker nodes
 # Writer role grants access to the Kubernetes dashboard and Kubernetes resources in namespaces
+# Will also get Manager role from All Services, which allows the user to create RBAC roles and role bindings
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name containers-kubernetes --resource-group-name ${RESOURCE_GROUP} --roles Editor,Writer
 
 # "Cloud IAM roles"
 # https://cloud.ibm.com/docs/iam?topic=iam-userroles#iamusermanrol
-# All service - 22
+# All service in Resource Group - 12
 # Grant access to use all services in the resource group, but not to create or delete services
-# Operator role grants access to view service instances and manage aliases, bindings, and credentials
-# Manager role grants access to view, create, edit, and complete privileged actions as defined by the service on service-specific resources
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-group-name ${RESOURCE_GROUP} --roles Operator,Manager
+# Viewer role grants access to view service instances, but not to modify them
+# Don't grant Editor role -- That allows creating and deleting service instances
+# Don't grant Operator role -- That will apply to the Kubernetes Service and allows the user to add and remove worker nodes
+# Manager role grants abilities like creating databases, as well as configuring RBAC in a cluster
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-group-name ${RESOURCE_GROUP} --roles Viewer,Manager
 
 # "Assigning access to resource groups and the resources within them"
 # https://cloud.ibm.com/docs/resources?topic=resources-bp_resourcegroups#assigning_access_rgs
