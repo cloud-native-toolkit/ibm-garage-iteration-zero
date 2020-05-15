@@ -1,10 +1,9 @@
 #!/bin/bash
 # --------------------------------------------------------------------------------------------------------
-# Name : Account Manager Access Group Policies
+# Name : Account Manager IAM Access Group Policies
 #
-# Description: Add policies to an access group that allow management of an IBM Cloud account
-# so it can be set up with resource groups and access groups that will allow access to
-# Developer Environments created by the Cloud Native Toolkit.
+# Description: Add policies to an access group that allow management of the resoruce groups,
+# users, and access groups in an IBM Cloud account.
 #
 # --------------------------------------------------------------------------------------------------------
 #
@@ -48,28 +47,30 @@ fi
 # Provides ability to do this:
 # "Managing resource groups"
 # https://cloud.ibm.com/docs/resources?topic=resources-rgs
-# All resource group - 29
-# Editor role grants access to create and view resource groups (Administrators can also assign access)
+# All resource group - 38
+# Editor role grants access to create and view resource groups; Administrators can also assign access
+# Administrator role is needed so Account Managers can grant Environment Admins and Users access to their resource group
 # Redundant with --account-management
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-type "resource-group" --roles Editor
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-type "resource-group" --roles Administrator
 
 # "Assigning access to account management services > User management"
 # https://cloud.ibm.com/docs/iam?topic=iam-account-services#user-management-account-management
 # Provides ability to do this:
 # "Inviting users to an account"
 # https://cloud.ibm.com/docs/iam?topic=iam-iamuserinv#invite-access
-# User Management service - 41
-# Editor role grants access to create and invite users (Administrators can also assign access)
+# User Management service - 50
+# Editor role grants access to invite and remove users; Administrators can also assign access
+# Administrator role is needed so Account Managers can grant other Account Managers access to this service
 # Redundant with --account-management but independent of --resource-type "resource-group"
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name user-management --roles Editor
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name user-management --roles Administrator
 
 # "Assigning access to account management services > Access groups"
 # https://cloud.ibm.com/docs/iam?topic=iam-account-services#access-groups-account-management
 # Provides ability to do this:
 # "Setting up access groups"
 # https://cloud.ibm.com/docs/iam?topic=iam-groups
-# IAM Access Groups Service service - 52
-# Administrator role grants access to create groups, add users, and assign access (Editors can't assign access)
+# IAM Access Groups Service service - 55
+# Editor role grants access to create groups and add users; Administrators can also assign access
 # Redundant with --account-management but independent of --resource-type "resource-group"
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name iam-groups --roles Administrator
 

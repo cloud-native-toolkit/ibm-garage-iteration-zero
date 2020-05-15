@@ -35,7 +35,7 @@ USER_ID=$(ibmcloud sl user list | grep -e "${USER_EMAIL}" | cut -b 1-7)
 echo "SoftLayer ID for user" ${USER_EMAIL} "is" ${USER_ID}
 
 
-# Grant all IAM roles needed to create clusters and reset API keys
+# Grant all IAM roles needed to create clusters, which also allows the user to reset API keys
 
 # Container Registry service in All regions - 42
 # Administrator role is needed to create clusters
@@ -46,6 +46,12 @@ ibmcloud iam user-policy-create ${USER_EMAIL} --service-name container-registry 
 # Writer (or Editor) role is also needed to create clusters
 # To create clusters, the user will also need Administrator access to the image registry
 ibmcloud iam user-policy-create ${USER_EMAIL} --service-name containers-kubernetes --roles Administrator,Writer
+
+# "Assigning access to resource groups and the resources within them"
+# https://cloud.ibm.com/docs/resources?topic=resources-bp_resourcegroups#assigning_access_rgs
+# All resource group - 10
+# Viewer role grants access to view the list of all resource groups, so that the user can add API keys to the groups
+ibmcloud iam user-policy-create ${USER_EMAIL} --resource-type "resource-group" --roles Viewer
 
 
 # To show all SoftLayer permissions and whether the user has them:
