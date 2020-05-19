@@ -86,8 +86,9 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name container
 # Viewer role grants access to view service instances, but not to modify them
 # Don't grant Editor role -- That allows creating and deleting service instances
 # Don't grant Operator role -- That will apply to the Kubernetes Service and allows the user to add and remove worker nodes
-# Manager role grants abilities like creating databases, as well as configuring RBAC in a cluster
-ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-group-name ${RESOURCE_GROUP} --roles Viewer,Manager
+# Writer role can edit a service instance's state but not change its configuration (depends on the service)
+# Don't grant Manager role -- In Kubernetes, makes the user a cluster administrator; grant it to individual services as needed
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-group-name ${RESOURCE_GROUP} --roles Viewer,Writer
 
 # "Assigning access to resource groups and the resources within them"
 # https://cloud.ibm.com/docs/resources?topic=resources-bp_resourcegroups#assigning_access_rgs
