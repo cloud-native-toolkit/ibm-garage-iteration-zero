@@ -112,3 +112,9 @@ variable "name_prefix" {
   description = "Prefix name that should be used for the cluster and services. If not provided then resource_group_name will be used"
   default     = ""
 }
+
+variable "TF_VERSION" {
+  type        = string
+  description = "The version of terraform that should be used"
+  default     = "0.12"
+}
