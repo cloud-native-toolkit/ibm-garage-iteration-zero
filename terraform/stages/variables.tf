@@ -114,7 +114,25 @@ variable "name_prefix" {
 }
 
 variable "TF_VERSION" {
-  type        = string
+  type = string
   description = "The version of terraform that should be used"
-  default     = "0.12"
+  default = "0.12"
+}
+
+variable "vpc_cluster" {
+  type        = string
+  description = "Flag indicating if the cluster is vpc"
+  default     = "false"
+}
+
+variable "logdna_exists" {
+  type        = string
+  description = "Flag indicating that the logdna instance already exists"
+  default     = "false"
+}
+
+variable "sysdig_exists" {
+  type        = string
+  description = "Flag indicating that the sysdig instance already exists"
+  default     = "false"
 }

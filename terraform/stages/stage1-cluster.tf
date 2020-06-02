@@ -1,5 +1,5 @@
 module "dev_cluster" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//cloud-managed/cluster/ibmcloud?ref=v2.5.0"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-container-platform.git?ref=v1.7.0"
 
   resource_group_name     = var.resource_group_name
   cluster_name            = var.cluster_name
@@ -7,7 +7,6 @@ module "dev_cluster" {
   public_vlan_id          = var.public_vlan_id
   vlan_datacenter         = var.vlan_datacenter
   cluster_region          = var.vlan_region
-  kubeconfig_download_dir = var.user_home_dir
   cluster_machine_type    = var.cluster_machine_type
   cluster_worker_count    = var.cluster_worker_count
   cluster_hardware        = var.cluster_hardware
@@ -15,5 +14,5 @@ module "dev_cluster" {
   cluster_exists          = var.cluster_exists
   ibmcloud_api_key        = var.ibmcloud_api_key
   name_prefix             = var.name_prefix
-  is_vpc                  = false
+  is_vpc                  = var.vpc_cluster == "true"
 }

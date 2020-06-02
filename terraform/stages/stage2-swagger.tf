@@ -1,9 +1,12 @@
-module "dev_tools_swagger_release" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/swagger_editor?ref=v2.3.0"
+module "dev_tools_swagger" {
+  source = "github.com/ibm-garage-cloud/terraform-tools-swaggereditor.git?ref=v1.2.0"
 
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname
   cluster_config_file      = module.dev_cluster.config_file_path
-  cluster_type             = var.cluster_type
-  releases_namespace       = module.dev_cluster_namespaces.tools_namespace_name
+  cluster_type             = module.dev_cluster.type_code
   tls_secret_name          = module.dev_cluster.tls_secret_name
+  releases_namespace       = module.dev_cluster_namespaces.tools_namespace_name
+  image_tag                = "v3.8.0"
+  enable_sso               = true
+  chart_version            = "1.3.0"
 }
