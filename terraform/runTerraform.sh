@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
+  echo "Usage: runTerraform.sh [--auto-approve] [--keep|--delete]"
+  echo ""
+  echo "  --auto-approve - proceed with the install without being prompted (optional)"
+  echo "  --keep         - will automatically keep the workspace directory if it already exists (optional)"
+  echo "  --delete       - will automatically delete the workspace directory if it already exists (optional)"
+  exit 0
+fi
+
 SCRIPT_DIR=$(dirname "$0")
 SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 
@@ -21,7 +30,38 @@ if [[ -z "${CLUSTER_NAME}" ]]; then
 fi
 
 WORKSPACE_DIR="${SRC_DIR}/workspaces/${CLUSTER_NAME}"
-mkdir -p "${WORKSPACE_DIR}/.tmp"
+
+if [[ -d "${WORKSPACE_DIR}" ]]; then
+  echo -e "A workspace directory already exists for this cluster: \033[1;33m${CLUSTER_NAME}\033[0m"
+
+  if [[ "$1" == "--delete" ]] || [[ "$2" == "--delete" ]]; then
+    ANSWER="d"
+  elif [[ "$1" == "--keep" ]] || [[ "$2" == "--keep" ]]; then
+    ANSWER="k"
+  else
+    ANSWER="x"
+  fi
+
+  while [[ "${ANSWER}" =~ [^kd] ]]; do
+    echo -n "Do you want to (k)eep the state or (d)elete it and start over? [K/d] "
+    read -r ANSWER
+
+    if [[ -z "${ANSWER}" ]] || [[ "${ANSWER}" =~ [Kk] ]]; then
+        ANSWER="k"
+    elif [[ "${ANSWER}" =~ [Dd] ]]; then
+        ANSWER="d"
+    fi
+  done
+
+  if [[ "${ANSWER}" == "d" ]]; then
+    echo -e "   Deleting old workspace directory: \033[1;33m${CLUSTER_NAME}\033[0m"
+    rm -rf "${WORKSPACE_DIR}"
+  else
+    echo -e "   Adding configuration to existing workspace directory: \033[1;33m${CLUSTER_NAME}\033[0m"
+  fi
+fi
+
+mkdir -p "${WORKSPACE_DIR}"
 
 TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 
@@ -127,7 +167,7 @@ cp "${SRC_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
 
 echo ""
 
-if [[ "$1" != "--force" ]]; then
+if [[ "$1" != "--auto-approve" ]] && [[ "$2" != "--auto-approve" ]]; then
     PROCEED="x"
     while [[ "${PROCEED}" =~ [^yn] ]]; do
         echo -n "Do you want to proceed? [Y/n] "
