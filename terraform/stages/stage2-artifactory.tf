@@ -1,5 +1,5 @@
 module "dev_serviceaccount_artifactory" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/cluster/serviceaccount?ref=v2.2.0"
+  source = "github.com/ibm-garage-cloud/terraform-cluster-serviceaccount.git?ref=v1.2.0"
 
   cluster_type             = var.cluster_type
   namespace                = module.dev_cluster_namespaces.tools_namespace_name
@@ -8,13 +8,13 @@ module "dev_serviceaccount_artifactory" {
   sscs                     = ["anyuid", "privileged"]
 }
 
-module "dev_tools_artifactory_release" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//generic/tools/artifactory_release?ref=v2.3.1"
+module "dev_tools_artifactory" {
+  source = "github.com/ibm-garage-cloud/terraform-tools-artifactory.git?ref=v1.2.0"
 
   cluster_type             = var.cluster_type
   service_account          = module.dev_serviceaccount_artifactory.name
+  releases_namespace       = module.dev_serviceaccount_artifactory.namespace
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname
   cluster_config_file      = module.dev_cluster.config_file_path
-  releases_namespace       = module.dev_cluster_namespaces.tools_namespace_name
   tls_secret_name          = module.dev_cluster.tls_secret_name
 }
