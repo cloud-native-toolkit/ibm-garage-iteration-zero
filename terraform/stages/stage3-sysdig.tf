@@ -9,4 +9,5 @@ module "dev_infrastructure_sysdig" {
   namespace                = module.dev_sre_namespace.name
   tags                     = [module.dev_cluster.tag]
   exists                   = var.sysdig_exists == "true"
+  name                     = var.sysdig_name
 }

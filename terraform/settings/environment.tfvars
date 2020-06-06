@@ -33,3 +33,6 @@ vlan_region="us-east"
 # This flag is used to indicate that the SysDig instance already exists. The default is "false"
 # if this value is not provided. If SysDig is not installed this value is ignored
 #sysdig_exists="false"
+# The name of the Sysdig instance. This is particularly useful when the Sysdig instance already
+# exists. If not provided the name will be derived from the name_prefix/resource_group_name
+#sysdig_name=""
