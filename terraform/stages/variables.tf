@@ -131,6 +131,12 @@ variable "logdna_exists" {
   default     = "false"
 }
 
+variable "logdna_name" {
+  type        = string
+  description = "The name of the logdna instance. This is particularly used for an existing logdna instance. If not provided the name will be derived from the name_prefix/resource_group"
+  default     = ""
+}
+
 variable "sysdig_exists" {
   type        = string
   description = "Flag indicating that the sysdig instance already exists"
