@@ -19,4 +19,5 @@ module "dev_infrastructure_logdna" {
   namespace                = module.dev_serviceaccount_logdna-agent.namespace
   name_prefix              = var.name_prefix
   exists                   = var.logdna_exists == "true"
+  name                     = var.logdna_name
 }
