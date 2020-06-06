@@ -142,3 +142,9 @@ variable "sysdig_exists" {
   description = "Flag indicating that the sysdig instance already exists"
   default     = "false"
 }
+
+variable "sysdig_name" {
+  type        = string
+  description = "The name of the sysdig instance. This is particularly used for an existing sysdig instance. If not provided the name will be derived from the name_prefix/resource_group"
+  default     = ""
+}
