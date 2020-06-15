@@ -1,5 +1,5 @@
 module "dev_tools_jenkins" {
-  source = "github.com/ibm-garage-cloud/terraform-tools-jenkins.git?ref=v1.1.1"
+  source = "github.com/ibm-garage-cloud/terraform-tools-jenkins.git?ref=v1.3.1"
 
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname
   cluster_config_file      = module.dev_cluster.config_file_path
