@@ -30,7 +30,7 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/argocd
     section: Cloud-Native Toolkit
-  href: https://argocd-tools.#CLUSTER_INGRESS_URL/ui/login/
+  href: https://argocd-server-tools.#CLUSTER_INGRESS_URL/
   location: ApplicationMenu
   text: ArgoCD
 ---
