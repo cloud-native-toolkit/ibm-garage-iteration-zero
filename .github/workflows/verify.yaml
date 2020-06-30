@@ -1,0 +1,107 @@
+name: Verify and release module
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  verify:
+    # The type of runner that the job will run on
+    if: "!contains(github.event.commits[0].message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    container: ibmgaragecloud/cli-tools:0.4.0-lite
+
+    strategy:
+      matrix:
+        platform: [iks118_vpc, ocp3, ocp4]
+      #      max-parallel: 1
+      fail-fast: false
+
+    env:
+      HOME: /home/devops
+      NAMESPACE: ${{ secrets.NAMESPACE }}
+      TF_VAR_tools_namespace: ${{ secrets.NAMESPACE }}
+      TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+      IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+      TF_VAR_resource_group_name: ${{ secrets.TEST_RESOURCE_GROUP }}
+      TF_VAR_region: ${{ secrets.TEST_REGION }}
+      TF_VAR_cluster_name: ${{ secrets[format('TEST_CLUSTER_{0}', matrix.platform)] }}
+      TF_VAR_cluster_type: ${{ matrix.platform }}
+      TF_VAR_vpc_cluster: ${{ endswith(matrix.platform, 'vpc') }}
+      TF_VAR_logdna_exists: "true"
+      TF_VAR_sysdig_exists: "true"
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Validate config
+        run: |
+          echo "Github sha: ${{ github.sha }}"
+          echo "Github ref: ${{ github.ref }}"
+          if [ -z "${NAMESPACE}" ]; then
+            echo "The NAMESPACE secret has not been set within the Git repo"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Setups up the task
+      - name: Setup ${{ matrix.platform }}
+        run: |
+          ls -lA
+          mkdir -p /tmp/workspace
+          cp -R ./terraform/scripts/* /tmp/workspace
+          cp -R ./terraform/stages/* /tmp/workspace
+
+      # Deploy
+      - name: Deploy ${{ matrix.platform }}
+        run: |
+          cd /tmp/workspace
+          ./apply.sh
+
+      # Test deploy
+#      - name: Validate deploy ${{ matrix.platform }}
+#        run: |
+#          cd /tmp/workspace
+#          ./validate-deploy.sh ${{ matrix.platform }} ${{ env.NAMESPACE }}
+
+      # Destroy
+      - name: Destroy ${{ matrix.platform }}
+        run: |
+          cd /tmp/workspace
+          ./destroy.sh
+
+      # Test destroy
+#      - name: Validate destroy ${{ matrix.platform }}
+#        run: |
+#          cd /tmp/workspace
+#          ./capture-cluster-state.sh ${{ matrix.platform }} $PWD/cluster-state/before $PWD/cluster-state/after
+#          if diff -q $PWD/cluster-state/before $PWD/cluster-state/after 1> /dev/null; then
+#            echo "Destroy completed successfully"
+#          else
+#            echo "Resources don't match"
+#            diff $PWD/cluster-state/before $PWD/cluster-state/after
+#            exit 1
+#          fi
+
+  release:
+    #    if: ${{ github.event_name == 'push' }}
+    needs: verify
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Drafts your next Release notes as Pull Requests are merged into "master"
+      - uses: release-drafter/release-drafter@v5
+        with:
+          # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
+          config-name: release-drafter.yaml
+          publish: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
