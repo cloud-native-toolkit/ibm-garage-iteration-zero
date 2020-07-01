@@ -6,7 +6,7 @@ spec:
   applicationMenu:
     imageURL: https://cloud.ibm.com/favicon.ico
     section: Cloud-Native Toolkit
-  href: https://dashboard-tools.#CLUSTER_INGRESS_URL
+  href: https://dashboard-tools.#CLUSTER_INGRESS_URL/
   location: ApplicationMenu
   text: Developer Dashboard
 ---
@@ -18,7 +18,7 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/sonarqube
     section: Cloud-Native Toolkit
-  href: https://sonarqube-tools.#CLUSTER_INGRESS_URL
+  href: https://sonarqube-tools.#CLUSTER_INGRESS_URL/
   location: ApplicationMenu
   text: SonarQube
 ---
@@ -49,7 +49,7 @@ spec:
 apiVersion: console.openshift.io/v1
 kind: ConsoleLink
 metadata:
-  name: toolkit-swagger
+  name: toolkit-apieditor
 spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/apieditor
@@ -69,6 +69,18 @@ spec:
   href: https://pact-broker-tools.#CLUSTER_INGRESS_URL/
   location: ApplicationMenu
   text: Pact Broker
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: toolkit-ir
+spec:
+  applicationMenu:
+    imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/ir
+    section: Cloud-Native Toolkit
+  href: https://cloud.ibm.com/kubernetes/registry/main/images?platformType=openshift
+  location: ApplicationMenu
+  text: Image Registry
 ---
 apiVersion: console.openshift.io/v1
 kind: ConsoleLink
@@ -105,15 +117,15 @@ spec:
   href: https://github.com/
   location: ApplicationMenu
   text: GitHub
----
-apiVersion: console.openshift.io/v1
-kind: ConsoleLink
-metadata:
-  name: toolkit-ir
-spec:
-  applicationMenu:
-    imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/ir
-    section: Cloud-Native Toolkit
-  href: https://cloud.ibm.com/kubernetes/registry/main/images?platformType=openshift
-  location: ApplicationMenu
-  text: Image Registry
+#---
+#apiVersion: console.openshift.io/v1
+#kind: ConsoleLink
+#metadata:
+#  name: toolkit-ta
+#spec:
+#  applicationMenu:
+#    imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/ta
+#    section: Cloud-Native Toolkit
+#  href: https://ta-apps.#CLUSTER_INGRESS_URL/
+#  location: ApplicationMenu
+#  text: Transformation Advisor
