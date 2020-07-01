@@ -42,7 +42,7 @@ spec:
   applicationMenu:
     imageURL: https://dashboard-tools.#CLUSTER_INGRESS_URL/tools/icon/artifactory
     section: Cloud-Native Toolkit
-  href: https://artifactory-tools.#CLUSTER_INGRESS_URL/
+  href: https://artifactory-tools.#CLUSTER_INGRESS_URL/ui/login/
   location: ApplicationMenu
   text: Artificatory
 ---
