@@ -40,6 +40,12 @@ variable "region" {
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
 }
 
+variable "vlan_region" {
+  type        = string
+  description = "(Deprecated) Region for VLANs defined in private_vlan_number and public_vlan_number."
+  default     = ""
+}
+
 # Cluster Variables
 variable "cluster_machine_type" {
   type        = string
