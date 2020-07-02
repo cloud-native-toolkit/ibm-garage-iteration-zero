@@ -15,4 +15,5 @@ module "dev_cluster" {
   ibmcloud_api_key        = var.ibmcloud_api_key
   name_prefix             = var.name_prefix
   is_vpc                  = var.vpc_cluster == "true"
+  registry_namespace      = var.registry_namespace
 }

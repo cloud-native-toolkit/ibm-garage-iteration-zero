@@ -11,6 +11,12 @@ variable "resource_group_name" {
   description = "Existing resource group where the IKS cluster will be provisioned."
 }
 
+variable "registry_namespace" {
+  type        = string
+  description = "The namespace that should be used in the IBM Container Registry. If not provided the value will default to the resource group name."
+  default     = ""
+}
+
 variable "ibmcloud_api_key" {
   type        = string
   description = "The api key for IBM Cloud access"
