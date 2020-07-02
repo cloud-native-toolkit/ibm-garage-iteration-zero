@@ -54,7 +54,7 @@ jobs:
         run: |
           ls -lA
           mkdir -p /tmp/workspace
-          cp -R ./terraform/scripts/* /tmp/workspace
+          cp -R ./terraform/scripts-workspace/* /tmp/workspace
           cp -R ./terraform/stages/* /tmp/workspace
 
       # Deploy
