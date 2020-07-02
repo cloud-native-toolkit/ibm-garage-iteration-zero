@@ -10,7 +10,7 @@ on:
 jobs:
   verify:
     # The type of runner that the job will run on
-    if: !(contains(github.event.commits[0].message, '[skip ci]') || contains(github.event.pull_request.labels.*.name, 'skip ci'))
+    if: !contains(github.event.pull_request.labels.*.name, 'skip ci')
     runs-on: ubuntu-latest
     container: ibmgaragecloud/cli-tools:0.4.0-lite
 
