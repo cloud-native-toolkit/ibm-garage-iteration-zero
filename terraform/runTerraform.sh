@@ -68,7 +68,7 @@ TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 cat "${ENVIRONMENT_TFVARS}" > "${TFVARS}"
 cat "${SRC_DIR}/settings/vlan.tfvars" >> "${TFVARS}"
 echo "" >> "${TFVARS}"
-cp "${SRC_DIR}"/scripts/* "${WORKSPACE_DIR}"
+cp "${SRC_DIR}"/scripts-workspace/* "${WORKSPACE_DIR}"
 
 # Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
 # If not, get them from the user and write them to a file
