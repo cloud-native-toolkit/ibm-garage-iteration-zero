@@ -42,7 +42,7 @@ jobs:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ./dist/create-catalog-offering.sh
           asset_name: create-catalog-offering.sh
-          asset_content_type: application/x-sh
+          asset_content_type: application/octet-stream
 
       - name: Build offering
         run: |
