@@ -20,6 +20,14 @@ vpc_cluster="false"
 # - "${resource_group_name}-cluster"
 cluster_name="<cluster name>"
 
+# The namespace that will be created and used within the IBM Container Registry to store container
+# images. This value is optional and will default to the resource_group_name if not provided.
+# Note: Namespaces within the IBM Container Registry are scoped to the region (e.g. us-south) and not
+# to the particular account. If a registry namespace is already owned by a different account, the
+# terraform process will fail while trying to provision a new namespace. At that point, the
+# registry_namespace value should be updated to a unique value.
+#registry_namespace="<registry namespace>"
+
 resource_group_name="<resource group>"
 region="us-east"
 
