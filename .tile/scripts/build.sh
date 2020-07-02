@@ -46,7 +46,7 @@ STAGES_DIRECTORY="stages"
 cp "${SRC_DIR}/${STAGES_DIRECTORY}/variables.tf" "${WORKSPACE_DIR}"
 cp "${SRC_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
 cp "${SRC_DIR}"/scripts-workspace/* "${WORKSPACE_DIR}"
-cp README.MD "${WORKSPACE_DIR}/SCRIPTS.md"
+cp README.md "${WORKSPACE_DIR}/SCRIPTS.md"
 cp "${SCRIPT_DIR}/../docs/README.md" "${WORKSPACE_DIR}"
 
 # Move some stages to an unused folder
