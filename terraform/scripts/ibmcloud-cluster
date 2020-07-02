@@ -16,9 +16,9 @@ if [[ -z "${RESOURCE_GROUP}" ]]; then
   exit 1
 fi
 
-REGION="${vlan_region}"
+REGION="${region}"
 if [[ -z "${REGION}" ]]; then
-  echo "vlan_region is required in environment.tfvars"
+  echo "region is required in environment.tfvars"
   exit 1
 fi
 

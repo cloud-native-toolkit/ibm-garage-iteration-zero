@@ -35,9 +35,16 @@ variable "vlan_datacenter" {
   default     = ""
 }
 
-variable "vlan_region" {
+variable "region" {
   type        = string
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
+  default     = ""
+}
+
+variable "vlan_region" {
+  type        = string
+  description = "(Deprecated) Region for VLANs defined in private_vlan_number and public_vlan_number."
+  default     = ""
 }
 
 # Cluster Variables

@@ -7,7 +7,9 @@ if [[ -n "$GITHUB_USERNAME" ]] && [[ -n "$GITHUB_TOKEN" ]]; then
   GITHUB_AUTH="-u ${GITHUB_USERNAME}:${GITHUB_TOKEN}"
 fi
 
-find "${REPO_DIR}/terraform/stages" -name "*.tf" -depth 1 | while read stageFile; do
+set -e
+
+ls "${REPO_DIR}"/terraform/stages/*.tf | while read stageFile; do
   echo "Updating stage: $stageFile"
   SOURCES=$(grep -E 'source *=' "${stageFile}" | sed -E 's/.*source *= *"(.*)"/\1/g')
 

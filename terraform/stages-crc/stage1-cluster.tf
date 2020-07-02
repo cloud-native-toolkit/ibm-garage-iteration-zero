@@ -6,7 +6,7 @@ module "dev_cluster" {
   private_vlan_id         = var.private_vlan_id
   public_vlan_id          = var.public_vlan_id
   vlan_datacenter         = var.vlan_datacenter
-  cluster_region          = var.vlan_region
+  cluster_region          = var.vlan_region != "" ? var.vlan_region : var.region
   kubeconfig_download_dir = var.user_home_dir
   cluster_machine_type    = var.cluster_machine_type
   cluster_worker_count    = var.cluster_worker_count

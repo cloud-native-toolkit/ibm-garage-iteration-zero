@@ -42,7 +42,7 @@ To make getting this information as simple as possible we have added a command t
     public_vlan_number="1849"
     public_vlan_router_hostname="fcr01a.dal10"
     vlan_datacenter="dal10"
-    vlan_region="us-south"
+    region="us-south"
     resource_group_name="catalyst-team"
     cluster_name="catalyst-team-cluster"
     ```

@@ -21,7 +21,7 @@ vpc_cluster="false"
 cluster_name="<cluster name>"
 
 resource_group_name="<resource group>"
-vlan_region="us-east"
+region="us-east"
 
 # This flag is used to indicate that the LogDNA instance already exists. The default is "false"
 # if this value is not provided. If LogDNA is not installed this value is ignored
