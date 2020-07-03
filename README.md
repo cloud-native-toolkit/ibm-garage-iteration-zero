@@ -19,12 +19,12 @@ This repo contains Terraform resources that will create an environment containin
 - Tools for continuous delivery:
     - [Tekton CI](https://github.com/tektoncd/pipeline)
     - [Jenkins CI](https://jenkins.io/)
-    - [Argo CD](https://argoproj.github.io/argo-cd/)
+    - [Argo CD](https://argoproj.github.io/projects/argo-cd)
     - [SonarQube](https://www.sonarqube.org/) 
     - [Pact Broker](https://docs.pact.io/)
     - [Artifactory](https://jfrog.com/open-source/)
     - [Swagger Editor](https://editor.swagger.io/)
-    - [Eclipse Che](https://www.eclipse.org/che/)
+    - [Jaeger](https://https://www.jaegertracing.io/)
 -  Cloud services for cloud-native applications:
     - Installed by default:
        - [LogDNA Logging](https://cloud.ibm.com/docs/services/Log-Analysis-with-LogDNA)
@@ -41,6 +41,30 @@ This diagram illustrates the components in a Cloud Native Toolkit environment:
 
 ![Provisioned environment](./docs/images/catalyst-provisioned-environment.png)
 
+> Artifactory is an Open Source product maintained by [JFrog](https://jfrog.com/brand-guidelines/)
+>  
+> Jenkins is an Open Source project [Jenkins](https://www.jenkins.io/artwork/)
+>
+> SonarQube is an Open Source project maintained by [SonarSource](https://www.sonarsource.com/logos/)
+>
+> Nexus Repository is an Open Source project maintained by [SonaType](https://www.sonatype.com/nexus-repository-oss)
+>
+> Trivy is an Open Source project maintained by [Aqua](https://www.aquasec.com/brand/)
+>
+> InteliJ is a IDE from [JetBrains](https://www.jetbrains.com/company/brand/) 
+>
+> VSCode is a free IDE maintained by [Microsoft](https://code.visualstudio.com/)
+>
+> Jaeger is an Open Source tool maintained by [Jaeger Community](https://www.jaegertracing.io/get-in-touch/)
+>
+> ArgoCD is an Open Source tool maintained by [ArgoCD Community](https://argoproj.github.io/projects/argo-cd/)
+> 
+> OpenShift and CodeReady Workspaces are products from [Red Hat](https://developers.redhat.com/products/codeready-workspaces/overview)
+>
+> LogDNA is an IBM Cloud service supplied by [LogDNA](https://logdna.com/)
+>
+> Sysdig is an IBM Cloud service supplied by [Sysdig](https://sysdig.com/)
+
 ## Developer Guide
 
 [Developer Guide](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/) explains how to use the Cloud Native Toolkit environment.
@@ -49,6 +73,9 @@ Use it to deep dive into how to use these tools and programming models to make y
 ### Install and Configure
 
 Start with the [installation instructions](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/overview) for creating the Cloud Native Toolkit environment. It contains the instructions for how to setup and run the Terraform Infrastructure as Code scripts in this repo.
+
+You can install this collection of CNCF DevSecOps tools using the [IBM Cloud Private Catalog feature](https://cloud.ibm.com/docs/account?topic=account-manage-catalog) more information on 
+how to configure a IBM Cloud Private Catalog tile and complete an install can be found in this [README](.tile/docs/README.md) or documentation in the [Developer Guide](https://cloudnativetoolkit.dev/admin/installation-private-catalog)
 
 ### Developer Dashboard
 
