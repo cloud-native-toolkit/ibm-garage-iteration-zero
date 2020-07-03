@@ -81,8 +81,9 @@ cd cloudnative-toolkit
     |---|---|---|
     | `ibmcloud_api_key` | The API key from IBM Cloud Console that support service creation access writes  | `{guid API key from Console}`  |
     |  `resource_group_name` | The name of the resource group where the cluster is created  | `dev-team-one`  |
-    |  `cluster_type`       |  The name of the IKS cluster |  `kubernetes` or `ocp4` |
     |  `cluster_name`       |  The name of the IKS cluster |  `dev-team-one-iks-117-vpc` |
+    |  `registry_namespace` |  The namespace that should be used in the IBM Container Registry. If not provided the value will default to theresource group name |  `dev-team-one-registry-2020` |
+    |  `cluster_type`       |  The name of the IKS cluster |  `kubernetes` or `ocp4` |
     |  `cluster_exists`     |  Does the cluster exist already | `true`  |
     |  `vpc_cluster`        | Is the cluster created in VPC  | `true`  |
 
@@ -90,13 +91,15 @@ cd cloudnative-toolkit
 
     - Set them based on the existing cluster:
     - `resource_group_name` -- The existing cluster's resource group
+    - `cluster_name` -- The existing cluster's name
+    - `registry_namespace` -- The name of a unique Registry namespace to store built images
     - `cluster_exists` -- Set to `true` for an existing cluster
     - `cluster_type` -- Specify the existing cluster's type
         - **kubernetes** -- Kubernetes
         - **openshift** -- OpenShift v3
         - **ocp3** -- OpenShift v3
         - **ocp4** -- OpenShift v4
-    - `cluster_name` -- The existing cluster's name
+
     - `vpc_cluster` -- true of false if the cluster is inside a VPC
 
 - Accept the License which is **Apache 2** license

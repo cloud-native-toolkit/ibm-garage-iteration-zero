@@ -3,8 +3,8 @@
 # Register IBM Cloud Private Catalog Offering within an Existing Catalog
 # If the Catalog does not exist it will Create One with the name provided
 #
-# Author : Matthew Perrins
-# email  : mjperrin@us.ibm.com
+# Author : Matthew Perrins, Sean Sundberg
+# email  : mjperrin@us.ibm.com, seansund@us.ibm.com
 #
 ###################################################################################
 echo "IBM Cloud Private Catalog Offering Creation!"
@@ -88,7 +88,7 @@ if [ -z "${CATALOG_ID}" ]; then
 fi
 
 # Define the Offering and relationship to the Catalog
-curl "https://github.com/${GIT_REPO}/releases/downloads/${VERSION}/${OFFERING}" | sed "s/#CATALOG_ID/${CATALOG_ID}/g" | sed "s/#VERSION/${VERSION}/g" > offering.json
+curl -sL "https://github.com/${GIT_REPO}/releases/download/${VERSION}/${OFFERING}" | sed "s/#CATALOG_ID/${CATALOG_ID}/g" | sed "s/#VERSION/${VERSION}/g" > offering.json
 
 echo "Creating Offering in Catalog ${CATALOG_ID}"
 CATALOGS=$(eval ${ACURL} -location -request POST "${HOST}/catalogs/${CATALOG_ID}/offerings" -H 'Content-Type: application/json' --data "@offering.json")
