@@ -62,7 +62,7 @@ One of the features of the IBM Cloud Catalog is support for private catalog
 - If you are not running this from the [Cloud Shell](https://www.ibm.com/cloud/cloud-shell) you will need to install `jq` into you command line environment [jq downloads](https://stedolan.github.io/jq/download/)   
  ```bash
 chmod +x create-catalog-offering.sh 
-./offering.sh {API_KEY} "Team Catalog"
+./create-catalog-offering.sh {API_KEY} "Team Catalog"
 ```
 
 ## Install Toolkit into Cluster using Private Catalog Tile

@@ -75,7 +75,7 @@ Use it to deep dive into how to use these tools and programming models to make y
 Start with the [installation instructions](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/overview) for creating the Cloud Native Toolkit environment. It contains the instructions for how to setup and run the Terraform Infrastructure as Code scripts in this repo.
 
 You can install this collection of CNCF DevSecOps tools using the [IBM Cloud Private Catalog feature](https://cloud.ibm.com/docs/account?topic=account-manage-catalog) more information on 
-how to configure a IBM Cloud Private Catalog tile and complete an install can be found in this [README](./tile/docs/README.md) or documentation in the [Developer Guide](https://cloudnativetoolkit.dev/admin/installation-private-catalog)
+how to configure a IBM Cloud Private Catalog tile and complete an install can be found in this [README](.tile/docs/README.md) or documentation in the [Developer Guide](https://cloudnativetoolkit.dev/admin/installation-private-catalog)
 
 ### Developer Dashboard
 
