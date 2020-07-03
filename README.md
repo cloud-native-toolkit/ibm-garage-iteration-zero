@@ -59,7 +59,7 @@ This diagram illustrates the components in a Cloud Native Toolkit environment:
 >
 > ArgoCD is an Open Source tool maintained by [ArgoCD Community](https://argoproj.github.io/projects/argo-cd/)
 > 
-> CodeReady Workspaces is an IDE from [Red Hat](https://developers.redhat.com/products/codeready-workspaces/overview)
+> OpenShift and CodeReady Workspaces are products from [Red Hat](https://developers.redhat.com/products/codeready-workspaces/overview)
 >
 > LogDNA is an IBM Cloud service supplied by [LogDNA](https://logdna.com/)
 >
