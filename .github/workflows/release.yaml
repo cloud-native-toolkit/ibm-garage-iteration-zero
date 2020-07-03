@@ -11,9 +11,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
-    env:
-      DIST_DIR: ./dist
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "master"
@@ -24,50 +21,3 @@ jobs:
           config-name: release-drafter.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build tile installer
-        run: |
-          mkdir -p ${{ env.DIST_DIR }}
-          cat ./.tile/scripts/master.sh | sed "s/VERSION=latest/VERSION=${{ steps.create-release.outputs.tag_name }}/g" > ${{ env.DIST_DIR }}/create-catalog-offering.sh
-          chmod +x ${{ env.DIST_DIR }}/create-catalog-offering.sh
-
-      - name: Upload tile installer
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ./dist/create-catalog-offering.sh
-          asset_name: create-catalog-offering.sh
-          asset_content_type: application/octet-stream
-
-      - name: Build offering
-        run: |
-          ./.tile/scripts/build.sh ${{ env.DIST_DIR }} ${{ env.OFFERING }} ${{ steps.create-release.outputs.tag_name }}
-        env:
-          OFFERING: cloudnative-toolkit
-
-      - name: Upload offering json
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OFFERING: cloudnative-toolkit
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ./dist/offering-${{ env.OFFERING }}.json
-          asset_name: offering-${{ env.OFFERING }}.json
-          asset_content_type: application/json
-
-      - name: Upload offering tar
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OFFERING: cloudnative-toolkit
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ./dist/$${ env.OFFERING }}.tar.gz
-          asset_name: ${{ env.OFFERING }}.tar.gz
-          asset_content_type: application/gzip
