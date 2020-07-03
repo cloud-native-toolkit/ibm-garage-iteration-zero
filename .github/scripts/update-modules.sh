@@ -28,7 +28,7 @@ ls "${REPO_DIR}"/terraform/stages/*.tf | while read stageFile; do
       latest_source=$(echo "${source}" | sed -E "s/(.*)=.*/\1=${latest_release}/g")
 
       echo "  ++ Latest source for ${git_slug} is ${latest_source}"
-      sed -i "" "s~${source}~${latest_source}~g" "${stageFile}"
+      sed -i "" -e "s~${source}~${latest_source}~g" "${stageFile}"
     else
       echo "  ** Release not found for ${git_release_url}"
     fi
