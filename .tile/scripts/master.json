@@ -1,6 +1,6 @@
 {
   "label": "Cloud-Native Toolkit",
-  "name": "#OFFERING-#VERSION",
+  "name": "#OFFERING",
   "offering_icon_url": "https://globalcatalog.cloud.ibm.com/api/v1/1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc/artifacts/terraform.svg",
   "tags": [
     "terraform",
@@ -18,7 +18,7 @@
           "version": "#VERSION",
           "catalog_id": "#CATALOG_ID",
           "repo_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/",
-          "tgz_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/releases/download/#VERSION/#OFFERING-#VERSION.tar.gz",
+          "tgz_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/releases/download/#VERSION/#OFFERING.tar.gz",
           "configuration": [
             {
               "key": "cluster_exists",
