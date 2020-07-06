@@ -27,7 +27,8 @@ if [ -z "${VERSION}" ]; then
   VERSION="#VERSION"
 fi
 
-WORKSPACE_DIR="./workspace"
+WORKSPACE_BASE="./workspace"
+WORKSPACE_DIR="${WORKSPACE_BASE}/${OFFERING_NAME}"
 mkdir -p "${WORKSPACE_DIR}"
 
 SRC_DIR="./terraform"
@@ -54,9 +55,9 @@ rm "${WORKSPACE_DIR}/stage3-logdna.tf"
 rm "${WORKSPACE_DIR}/stage3-sysdig.tf"
 
 echo "  - Creating offering - ${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz"
-cd "${WORKSPACE_DIR}" && tar czf "${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz" .
+cd "${WORKSPACE_BASE}" && tar czf "${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz" .
 cd - 1> /dev/null
-rm -rf "${WORKSPACE_DIR}"
+rm -rf "${WORKSPACE_BASE}"
 
 echo "  - Creating offering json - ${OUTPUT_DIR}/offering-${OFFERING_NAME}.json"
 sed "s/#OFFERING/${OFFERING_NAME}/g" "${SCRIPT_DIR}/master.json" | sed "s/#VERSION/${VERSION}/g" > "${OUTPUT_DIR}/offering-${OFFERING_NAME}.json"
