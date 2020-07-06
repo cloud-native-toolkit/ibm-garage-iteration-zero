@@ -75,15 +75,15 @@ chmod +x create-catalog-offering.sh
 - Enter values for the variables list , these can be customized depending
  on the type of cluster and if its in classic or VPC
 
-    | **Variable**   | **Description**  | **eg. Value**  |
-    |---|---|---|
-    | `ibmcloud_api_key` | The API key from IBM Cloud Console that support service creation access writes  | `{guid API key from Console}`  |
-    |  `resource_group_name` | The name of the resource group where the cluster is created  | `dev-team-one`  |
-    |  `cluster_name`       |  The name of the IKS cluster |  `dev-team-one-iks-117-vpc` |
-    |  `registry_namespace` |  The namespace that should be used in the IBM Container Registry. If not provided the value will default to theresource group name |  `dev-team-one-registry-2020` |
-    |  `cluster_type`       |  The name of the IKS cluster |  `kubernetes` or `ocp4` |
-    |  `cluster_exists`     |  Does the cluster exist already | `true`  |
-    |  `vpc_cluster`        | Is the cluster created in VPC  | `true`  |
+    | **Variable**          | **Description**  | **eg. Value**  |
+    |-----------------------|-----------------------------------------------------------------------------------------------|-------------------------------|
+    | `cluster_exists`      | Flag indicating that the cluster already exists                                               | `true` or `false`             |
+    | `cluster_type`        | The type of cluster into which the toolkit will be installed                                  | `kubernetes` or `ocp4`        |
+    | `ibmcloud_api_key`    | The API key from IBM Cloud Console that has ClusterAdmin access and supports service creation | `{guid API key from Console}` |
+    | `resource_group_name` | Existing resource group in the account where the cluster has been created                     | `dev-team-one`                |
+    | `cluster_name`        | The name of the cluster                                                                       | `dev-team-one-iks-117-vpc`    |
+    | `registry_namespace`  | The namespace that should be used in the IBM Container Registry. If not provided the value will default to the resource group name | `dev-team-one-registry-2020` |
+    | `vpc_cluster`         | Flag indicating that the cluster has been built on VPC infrastructure                         | `true` or `false`             |
 
 - Input the Environment variables
 

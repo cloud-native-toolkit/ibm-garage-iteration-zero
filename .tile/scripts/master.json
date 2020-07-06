@@ -24,15 +24,15 @@
               "key": "cluster_exists",
               "type": "string",
               "default_value": "true",
-              "description": "Flag indicating if the cluster already exists (true or false)",
+              "description": "Flag indicating that the cluster already exists (true or false)",
               "required": true,
               "hidden": false
             },
             {
               "key": "cluster_type",
               "type": "string",
-              "default_value": "kubernetes",
-              "description": "The type of cluster that should be created (ocp4, ocp3 or kubernetes)",
+              "default_value": "ocp4",
+              "description": "The type of cluster into which the #OFFERING will be installed (ocp4, ocp3 or kubernetes)",
               "required": true,
               "hidden": false
             },
@@ -40,7 +40,7 @@
               "key": "ibmcloud_api_key",
               "type": "password",
               "default_value": "",
-              "description": "The api key for IBM Cloud access",
+              "description": "The API key from IBM Cloud Console that has ClusterAdmin access and supports service creation",
               "required": true,
               "hidden": false
             },
@@ -48,7 +48,7 @@
               "key": "resource_group_name",
               "type": "string",
               "default_value": "",
-              "description": "Existing resource group where the cluster will be provisioned.",
+              "description": "Existing resource group that contains the cluster",
               "required": true,
               "hidden": false
             },
@@ -71,8 +71,8 @@
             {
               "key": "vpc_cluster",
               "type": "string",
-              "default_value": "false",
-              "description": "Flag indicating if the cluster is a VPC",
+              "default_value": "true",
+              "description": "Flag indicating that the cluster has been built on VPC infrastructure",
               "required": false,
               "hidden": false
             },
