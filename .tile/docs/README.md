@@ -1,7 +1,5 @@
 # CNCF Cloud Native Toolkit 
 
-![CI For Cloud-Native Toolkit Private Catalog](https://github.com/ibm-garage-cloud/cloudnative-toolkit/workflows/CI%20For%20Cloud-Native%20Toolkit%20Private%20Catalog/badge.svg)
-
 ## Install CNCF Cloud-Native Toolkit using IBM Private Catalogs
 
 This Private Catalog tile a derivative of the **Iteration Zero** project from
