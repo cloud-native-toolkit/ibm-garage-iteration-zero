@@ -33,7 +33,7 @@ if [ -z "${GIT_REPO}" ]; then
 fi
 
 if [ -z "${OFFERING}" ]; then
-  OFFERING="offering-cloudnative-toolkit.json"
+  OFFERING="offering-cloudnative-toolkit"
 fi
 
 # input validation, Version is provided when the packaged release of this repository is created
@@ -88,7 +88,7 @@ if [ -z "${CATALOG_ID}" ]; then
 fi
 
 # Define the Offering and relationship to the Catalog
-curl -sL "https://github.com/${GIT_REPO}/releases/download/${VERSION}/${OFFERING}" | sed "s/#CATALOG_ID/${CATALOG_ID}/g" | sed "s/#VERSION/${VERSION}/g" > offering.json
+curl -sL "https://github.com/${GIT_REPO}/releases/download/${VERSION}/${OFFERING}-${VERSION}.json" | sed "s/#CATALOG_ID/${CATALOG_ID}/g" | sed "s/#VERSION/${VERSION}/g" > offering.json
 
 echo "Creating Offering in Catalog ${CATALOG_ID}"
 CATALOGS=$(eval ${ACURL} -location -request POST "${HOST}/catalogs/${CATALOG_ID}/offerings" -H 'Content-Type: application/json' --data "@offering.json")
