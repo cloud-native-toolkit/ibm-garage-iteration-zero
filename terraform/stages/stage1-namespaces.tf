@@ -1,5 +1,5 @@
 module "dev_cluster_namespaces" {
-  source = "github.com/ibm-garage-cloud/terraform-cluster-namespace.git?ref=v1.1.0"
+  source = "github.com/ibm-garage-cloud/terraform-cluster-namespace.git?ref=v2.2.0"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
@@ -9,7 +9,7 @@ module "dev_cluster_namespaces" {
 }
 
 module "dev_sre_namespace" {
-  source = "github.com/ibm-garage-cloud/terraform-cluster-namespace.git?ref=v2.1.0"
+  source = "github.com/ibm-garage-cloud/terraform-cluster-namespace.git?ref=v2.2.0"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
