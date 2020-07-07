@@ -5,7 +5,7 @@ module "dev_tools_argocd" {
   cluster_type        = module.dev_cluster.type_code
   olm_namespace       = module.dev_software_olm.olm_namespace
   operator_namespace  = module.dev_software_olm.target_namespace
-  app_namespace       = module.dev_cluster_namespaces.tools_namespace_name
   ingress_subdomain   = module.dev_cluster.ingress_hostname
+  app_namespace       = module.dev_tools_namespace.name
   name                = "argocd"
 }
