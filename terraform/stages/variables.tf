@@ -85,18 +85,6 @@ variable "sre_namespace" {
   default     = "ibm-observe"
 }
 
-variable "release_namespaces" {
-  type        = list(string)
-  description = "Namespace for dev"
-  default     = ["dev", "test", "staging"]
-}
-
-variable "release_namespace_count" {
-  type        = number
-  description = "Namespace for dev"
-  default     = 3
-}
-
 variable "cluster_name" {
   type        = string
   description = "The name of the cluster"
