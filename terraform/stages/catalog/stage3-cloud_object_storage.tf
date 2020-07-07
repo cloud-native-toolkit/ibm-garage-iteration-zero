@@ -4,7 +4,7 @@ module "dev_infrastructure_cos" {
   resource_group_name = module.dev_cluster.resource_group_name
   resource_location   = module.dev_cluster.region
   cluster_id          = module.dev_cluster.id
-  namespaces          = module.dev_cluster_namespaces.release_namespaces
+  namespaces          = module.dev_tools_namespace.name
   namespace_count     = var.release_namespace_count
   name_prefix         = var.name_prefix
 }

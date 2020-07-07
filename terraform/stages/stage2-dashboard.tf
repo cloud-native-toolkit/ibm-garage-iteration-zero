@@ -5,6 +5,6 @@ module "dev_tools_dashboard" {
   cluster_config_file      = module.dev_cluster.config_file_path
   cluster_type             = module.dev_cluster.type_code
   tls_secret_name          = module.dev_cluster.tls_secret_name
-  releases_namespace       = module.dev_cluster_namespaces.tools_namespace_name
+  releases_namespace       = module.dev_tools_namespace.name
   image_tag                = "1.0.31"
 }

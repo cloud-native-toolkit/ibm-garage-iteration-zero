@@ -5,8 +5,8 @@ module "dev_infrastructure_postgres" {
   resource_location   = var.region
   server_exists       = var.postgres_server_exists
   cluster_id          = module.dev_cluster.id
-  namespaces          = concat([module.dev_cluster_namespaces.tools_namespace_name], module.dev_cluster_namespaces.release_namespaces)
-  namespace_count     = var.release_namespace_count+1
+  namespaces          = [module.dev_tools_namespace.name]
+  namespace_count     = 1
   name_prefix         = var.name_prefix
   tags                = [module.dev_cluster.tag]
 }

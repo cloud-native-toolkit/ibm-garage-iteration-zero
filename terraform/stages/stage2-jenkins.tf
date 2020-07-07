@@ -6,5 +6,5 @@ module "dev_tools_jenkins" {
   cluster_type             = module.dev_cluster.type
   tls_secret_name          = module.dev_cluster.tls_secret_name
   server_url               = module.dev_cluster.server_url
-  tools_namespace          = module.dev_cluster_namespaces.tools_namespace_name
+  tools_namespace          = module.dev_tools_namespace.name
 }

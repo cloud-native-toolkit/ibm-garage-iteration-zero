@@ -153,7 +153,7 @@ if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
 else
     echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
     echo ""
-    echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools, dev, test, staging\033[0m"
+    echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools and ibm-observe\033[0m"
 fi
 
 if [[ "crc" ==  "${CLUSTER_MANAGEMENT}" ]]; then

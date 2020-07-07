@@ -1,5 +1,5 @@
 module "dev_serviceaccount_logdna-agent" {
-  source = "github.com/ibm-garage-cloud/terraform-cluster-serviceaccount.git?ref=v1.3.0"
+  source = "github.com/ibm-garage-cloud/terraform-k8s-serviceaccount.git?ref=v1.4.0"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
