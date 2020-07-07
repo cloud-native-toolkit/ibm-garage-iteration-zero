@@ -1,0 +1,24 @@
+name: Notify slack
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  notify:
+    name: Slack notification
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2.0.2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: "cntkBot"
+          SLACK_ICON_EMOJI: ":cloudwb:"
+          SLACK_TITLE: New release
+          SLACK_MESSAGE: ":rocket: ${{ github.event.release.tag_name }} of Iteration Zero released! https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}"
+
