@@ -2,31 +2,69 @@
 set -e
 
 if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
-  echo "Usage: runTerraform.sh [--auto-approve] [--keep|--delete]"
+  echo "Usage: runTerraform.sh [--auto-approve|-a] [--keep|-k|--delete|-d] [--ocp|--ibmcloud]"
   echo ""
-  echo "  --auto-approve - proceed with the install without being prompted (optional)"
-  echo "  --keep         - will automatically keep the workspace directory if it already exists (optional)"
-  echo "  --delete       - will automatically delete the workspace directory if it already exists (optional)"
+  echo "  --auto-approve, -a - proceed with the install without being prompted (optional)"
+  echo "  --keep, -k         - will automatically keep the workspace directory if it already exists (optional)"
+  echo "  --delete, -d       - will automatically delete the workspace directory if it already exists (optional)"
+  echo "  --ocp              - install the Toolkit into a self-managed OpenShift container platform (optional)"
+  echo "  --ibmcloud, --ibm  - install the Toolkit into an IBM Cloud managed Kubernetes or OpenShift container platform (optional)"
+  echo "  --help, -h         - print this message"
   exit 0
 fi
 
 SCRIPT_DIR=$(dirname "$0")
 SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 
-ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment.tfvars"
-
-CLUSTER_NAME=$(grep -E "^cluster_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
-RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
-NAME_PREFIX=$(grep -E "^name_prefix" "${ENVIRONMENT_TFVARS}" | sed -E "s/^name_prefix=\"(.*)\".*/\1/g")
-
-if [[ -z "${CLUSTER_NAME}" ]]; then
-  if [[ -n "${NAME_PREFIX}" ]]; then
-    CLUSTER_NAME="${NAME_PREFIX}-cluster"
+if [[ "${*:1}" =~ "--ocp" ]] || [[ "${*:1}" =~ "--ibm" ]]; then
+  if [[ "${*:1}" =~ "--ocp" ]]; then
+    CLUSTER_MANAGEMENT="o"
   else
-    CLUSTER_NAME="${RESOURCE_GROUP_NAME}-cluster"
+    CLUSTER_MANAGEMENT="i"
+  fi
+else
+  CLUSTER_MANAGEMENT="x"
+  until [[ -n "${CLUSTER_MANAGEMENT}" ]] && [[ "${CLUSTER_MANAGEMENT}" =~ ^[oi]$ ]]; do
+    echo -n "Deploy Toolkit on (I)BM Cloud-managed IKS or ROKS or (O)penShift container platform? [i/o] "
+    read -r CLUSTER_MANAGEMENT
+
+    if [[ "${CLUSTER_MANAGEMENT}" =~ [Ii] ]]; then
+      CLUSTER_MANAGEMENT="i"
+    elif [[ "${CLUSTER_MANAGEMENT}" =~ [Oo] ]]; then
+      CLUSTER_MANAGEMENT="o"
+    fi
+  done
+fi
+
+if [[ "${CLUSTER_MANAGEMENT}" == "i" ]]; then
+  ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment-ibmcloud.tfvars"
+
+  CLUSTER_NAME=$(grep -E "^cluster_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+  RESOURCE_GROUP_NAME=$(grep -E "^resource_group_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^resource_group_name=\"(.*)\".*/\1/g")
+  NAME_PREFIX=$(grep -E "^name_prefix" "${ENVIRONMENT_TFVARS}" | sed -E "s/^name_prefix=\"(.*)\".*/\1/g")
+  CLUSTER_EXISTS=$(grep -E "^cluster_exists" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_exists=\"(.*)\".*/\1/g")
+  CLUSTER_TYPE=$(grep -E "^cluster_type" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_type=\"(.*)\".*/\1/g")
+  MANAGED_BY=" managed by \033[1;33mIBM Cloud\033[0m"
+
+  if [[ -z "${CLUSTER_NAME}" ]]; then
+    if [[ -n "${NAME_PREFIX}" ]]; then
+      CLUSTER_NAME="${NAME_PREFIX}-cluster"
+    else
+      CLUSTER_NAME="${RESOURCE_GROUP_NAME}-cluster"
+    fi
+
+    WRITE_CLUSTER_NAME="true"
+  fi
+else
+  ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment-ocp.tfvars"
+
+  CLUSTER_NAME=$(grep -E "^cluster_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+  if [[ -z "${CLUSTER_NAME}" ]]; then
+    CLUSTER_NAME="ocp-cluster"
   fi
 
-  WRITE_CLUSTER_NAME="true"
+  CLUSTER_EXISTS="true"
+  CLUSTER_TYPE="ocp4"
 fi
 
 WORKSPACE_DIR="${SRC_DIR}/workspaces/${CLUSTER_NAME}"
@@ -34,9 +72,9 @@ WORKSPACE_DIR="${SRC_DIR}/workspaces/${CLUSTER_NAME}"
 if [[ -d "${WORKSPACE_DIR}" ]]; then
   echo -e "A workspace directory already exists for this cluster: \033[1;33m${CLUSTER_NAME}\033[0m"
 
-  if [[ "$1" == "--delete" ]] || [[ "$2" == "--delete" ]]; then
+  if [[ "${*:1}" =~ "--delete" ]] || [[ "${*:1}" =~ "-d" ]]; then
     ANSWER="d"
-  elif [[ "$1" == "--keep" ]] || [[ "$2" == "--keep" ]]; then
+  elif [[ "${*:1}" =~ "--keep" ]] || [[ "${*:1}" =~ "-k" ]]; then
     ANSWER="k"
   else
     ANSWER="x"
@@ -73,13 +111,10 @@ cp "${SRC_DIR}"/scripts-workspace/* "${WORKSPACE_DIR}"
 # Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
 # If not, get them from the user and write them to a file
 
-CLUSTER_MANAGEMENT="ibmcloud"
-
 if [[ -n "${WRITE_CLUSTER_NAME}" ]]; then
   echo "cluster_name=\"${CLUSTER_NAME}\"" >> "${TFVARS}"
 fi
 
-CLUSTER_EXISTS=$(grep -E "^cluster_exists" "${TFVARS}" | sed -E "s/^cluster_exists=\"(.*)\".*/\1/g")
 if [[ -z "${CLUSTER_EXISTS}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^ne] ]]; do
@@ -103,7 +138,6 @@ if [[ -z "${CLUSTER_EXISTS}" ]]; then
     echo "cluster_exists=\"${CLUSTER_EXISTS}\"" >> "${TFVARS}"
 fi
 
-CLUSTER_TYPE=$(grep -E "^cluster_type" "${TFVARS}" | sed -E "s/^cluster_type=\"(.*)\".*/\1/g")
 if [[ -z "${CLUSTER_TYPE}" ]]; then
     ANSWER="x"
     while [[ "${ANSWER}" =~ [^okc] ]]; do
@@ -134,20 +168,11 @@ if [[ -z "${CLUSTER_TYPE}" ]]; then
     echo "cluster_type=\"${CLUSTER_TYPE}\"" >> "${TFVARS}"
 fi
 
-if [[ "${CLUSTER_TYPE}" == "crc" ]]; then
-    CLUSTER_TYPE="ocp4"
-    CLUSTER_MANAGEMENT="crc"
-    MANAGED_BY=" managed by \033[1;33mcrc\033[0m"
-fi
-
-sed "s/^cluster_type=.*/cluster_type=\"${CLUSTER_TYPE}\"/g" < "${TFVARS}" > "${TFVARS}.tmp" && \
-    rm "${TFVARS}" && \
-    mv "${TFVARS}.tmp" "${TFVARS}"
-#echo "cluster_type=\"${CLUSTER_TYPE}\"" >> ${TFVARS}
-
 echo -e ""
 echo -e "Terraform is about to run with the following settings:"
-echo -e "  - Resource group \033[1;33m${RESOURCE_GROUP_NAME}\033[0m"
+if [[ -n "${RESOURCE_GROUP_NAME}" ]]; then
+  echo -e "  - Resource group \033[1;33m${RESOURCE_GROUP_NAME}\033[0m"
+fi
 if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
     echo -e "  - Create a new \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
 else
@@ -156,8 +181,8 @@ else
     echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools and ibm-observe\033[0m"
 fi
 
-if [[ "crc" ==  "${CLUSTER_MANAGEMENT}" ]]; then
-	STAGES_DIRECTORY="stages-crc"
+if [[ "o" ==  "${CLUSTER_MANAGEMENT}" ]]; then
+	STAGES_DIRECTORY="stages-ocp4"
 else
 	STAGES_DIRECTORY="stages"
 fi
@@ -167,7 +192,7 @@ cp "${SRC_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
 
 echo ""
 
-if [[ "$1" != "--auto-approve" ]] && [[ "$2" != "--auto-approve" ]]; then
+if [[ ! "${*:1}" =~ "--auto-approve" ]] && [[ !  "${*:1}" =~ "-a" ]]; then
     PROCEED="x"
     while [[ "${PROCEED}" =~ [^yn] ]]; do
         echo -n "Do you want to proceed? [Y/n] "

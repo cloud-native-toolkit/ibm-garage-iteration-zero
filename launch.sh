@@ -40,7 +40,7 @@ helpFunction()
 ENV="credentials"
 
 function prop {
-    grep "${1}" ${ENV}.properties | cut -d'=' -f2
+    grep "${1}" ${ENV}.properties | grep -vE "^#" | cut -d'=' -f2 | sed 's/"//g'
 }
 
 if [[ -f "${ENV}.properties" ]]; then
@@ -48,12 +48,14 @@ if [[ -f "${ENV}.properties" ]]; then
     IBMCLOUD_API_KEY=$(prop 'ibmcloud.api.key')
     CLASSIC_API_KEY=$(prop 'classic.api.key')
     CLASSIC_USERNAME=$(prop 'classic.username')
+    LOGIN_USER=$(prop 'login.user')
+    LOGIN_PASSWORD=$(prop 'login.password')
 else
     helpFunction "The ${ENV}.properties file is not found."
 fi
 
 # Print helpFunction in case parameters are empty
-if [[ -z "${IBMCLOUD_API_KEY}" ]] || [[ -z "${CLASSIC_USERNAME}" ]] || [[ -z "${CLASSIC_API_KEY}" ]]
+if [[ -z "${IBMCLOUD_API_KEY}" ]]
 then
     helpFunction "Some of the credentials values are empty. "
 fi
@@ -76,6 +78,8 @@ echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
 ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
    -v ${SRC_DIR}:/home/devops/src \
    -e TF_VAR_ibmcloud_api_key="${IBMCLOUD_API_KEY}" \
+   -e TF_VAR_login_user="${LOGIN_USER}" \
+   -e TF_VAR_login_password="${LOGIN_PASSWORD}" \
    -e IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}" \
    -e IAAS_CLASSIC_USERNAME="${CLASSIC_USERNAME}" \
    -e IAAS_CLASSIC_API_KEY="${CLASSIC_API_KEY}" \
