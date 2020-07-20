@@ -44,15 +44,11 @@ CLUSTER_MANAGEMENT="ibmcloud"
 CLUSTER_TYPE="openshift"
 STAGES_DIRECTORY="stages"
 
-cp "${SRC_DIR}/${STAGES_DIRECTORY}/variables.tf" "${WORKSPACE_DIR}"
-cp "${SRC_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/${STAGES_DIRECTORY}/variables.tf" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
 cp "${SRC_DIR}"/scripts-workspace/* "${WORKSPACE_DIR}"
 cp README.md "${WORKSPACE_DIR}/SCRIPTS.md"
-cp "${SCRIPT_DIR}/../docs/README.md" "${WORKSPACE_DIR}"
-
-# Move some stages to an unused folder
-rm "${WORKSPACE_DIR}/stage3-logdna.tf"
-rm "${WORKSPACE_DIR}/stage3-sysdig.tf"
+cp "${SCRIPT_DIR}/README.md" "${WORKSPACE_DIR}"
 
 echo "  - Creating offering - ${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz"
 cd "${WORKSPACE_BASE}" && tar czf "${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz" "${OFFERING_NAME}"
@@ -60,6 +56,6 @@ cd - 1> /dev/null
 rm -rf "${WORKSPACE_BASE}"
 
 echo "  - Creating offering json - ${OUTPUT_DIR}/offering-${OFFERING_NAME}.json"
-sed "s/#OFFERING/${OFFERING_NAME}/g" "${SCRIPT_DIR}/master.json" | sed "s/#VERSION/${VERSION}/g" > "${OUTPUT_DIR}/offering-${OFFERING_NAME}.json"
+sed "s/#OFFERING/${OFFERING_NAME}/g" "${SCRIPT_DIR}/offering.json" | sed "s/#VERSION/${VERSION}/g" > "${OUTPUT_DIR}/offering-${OFFERING_NAME}.json"
 
 echo 'Build complete .......'

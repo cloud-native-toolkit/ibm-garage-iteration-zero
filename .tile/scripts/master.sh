@@ -13,7 +13,7 @@ echo "This will create a CNCF DevOps Cloud-Native Toolkit Tile in an existing Ca
 # the API_KEY and Catalog Name are required to run this script
 API_KEY="$1"
 CATALOG_NAME="$2"
-OFFERING="$3"
+OFFERINGS="$3"
 VERSION="$4"
 
 # input validation
@@ -32,8 +32,8 @@ if [ -z "${GIT_REPO}" ]; then
   GIT_REPO="ibm-garage-cloud/ibm-garage-iteration-zero"
 fi
 
-if [ -z "${OFFERING}" ]; then
-  OFFERING="offering-cloudnative-toolkit"
+if [ -z "${OFFERINGS}" ]; then
+  OFFERINGS="offering-cloudnative-toolkit,offering-sre-tools"
 fi
 
 # input validation, Version is provided when the packaged release of this repository is created
@@ -88,7 +88,9 @@ if [ -z "${CATALOG_ID}" ]; then
 fi
 
 # Define the Offering and relationship to the Catalog
-curl -sL "https://github.com/${GIT_REPO}/releases/download/${VERSION}/${OFFERING}.json" | sed "s/#CATALOG_ID/${CATALOG_ID}/g" | sed "s/#VERSION/${VERSION}/g" > offering.json
+IFS=','; for OFFERING in ${OFFERINGS}; do
+  curl -sL "https://github.com/${GIT_REPO}/releases/download/${VERSION}/${OFFERING}.json" | sed "s/#CATALOG_ID/${CATALOG_ID}/g" | sed "s/#VERSION/${VERSION}/g" > offering.json
+done
 
 echo "Creating Offering in Catalog ${CATALOG_ID}"
 CATALOGS=$(eval ${ACURL} -location -request POST "${HOST}/catalogs/${CATALOG_ID}/offerings" -H 'Content-Type: application/json' --data "@offering.json")
