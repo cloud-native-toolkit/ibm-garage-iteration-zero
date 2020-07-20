@@ -90,9 +90,9 @@ fi
 # Define the Offering and relationship to the Catalog
 IFS=','; for OFFERING in ${OFFERINGS}; do
   curl -sL "https://github.com/${GIT_REPO}/releases/download/${VERSION}/${OFFERING}.json" | sed "s/#CATALOG_ID/${CATALOG_ID}/g" | sed "s/#VERSION/${VERSION}/g" > offering.json
-done
 
-echo "Creating Offering in Catalog ${CATALOG_ID}"
-CATALOGS=$(eval ${ACURL} -location -request POST "${HOST}/catalogs/${CATALOG_ID}/offerings" -H 'Content-Type: application/json' --data "@offering.json")
+  echo "Creating ${OFFERING} offering in catalog ${CATALOG_ID}"
+  CATALOGS=$(eval ${ACURL} -location -request POST "${HOST}/catalogs/${CATALOG_ID}/offerings" -H 'Content-Type: application/json' --data "@offering.json")
+done
 
 echo "Offering Registration Complete ...!"
