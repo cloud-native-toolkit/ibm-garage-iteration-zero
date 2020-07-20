@@ -33,14 +33,18 @@ region="us-east"
 
 # This flag is used to indicate that the LogDNA instance already exists. The default is "false"
 # if this value is not provided. If LogDNA is not installed this value is ignored
-#logdna_exists="false"
-# The name of the LogDNA instance. This is particularly useful when the LogDNA instance already
-# exists. If not provided the name will be derived from the name_prefix/resource_group_name
+provision_logdna="true"
+# The name of the LogDNA instance. This is required when the LogDNA instance has already been
+# provisioned and should be attached to the cluster
 #logdna_name=""
 
-# This flag is used to indicate that the SysDig instance already exists. The default is "false"
-# if this value is not provided. If SysDig is not installed this value is ignored
-#sysdig_exists="false"
-# The name of the Sysdig instance. This is particularly useful when the Sysdig instance already
-# exists. If not provided the name will be derived from the name_prefix/resource_group_name
+# This flag is used to indicate that a SysDig instance should be provisioned. The default is "false"
+# if this value is not provided.
+provision_sysdig="true"
+# The name of the Sysdig instance. This is required when the Sysdig instance has already been
+# provisioned and should be attached to the cluster
 #sysdig_name=""
+
+# This flag is used to indicate that an Activity Tracker instance should be provisioned. The default is "false"
+# if this value is not provided.
+provision_activity_tracker="true"
