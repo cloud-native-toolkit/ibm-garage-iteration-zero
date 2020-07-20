@@ -3,7 +3,7 @@ terraform {
 }
 
 module "sre_logdna" {
-  source = "github.com/ibm-garage-cloud/terraform-ibm-logdna.git?ref=multi-mode"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-logdna.git?ref=v2.0.0"
 
   resource_group_name      = var.resource_group_name
   resource_location        = var.region
@@ -13,7 +13,7 @@ module "sre_logdna" {
 }
 
 module "sre_sysdig" {
-  source = "github.com/ibm-garage-cloud/terraform-ibm-sysdig.git?ref=multi-mode"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-sysdig.git?ref=v2.0.0"
 
   resource_group_name      = var.resource_group_name
   resource_location        = var.region

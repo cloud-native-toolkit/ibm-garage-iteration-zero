@@ -29,6 +29,14 @@
               "hidden": false
             },
             {
+              "key": "region",
+              "type": "string",
+              "default_value": "",
+              "description": "The region where the services should be provisioned",
+              "required": true,
+              "hidden": false
+            },
+            {
               "key": "ibmcloud_api_key",
               "type": "password",
               "default_value": "",

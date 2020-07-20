@@ -53,6 +53,14 @@
               "hidden": false
             },
             {
+              "key": "region",
+              "type": "string",
+              "default_value": "",
+              "description": "The region where the services should be provisioned",
+              "required": true,
+              "hidden": false
+            },
+            {
               "key": "cluster_name",
               "type": "string",
               "default_value": "",
