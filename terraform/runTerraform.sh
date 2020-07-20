@@ -25,7 +25,7 @@ if [[ "${*:1}" =~ "--ocp" ]] || [[ "${*:1}" =~ "--ibm" ]]; then
 else
   CLUSTER_MANAGEMENT="x"
   until [[ -n "${CLUSTER_MANAGEMENT}" ]] && [[ "${CLUSTER_MANAGEMENT}" =~ ^[oi]$ ]]; do
-    echo -n "Deploy Toolkit on (I)BM Cloud-managed IKS or ROKS or (O)penShift container platform? [i/o] "
+    echo -n "Deploy Toolkit on (I)BM Cloud-managed IKS/ROKS or (O)penShift container platform? [i/o] "
     read -r CLUSTER_MANAGEMENT
 
     if [[ "${CLUSTER_MANAGEMENT}" =~ [Ii] ]]; then
