@@ -53,7 +53,7 @@ jobs:
 
       - name: Build offering
         run: |
-          ./.tile/scripts/build.sh ${{ env.DIST_DIR }} ${{ matrix.offering }} ${{ github.event.release.tag_name }}
+          ./.tile/tiles/${{ matrix.offering }}/build.sh ${{ env.DIST_DIR }} ${{ matrix.offering }} ${{ github.event.release.tag_name }}
 
       - name: Upload offering json
         uses: actions/upload-release-asset@v1

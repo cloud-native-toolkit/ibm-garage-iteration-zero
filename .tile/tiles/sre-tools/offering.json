@@ -1,0 +1,108 @@
+{
+  "label": "SRE Tools",
+  "name": "#OFFERING",
+  "offering_icon_url": "https://globalcatalog.cloud.ibm.com/api/v1/1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc/artifacts/terraform.svg",
+  "tags": [
+    "terraform",
+    "dev_ops"
+  ],
+  "rating": {},
+  "short_description": "This Tile provisions SRE Tools into the resource group",
+  "kinds": [
+    {
+      "format_kind": "terraform",
+      "install_kind": "terraform",
+      "target_kind": "terraform",
+      "versions": [
+        {
+          "version": "#VERSION",
+          "catalog_id": "#CATALOG_ID",
+          "repo_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/",
+          "tgz_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/releases/download/#VERSION/#OFFERING.tar.gz",
+          "configuration": [
+            {
+              "key": "resource_group_name",
+              "type": "string",
+              "default_value": "",
+              "description": "Existing resource group that contains the cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "ibmcloud_api_key",
+              "type": "password",
+              "default_value": "",
+              "description": "The API key from IBM Cloud Console that has ClusterAdmin access and supports service creation",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "name_prefix",
+              "type": "string",
+              "default_value": "",
+              "description": "The prefix that should be used to build the service names",
+              "required": false,
+              "hidden": false
+            },
+            {
+              "key": "provision_logdna",
+              "type": "string",
+              "default_value": "true",
+              "description": "Flag indicating that the logdna instance should be provisioned",
+              "required": false,
+              "hidden": false
+            },
+            {
+              "key": "provision_sysdig",
+              "type": "string",
+              "default_value": "true",
+              "description": "Flag indicating that the sysdig instance should be provisioned",
+              "required": false,
+              "hidden": false
+            },
+            {
+              "key": "provision_activity_tracker",
+              "type": "string",
+              "default_value": "true",
+              "description": "Flag indicating that the activity-tracker instance should be provisioned",
+              "required": false,
+              "hidden": false
+            },
+            {
+              "key": "TF_VERSION",
+              "type": "string",
+              "default_value": "0.12",
+              "description": "The version of terraform that should be used",
+              "required": true,
+              "hidden": false
+            }
+          ],
+          "install": {
+            "instructions": "Some ContentN/A"
+          },
+          "entitlement": {
+            "provider_name": "free",
+            "provider_id": "free"
+          },
+          "install": {
+            "instructions": "N/A"
+          },
+          "licenses": [
+            {
+              "name": "LICENSE",
+              "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+          ],
+          "deprecated": false,
+          "long_description": "# Cloud Native Toolkit \n\n## Install CNCF Cloud-Native DevOps Tools \n\nThis git repository is a derivative of the **Interation Zero** project from the **IBM Garage Cloud Native Toolkit**. \nIt has been created to make the installation of the Toolkit CNCF DevOps tools very easy from IBM Cloud using either \nPrivate Catalog Tile or the Schematics services. The tools offer CNCF approach to CI/CD with IBM Manage clusters OpenShift and Kubernetes. \n   \nYou can find out more information about the toolkit and the iteration zero terraform here:\n    \n- [IBM Garage Cloud Native Toolkit](https://cloudnativetoolkit.dev/)\n- [Toolkit Iteration Zero Terraform](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero)\n\nThe Tile will install a core set of the CNCF DevOps tools into your cluster and enable it for CI/CD Development\n\n![CNCF DevOps Tools](https://raw.githubusercontent.com/ibm-garage-cloud/ibm-garage-iteration-zero/master/docs/images/catalyst-provisioned-environment.png)\n\nFollow the instructions below to install these common Cloud-Native tools into your manager cluster on IBM Cloud. \nThis can be either OpenShift or Kubernetes\n  \n\n### Setup Private Catalog Offering\n\nThis Private Catalog Tile will install the  CNCF Cloud-Native DevOps Tools to an IBM Managed Cluster OpenShift of Kubernetes.\n\n\n- Complete the variables      \n\n    | **Variable**   | **Description**  | **eg. Value**  |\n    |---|---|---|\n    | `ibmcloud_api_key` | The API key from IBM Cloud Console that support service creation access writes  | `{guid API key from Console}`  |\n    |  `resource_group_name` | The name of the resource group where the cluster is created  | `dev-team-one`  |\n    |  `cluster_type`       |  The name of the IKS cluster |  `kubernetes` or `ocp4` |\n    |  `cluster_name`       |  The name of the IKS cluster |  `dev-team-one-iks-117-vpc` |\n    |  `cluster_exists`     |  Does the cluster exist already | `true`  |\n    |  `vpc_cluster`        | Is the cluster created in VPC  | `true`  |\n\n- Accept the License which is **Apache 2** license\n- Click **Install**\n\n- This will kick off the installation of the CNCF Cloud-Native DevOps tools into a development cluster using Private Catalog Tile.\n\n- Once complete you can now start to use the development tools in your Cloud-Native project.\n \n - Read the [Developer Guide](https://cloudnativetoolkit.dev/getting-started/deploy-app) to get more information about using the Tools now they are running in your cluster\n \n \n"
+        }
+      ]
+    }
+  ],
+  "catalog_id": "#CATALOG_ID",
+  "hidden": false,
+  "provider": "IBM",
+  "repo_info": {
+    "type": "public_git"
+  }
+}
