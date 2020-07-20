@@ -33,15 +33,6 @@ mkdir -p "${WORKSPACE_DIR}"
 
 SRC_DIR="./terraform"
 
-ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment.tfvars"
-TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
-cat "${ENVIRONMENT_TFVARS}" > "${TFVARS}"
-
-# Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
-# If not, get them from the user and write them to a file
-
-CLUSTER_MANAGEMENT="ibmcloud"
-CLUSTER_TYPE="openshift"
 STAGES_DIRECTORY="stages"
 
 cp "${SCRIPT_DIR}/${STAGES_DIRECTORY}/variables.tf" "${WORKSPACE_DIR}"
