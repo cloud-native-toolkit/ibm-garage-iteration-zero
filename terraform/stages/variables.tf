@@ -126,9 +126,9 @@ variable "vpc_cluster" {
   default     = "false"
 }
 
-variable "logdna_exists" {
+variable "provision_logdna" {
   type        = string
-  description = "Flag indicating that the logdna instance already exists"
+  description = "Flag indicating that the logdna instance should be provisioned"
   default     = "false"
 }
 
@@ -138,9 +138,9 @@ variable "logdna_name" {
   default     = ""
 }
 
-variable "sysdig_exists" {
+variable "provision_sysdig" {
   type        = string
-  description = "Flag indicating that the sysdig instance already exists"
+  description = "Flag indicating that the sysdig instance should be provisioned"
   default     = "false"
 }
 
@@ -148,4 +148,10 @@ variable "sysdig_name" {
   type        = string
   description = "The name of the sysdig instance. This is particularly used for an existing sysdig instance. If not provided the name will be derived from the name_prefix/resource_group"
   default     = ""
+}
+
+variable "provision_activity_tracker" {
+  type        = string
+  description = "Flag indicating that the activity-tracker instance should be provisioned"
+  default     = "false"
 }
