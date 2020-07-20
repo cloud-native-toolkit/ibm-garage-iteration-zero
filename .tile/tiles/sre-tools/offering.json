@@ -17,8 +17,8 @@
         {
           "version": "#VERSION",
           "catalog_id": "#CATALOG_ID",
-          "repo_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/",
-          "tgz_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/releases/download/#VERSION/#OFFERING.tar.gz",
+          "repo_url": "https://github.com/#REPO_URL/",
+          "tgz_url": "https://github.com/#REPO_URL/releases/download/#VERSION/#OFFERING.tar.gz",
           "configuration": [
             {
               "key": "resource_group_name",
