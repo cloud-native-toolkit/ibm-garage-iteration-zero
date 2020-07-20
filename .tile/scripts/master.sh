@@ -29,7 +29,7 @@ if [ -z "${CATALOG_NAME}" ]; then
 fi
 
 if [ -z "${GIT_REPO}" ]; then
-  GIT_REPO="ibm-garage-cloud/ibm-garage-iteration-zero"
+  GIT_REPO="#GIT_REPO"
 fi
 
 if [ -z "${OFFERINGS}" ]; then

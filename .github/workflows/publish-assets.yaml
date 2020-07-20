@@ -21,7 +21,7 @@ jobs:
       - name: Build tile installer
         run: |
           mkdir -p ${{ env.DIST_DIR }}
-          cat ./.tile/scripts/master.sh | sed "s/VERSION=latest/VERSION=${{ github.event.release.tag_name }}/g" > ${{ env.DIST_DIR }}/create-catalog-offering.sh
+          cat ./.tile/scripts/master.sh | sed "s/VERSION=latest/VERSION=${{ github.event.release.tag_name }}/g" | sed "s~#GIT_REPO~${{ github.repository }}~g" > ${{ env.DIST_DIR }}/create-catalog-offering.sh
           chmod +x ${{ env.DIST_DIR }}/create-catalog-offering.sh
 
       - name: Upload tile installer
