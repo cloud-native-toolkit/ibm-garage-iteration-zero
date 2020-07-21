@@ -56,3 +56,9 @@ variable "provision_activity_tracker" {
   description = "Flag indicating that the activity-tracker instance should be provisioned"
   default     = "false"
 }
+
+variable "provision_key_protect" {
+  type        = string
+  description = "Flag indicating that the key-protect instance should be provisioned"
+  default     = "false"
+}

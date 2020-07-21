@@ -45,6 +45,8 @@ jobs:
         offering:
           - cloudnative-toolkit
           - sre-tools
+          - development-toolkit
+          - production-toolkit
 
     steps:
       - name: Checkout

@@ -1,5 +1,5 @@
 {
-  "label": "Cloud-Native Toolkit SRE Tools",
+  "label": "Cloud-Native Watson Dev",
   "name": "#OFFERING",
   "offering_icon_url": "https://globalcatalog.cloud.ibm.com/api/v1/1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc/artifacts/terraform.svg",
   "tags": [
@@ -7,7 +7,7 @@
     "dev_ops"
   ],
   "rating": {},
-  "short_description": "This tile provisions LogDNA, Sysdig, Activity Tracker, and Key Protect into the resource group",
+  "short_description": "This Tile installs a common set of CNCF DevOps tools used by developers with Red Hat OpenShift or IBM Kubernetes managed container service",
   "kinds": [
     {
       "format_kind": "terraform",
@@ -20,6 +20,30 @@
           "repo_url": "https://github.com/#REPO_URL/",
           "tgz_url": "https://github.com/#REPO_URL/releases/download/#VERSION/#OFFERING.tar.gz",
           "configuration": [
+            {
+              "key": "cluster_exists",
+              "type": "string",
+              "default_value": "true",
+              "description": "Flag indicating that the cluster already exists (true or false)",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "cluster_type",
+              "type": "string",
+              "default_value": "ocp4",
+              "description": "The type of cluster into which the #OFFERING will be installed (ocp4, ocp3 or kubernetes)",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "ibmcloud_api_key",
+              "type": "password",
+              "default_value": "",
+              "description": "The API key from IBM Cloud Console that has ClusterAdmin access and supports service creation",
+              "required": true,
+              "hidden": false
+            },
             {
               "key": "resource_group_name",
               "type": "string",
@@ -37,50 +61,42 @@
               "hidden": false
             },
             {
-              "key": "ibmcloud_api_key",
-              "type": "password",
+              "key": "cluster_name",
+              "type": "string",
               "default_value": "",
-              "description": "The API key from IBM Cloud Console that has ClusterAdmin access and supports service creation",
+              "description": "The name of the cluster",
               "required": true,
               "hidden": false
             },
             {
-              "key": "name_prefix",
+              "key": "registry_namespace",
               "type": "string",
               "default_value": "",
-              "description": "The prefix that should be used to build the service names",
+              "description": "The namespace that should be used in the IBM Container Registry. Create your unique Container Registry namespace",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "vpc_cluster",
+              "type": "string",
+              "default_value": "true",
+              "description": "Flag indicating that the cluster has been built on VPC infrastructure",
               "required": false,
               "hidden": false
             },
             {
-              "key": "provision_logdna",
+              "key": "logdna_name",
               "type": "string",
-              "default_value": "true",
-              "description": "Flag indicating that the logdna instance should be provisioned",
+              "default_value": "",
+              "description": "The name of the existing logdna instance to which the cluster should be connected",
               "required": false,
               "hidden": false
             },
             {
-              "key": "provision_sysdig",
+              "key": "sysdig_name",
               "type": "string",
-              "default_value": "true",
-              "description": "Flag indicating that the sysdig instance should be provisioned",
-              "required": false,
-              "hidden": false
-            },
-            {
-              "key": "provision_activity_tracker",
-              "type": "string",
-              "default_value": "true",
-              "description": "Flag indicating that the activity-tracker instance should be provisioned",
-              "required": false,
-              "hidden": false
-            },
-            {
-              "key": "provision_key_protect",
-              "type": "string",
-              "default_value": "true",
-              "description": "Flag indicating that the key-protect instance should be provisioned",
+              "default_value": "",
+              "description": "The name of the existing sysdig instance to which the cluster should be connected",
               "required": false,
               "hidden": false
             },
