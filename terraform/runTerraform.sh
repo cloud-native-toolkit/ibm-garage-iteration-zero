@@ -16,24 +16,23 @@ fi
 SCRIPT_DIR=$(dirname "$0")
 SRC_DIR="$(cd "${SCRIPT_DIR}"; pwd -P)"
 
-if [[ "${*:1}" =~ "--ocp" ]] || [[ "${*:1}" =~ "--ibm" ]]; then
-  if [[ "${*:1}" =~ "--ocp" ]]; then
-    CLUSTER_MANAGEMENT="o"
-  else
-    CLUSTER_MANAGEMENT="i"
-  fi
+if [[ "${*:1}" =~ "--ocp" ]]; then
+  CLUSTER_MANAGEMENT="o"
+elif [[ "${*:1}" =~ "--ibm" ]]; then
+  CLUSTER_MANAGEMENT="i"
 else
   CLUSTER_MANAGEMENT="x"
   until [[ -n "${CLUSTER_MANAGEMENT}" ]] && [[ "${CLUSTER_MANAGEMENT}" =~ ^[oi]$ ]]; do
-    echo -n "Deploy Toolkit on (I)BM Cloud-managed IKS/ROKS or (O)penShift container platform? [i/o] "
+    echo -n "Deploy Toolkit on (I)BM Cloud-managed IKS/ROKS or (O)penShift container platform? [I/o] "
     read -r CLUSTER_MANAGEMENT
 
-    if [[ "${CLUSTER_MANAGEMENT}" =~ [Ii] ]]; then
+    if [[ -z "${CLUSTER_MANAGEMENT}" ]] || [[ "${CLUSTER_MANAGEMENT}" =~ [Ii] ]]; then
       CLUSTER_MANAGEMENT="i"
     elif [[ "${CLUSTER_MANAGEMENT}" =~ [Oo] ]]; then
       CLUSTER_MANAGEMENT="o"
     fi
   done
+  echo ""
 fi
 
 if [[ "${CLUSTER_MANAGEMENT}" == "i" ]]; then
