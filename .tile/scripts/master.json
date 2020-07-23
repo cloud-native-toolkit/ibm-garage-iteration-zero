@@ -77,6 +77,22 @@
               "hidden": false
             },
             {
+              "key": "logdna_name",
+              "type": "string",
+              "default_value": "",
+              "description": "The name of an existing LogDNA instance to which the cluster should be bound (optional)",
+              "required": false,
+              "hidden": false
+            },
+            {
+              "key": "sysdig_name",
+              "type": "string",
+              "default_value": "",
+              "description": "The name of an existing LogDNA instance to which the cluster should be bound (optional)",
+              "required": false,
+              "hidden": false
+            },
+            {
               "key": "TF_VERSION",
               "type": "string",
               "default_value": "0.12",

@@ -50,10 +50,6 @@ cp "${SRC_DIR}"/scripts-workspace/* "${WORKSPACE_DIR}"
 cp README.md "${WORKSPACE_DIR}/SCRIPTS.md"
 cp "${SCRIPT_DIR}/../docs/README.md" "${WORKSPACE_DIR}"
 
-# Move some stages to an unused folder
-rm "${WORKSPACE_DIR}/stage3-logdna.tf"
-rm "${WORKSPACE_DIR}/stage3-sysdig.tf"
-
 echo "  - Creating offering - ${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz"
 cd "${WORKSPACE_BASE}" && tar czf "${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz" "${OFFERING_NAME}"
 cd - 1> /dev/null
