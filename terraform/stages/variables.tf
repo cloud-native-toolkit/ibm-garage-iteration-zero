@@ -60,6 +60,13 @@ variable "cluster_machine_type" {
   default     = "b3c.4x16"
 }
 
+# Cluster Variables
+variable "flavor" {
+  type        = string
+  description = "The machine type for the cluster worker nodes (b3c.4x16 is minimum for OpenShift)"
+  default     = "mx2.4x32"
+}
+
 # Cluster Variables_num
 variable "cluster_worker_count" {
   description = "The number of worker nodes for the cluster"
@@ -126,7 +133,7 @@ variable "vpc_cluster" {
   default     = "false"
 }
 
-variable "logdna_exists" {
+variable "provision_logdna" {
   type        = string
   description = "Flag indicating that the logdna instance already exists"
   default     = "false"
@@ -138,7 +145,7 @@ variable "logdna_name" {
   default     = ""
 }
 
-variable "sysdig_exists" {
+variable "provision_sysdig" {
   type        = string
   description = "Flag indicating that the sysdig instance already exists"
   default     = "false"
@@ -147,5 +154,11 @@ variable "sysdig_exists" {
 variable "sysdig_name" {
   type        = string
   description = "The name of the sysdig instance. This is particularly used for an existing sysdig instance. If not provided the name will be derived from the name_prefix/resource_group"
+  default     = ""
+}
+
+variable "vpc_zone_names" {
+  type        = string
+  description = "Comma-separated list of vpc zone names"
   default     = ""
 }
