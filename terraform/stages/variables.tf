@@ -164,9 +164,9 @@ variable "vpc_zone_names" {
 }
 
 variable "provision_cluster_cos" {
-  type        = string
+  type = string
   description = "Flag indicating that cos instance should be provisioned by cluster-platform module"
-  default     = "true"
+  default = "true"
 }
 
 variable "cos_name" {
