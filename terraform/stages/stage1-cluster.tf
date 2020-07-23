@@ -7,7 +7,7 @@ module "dev_cluster" {
   public_vlan_id          = var.public_vlan_id
   vlan_datacenter         = var.vlan_datacenter
   cluster_region          = var.vlan_region != "" ? var.vlan_region : var.region
-  cluster_machine_type    = var.cluster_machine_type
+  flavor                  = var.flavor
   cluster_worker_count    = var.cluster_worker_count
   cluster_hardware        = var.cluster_hardware
   cluster_type            = var.cluster_type
@@ -16,4 +16,5 @@ module "dev_cluster" {
   name_prefix             = var.name_prefix
   is_vpc                  = var.vpc_cluster == "true"
   registry_namespace      = var.registry_namespace
+  vpc_zone_names          = var.vpc_zone_names
 }

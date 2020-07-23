@@ -5,7 +5,7 @@
 SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
 SRC_DIR="$(cd "${SCRIPT_DIR}/terraform" ; pwd -P)"
 
-DOCKER_IMAGE="ibmgaragecloud/cli-tools:0.3.0"
+DOCKER_IMAGE="ibmgaragecloud/cli-tools:0.5.0"
 
 helpFunction()
 {
