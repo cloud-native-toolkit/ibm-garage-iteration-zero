@@ -102,4 +102,10 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-type "resourc
 # Manager role is needed to open the LogDNA dashboard
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name logdna --resource-group-name ${RESOURCE_GROUP} --roles Manager
 
+# "Cloudant > Managing access > Reference"
+# https://cloud.ibm.com/docs/Cloudant?topic=Cloudant-managing-access-for-cloudant#reference-ai
+# Cloudant service in resource group - 62
+# Manager role is needed to view service credentials
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name cloudantnosqldb --resource-group-name ${RESOURCE_GROUP} --roles Manager
+
 echo "Completed creating polices!"
