@@ -135,7 +135,7 @@ variable "vpc_cluster" {
 
 variable "provision_logdna" {
   type        = string
-  description = "Flag indicating that the logdna instance already exists"
+  description = "Flag indicating that a logdna instance should be provisioned"
   default     = "false"
 }
 
@@ -147,7 +147,7 @@ variable "logdna_name" {
 
 variable "provision_sysdig" {
   type        = string
-  description = "Flag indicating that the sysdig instance already exists"
+  description = "Flag indicating that a sysdig instance should be provisioned"
   default     = "false"
 }
 
