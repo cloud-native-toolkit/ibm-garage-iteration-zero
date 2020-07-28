@@ -31,16 +31,20 @@ cluster_name="<cluster name>"
 resource_group_name="<resource group>"
 region="us-east"
 
-# This flag is used to indicate that the LogDNA instance already exists. The default is "false"
-# if this value is not provided. If LogDNA is not installed this value is ignored
-#logdna_exists="false"
-# The name of the LogDNA instance. This is particularly useful when the LogDNA instance already
-# exists. If not provided the name will be derived from the name_prefix/resource_group_name
+# This flag is used to indicate that a LogDNA instance should be provisioned. The default is "false"
+# if this value is not provided.
+#provision_logdna="false"
+# The name of the LogDNA instance. If you are provisioning LogDNA this value is optional and the
+# prefix_name/resource_group_name will be used for the LogDNA instance if not provided. However, if
+# you are not provisioning the LogDNA instance and would like to bind the cluster to an existing instance
+# then this value is REQUIRED
 #logdna_name=""
 
-# This flag is used to indicate that the SysDig instance already exists. The default is "false"
-# if this value is not provided. If SysDig is not installed this value is ignored
-#sysdig_exists="false"
-# The name of the Sysdig instance. This is particularly useful when the Sysdig instance already
-# exists. If not provided the name will be derived from the name_prefix/resource_group_name
+# This flag is used to indicate that a Sysdig instance should be provisioned. The default is "false"
+# if this value is not provided.
+#provision_sysdig="false"
+# The name of the Sysdig instance. If you are provisioning Sysdig this value is optional and the
+# prefix_name/resource_group_name will be used for the Sysdig instance if not provided. However, if
+# you are not provisioning the Sysdig instance and would like to bind the cluster to an existing instance
+# then this value is REQUIRED
 #sysdig_name=""

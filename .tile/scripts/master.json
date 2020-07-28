@@ -77,6 +77,14 @@
               "hidden": false
             },
             {
+              "key": "provision_logdna",
+              "type": "string",
+              "default_value": "false",
+              "description": "Flag indicating that a LogDNA instance should be provisioned",
+              "required": false,
+              "hidden": false
+            },
+            {
               "key": "logdna_name",
               "type": "string",
               "default_value": "",
@@ -85,10 +93,18 @@
               "hidden": false
             },
             {
+              "key": "provision_sysdig",
+              "type": "string",
+              "default_value": "false",
+              "description": "Flag indicating that an instance of Sysdig should be provisioned",
+              "required": false,
+              "hidden": false
+            },
+            {
               "key": "sysdig_name",
               "type": "string",
               "default_value": "",
-              "description": "The name of an existing LogDNA instance to which the cluster should be bound (optional)",
+              "description": "The name of an existing Sysdig instance to which the cluster should be bound (optional)",
               "required": false,
               "hidden": false
             },
