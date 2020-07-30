@@ -96,5 +96,10 @@ ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-group-name ${
 # Viewer role grants access to view the resource group itself, so that resources in the resource group are visible in the resource list
 ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --resource-type "resource-group" --resource ${RESOURCE_GROUP_ID} --roles Viewer
 
+# "Granting permissions to manage logs and configure alerts in LogDNA"
+# https://cloud.ibm.com/docs/Log-Analysis-with-LogDNA?topic=Log-Analysis-with-LogDNA-work_iam#admin_user_logdna
+# IBM Log Analysis with LogDNA service in resource group - 4
+# Manager role is needed to open the LogDNA dashboard
+ibmcloud iam access-group-policy-create ${ACCESS_GROUP} --service-name logdna --resource-group-name ${RESOURCE_GROUP} --roles Manager
 
 echo "Completed creating polices!"
