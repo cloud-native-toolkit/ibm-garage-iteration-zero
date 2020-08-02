@@ -11,6 +11,7 @@ jobs:
 
     env:
       DIST_DIR: ./dist
+      OFFERINGS: offering-cloudnative-toolkit,offering-sre-tools
 
     steps:
       - name: Checkout
@@ -21,7 +22,7 @@ jobs:
       - name: Build tile installer
         run: |
           mkdir -p ${{ env.DIST_DIR }}
-          cat ./.tile/scripts/master.sh | sed "s/VERSION=latest/VERSION=${{ github.event.release.tag_name }}/g" > ${{ env.DIST_DIR }}/create-catalog-offering.sh
+          cat ./.tile/scripts/master.sh | sed "s/VERSION=latest/VERSION=${{ github.event.release.tag_name }}/g" | sed "s~#GIT_REPO~${{ github.repository }}~g" | sed "s/#OFFERINGS/${{ env.OFFERINGS }}/g" > ${{ env.DIST_DIR }}/create-catalog-offering.sh
           chmod +x ${{ env.DIST_DIR }}/create-catalog-offering.sh
 
       - name: Upload tile installer
@@ -44,6 +45,7 @@ jobs:
       matrix:
         offering:
           - cloudnative-toolkit
+          - sre-tools
 
     steps:
       - name: Checkout
@@ -53,7 +55,7 @@ jobs:
 
       - name: Build offering
         run: |
-          ./.tile/scripts/build.sh ${{ env.DIST_DIR }} ${{ matrix.offering }} ${{ github.event.release.tag_name }}
+          ./.tile/tiles/${{ matrix.offering }}/build.sh ${{ env.DIST_DIR }} ${{ matrix.offering }} ${{ github.event.release.tag_name }} ${{ github.repository }}
 
       - name: Upload offering json
         uses: actions/upload-release-asset@v1

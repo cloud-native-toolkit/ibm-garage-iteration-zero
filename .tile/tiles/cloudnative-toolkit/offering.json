@@ -17,8 +17,8 @@
         {
           "version": "#VERSION",
           "catalog_id": "#CATALOG_ID",
-          "repo_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/",
-          "tgz_url": "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/releases/download/#VERSION/#OFFERING.tar.gz",
+          "repo_url": "https://github.com/#REPO_URL/",
+          "tgz_url": "https://github.com/#REPO_URL/releases/download/#VERSION/#OFFERING.tar.gz",
           "configuration": [
             {
               "key": "cluster_exists",
@@ -53,6 +53,14 @@
               "hidden": false
             },
             {
+              "key": "region",
+              "type": "string",
+              "default_value": "",
+              "description": "The region where the services should be provisioned",
+              "required": true,
+              "hidden": false
+            },
+            {
               "key": "cluster_name",
               "type": "string",
               "default_value": "",
@@ -77,26 +85,18 @@
               "hidden": false
             },
             {
-              "key": "provision_logdna",
-              "type": "string",
-              "default_value": "false",
-              "description": "Flag indicating that a LogDNA instance should be provisioned",
-              "required": false,
-              "hidden": false
-            },
-            {
               "key": "logdna_name",
               "type": "string",
               "default_value": "",
-              "description": "The name of an existing LogDNA instance to which the cluster should be bound (optional)",
+              "description": "The name of the existing logdna instance to which the cluster should be connected",
               "required": false,
               "hidden": false
             },
             {
-              "key": "provision_sysdig",
+              "key": "provision_logdna",
               "type": "string",
               "default_value": "false",
-              "description": "Flag indicating that an instance of Sysdig should be provisioned",
+              "description": "Flag indicating that the a logdna instance should be provisioned",
               "required": false,
               "hidden": false
             },
@@ -104,7 +104,15 @@
               "key": "sysdig_name",
               "type": "string",
               "default_value": "",
-              "description": "The name of an existing Sysdig instance to which the cluster should be bound (optional)",
+              "description": "The name of the existing sysdig instance to which the cluster should be connected",
+              "required": false,
+              "hidden": false
+            },
+            {
+              "key": "provision_sysdig",
+              "type": "string",
+              "default_value": "false",
+              "description": "Flag indicating that a sysdig instance should be provisioned",
               "required": false,
               "hidden": false
             },
