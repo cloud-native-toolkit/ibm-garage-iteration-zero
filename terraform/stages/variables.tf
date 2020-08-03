@@ -162,3 +162,15 @@ variable "vpc_zone_names" {
   description = "Comma-separated list of vpc zone names"
   default     = ""
 }
+
+variable "provision_cluster_cos" {
+  type        = string
+  description = "Flag indicating that cos instance should be provisioned by cluster-platform module"
+  default     = "true"
+}
+
+variable "cos_name" {
+  type        = string
+  description = "The name of the existing cos instance"
+  default     = ""
+}
