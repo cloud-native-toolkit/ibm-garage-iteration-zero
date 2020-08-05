@@ -1,5 +1,5 @@
 module "dev_cluster" {
-  source = "github.com/ibm-garage-cloud/terraform-ibm-container-platform.git?ref=v1.12.0"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-container-platform.git?ref=v1.15.1"
 
   resource_group_name     = var.resource_group_name
   cluster_name            = var.cluster_name
@@ -17,4 +17,6 @@ module "dev_cluster" {
   is_vpc                  = var.vpc_cluster == "true"
   registry_namespace      = var.registry_namespace
   vpc_zone_names          = split(",", var.vpc_zone_names)
+  provision_cos           = var.provision_cluster_cos == "true"
+  cos_name                = var.cos_name
 }
