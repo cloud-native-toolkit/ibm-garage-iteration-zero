@@ -33,7 +33,7 @@ want more detail on how the Cloud-Native Toolkit fits into the end-to-end develo
 This repo contains Terraform resources that will create an environment containing the following development tools:
 
 - IBM Container Service cluster (3 nodes) for Kubernetes or OpenShift
-- Namespaces for *tools* and *ibm-observe*
+- Namespaces for `tools` and `ibm-observe`
 - Tools for continuous delivery:
     - [Tekton CI](https://github.com/tektoncd/pipeline)
     - [Jenkins CI](https://jenkins.io/)
