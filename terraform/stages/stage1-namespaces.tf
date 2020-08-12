@@ -1,5 +1,5 @@
 module "dev_tools_namespace" {
-  source = "github.com/ibm-garage-cloud/terraform-k8s-namespace.git?ref=v2.3.2"
+  source = "github.com/ibm-garage-cloud/terraform-k8s-namespace.git?ref=v2.4.0"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
