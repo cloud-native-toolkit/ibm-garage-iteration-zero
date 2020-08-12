@@ -174,3 +174,9 @@ variable "cos_name" {
   description = "The name of the existing cos instance"
   default     = ""
 }
+
+variable "provision_activity_tracker" {
+  type = string
+  description = "Flag indicating that the activity_tracker instance should be provisioned"
+  default = "false"
+}
