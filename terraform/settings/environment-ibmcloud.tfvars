@@ -30,7 +30,11 @@ cluster_name="<cluster name>"
 
 resource_group_name="<resource group>"
 region="us-east"
-vpc_zone_names="us-east-1"
+# If provisioning a vpc cluster, list the zone name(s) where the worker nodes should be provisioned. Each value
+# should be separated by a comma. The zone names are based on the region names, so to provision the cluster in
+# two zones in us-east you would set the value to "us-east-1,us-east-2". To provision in a single zone in us-south
+# you would set the value to "us-south-1"
+vpc_zone_names=""
 
 # This flag is used to indicate that a LogDNA instance should be provisioned. The default is "false"
 # if this value is not provided.
