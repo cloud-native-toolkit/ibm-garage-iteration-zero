@@ -1,5 +1,5 @@
 module "dev_tools_artifactory" {
-  source = "github.com/ibm-garage-cloud/terraform-tools-artifactory.git?ref=v1.5.0"
+  source = "github.com/ibm-garage-cloud/terraform-tools-artifactory.git?ref=v1.9.0"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname

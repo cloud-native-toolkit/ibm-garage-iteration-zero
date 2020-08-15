@@ -30,6 +30,7 @@ cluster_name="<cluster name>"
 
 resource_group_name="<resource group>"
 region="us-east"
+vpc_zone_names="us-east-1"
 
 # This flag is used to indicate that a LogDNA instance should be provisioned. The default is "false"
 # if this value is not provided.
@@ -48,3 +49,12 @@ region="us-east"
 # you are not provisioning the Sysdig instance and would like to bind the cluster to an existing instance
 # then this value is REQUIRED
 #sysdig_name=""
+
+# This flag is used to indicate that a Object Storage instance should be provisioned. The default is "false"
+# if this value is not provided.
+#cluster_provision_cos="false"
+# The name of the Object Storage instance. If you are provisioning Object Storage this value is optional and the
+# prefix_name/resource_group_name will be used for the Object Storage instance if not provided. However, if
+# you are not provisioning the Object Storage instance and would like to bind the cluster to an existing instance
+# then this value is REQUIRED
+#cos_name=""

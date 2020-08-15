@@ -1,5 +1,5 @@
 module "dev_cluster" {
-  source = "github.com/ibm-garage-cloud/terraform-k8s-ocp-cluster?ref=v2.3.0"
+  source = "github.com/ibm-garage-cloud/terraform-k8s-ocp-cluster?ref=v2.3.1"
 
   login_user              = var.login_user
   login_password          = var.login_password
