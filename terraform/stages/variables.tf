@@ -145,6 +145,12 @@ variable "logdna_name" {
   default     = ""
 }
 
+variable "logdna_region" {
+  type        = string
+  description = "The region where the logdna instance will be/has been provisioned. If not provided this will default to the overall region"
+  default     = ""
+}
+
 variable "provision_sysdig" {
   type        = string
   description = "Flag indicating that a sysdig instance should be provisioned"
@@ -154,6 +160,12 @@ variable "provision_sysdig" {
 variable "sysdig_name" {
   type        = string
   description = "The name of the sysdig instance. This is particularly used for an existing sysdig instance. If not provided the name will be derived from the name_prefix/resource_group"
+  default     = ""
+}
+
+variable "sysdig_region" {
+  type        = string
+  description = "The region where the sysdig instance will be/has been provisioned. If not provided this will default to the overall region"
   default     = ""
 }
 
