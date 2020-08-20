@@ -44,6 +44,9 @@ vpc_zone_names=""
 # you are not provisioning the LogDNA instance and would like to bind the cluster to an existing instance
 # then this value is REQUIRED
 #logdna_name=""
+# The region where the LogDNA instance has been/will be provisioned. If the value is not provided then the value
+# will default to the `region`
+#logdna_region=""
 
 # This flag is used to indicate that a Sysdig instance should be provisioned. The default is "false"
 # if this value is not provided.
@@ -53,6 +56,9 @@ vpc_zone_names=""
 # you are not provisioning the Sysdig instance and would like to bind the cluster to an existing instance
 # then this value is REQUIRED
 #sysdig_name=""
+# The region where the Sysdig instance has been/will be provisioned. If the value is not provided then the value
+# will default to the `region`
+#sysdig_region=""
 
 # This flag is used to indicate that a Object Storage instance should be provisioned. The default is "false"
 # if this value is not provided.
