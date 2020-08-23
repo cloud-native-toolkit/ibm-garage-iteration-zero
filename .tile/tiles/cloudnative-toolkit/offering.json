@@ -133,6 +133,14 @@
               "hidden": false
             },
             {
+              "key": "vpc_zone_names",
+              "type": "string",
+              "default_value": "",
+              "description": "Comma-separated list of vpc zone names",
+              "required": false,
+              "hidden": false
+            },
+            {
               "key": "TF_VERSION",
               "type": "string",
               "default_value": "0.12",

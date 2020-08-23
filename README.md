@@ -102,7 +102,7 @@ Cloud-Native Toolkit environment. It contains the instructions for how to setup 
 
 You can install this collection of CNCF DevSecOps tools using the [IBM Cloud Private Catalog feature](https://cloud.ibm.com/docs/account?topic=account-manage-catalog) more information on 
 how to configure an IBM Cloud Private Catalog tile and complete an installation can be found in this 
-[README](.tile/docs/README.md) or documentation in the [Developer Guide](https://cloudnativetoolkit.dev/admin/installation-private-catalog)
+[README](.tile/tiles/cloudnative-toolkit) or documentation in the [Developer Guide](https://cloudnativetoolkit.dev/admin/installation-private-catalog)
 
 ### Developer Dashboard
 
