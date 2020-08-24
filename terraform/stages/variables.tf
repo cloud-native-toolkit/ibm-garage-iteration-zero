@@ -136,7 +136,7 @@ variable "vpc_cluster" {
 variable "provision_logdna" {
   type        = string
   description = "Flag indicating that a logdna instance should be provisioned"
-  default     = "false"
+  default     = "true"
 }
 
 variable "logdna_name" {
@@ -154,7 +154,7 @@ variable "logdna_region" {
 variable "provision_sysdig" {
   type        = string
   description = "Flag indicating that a sysdig instance should be provisioned"
-  default     = "false"
+  default     = "true"
 }
 
 variable "sysdig_name" {
