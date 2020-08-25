@@ -36,9 +36,9 @@ region="us-east"
 # you would set the value to "us-south-1"
 vpc_zone_names=""
 
-# This flag is used to indicate that a LogDNA instance should be provisioned. The default is "false"
+# This flag is used to indicate that a LogDNA instance should be provisioned. The default is "true"
 # if this value is not provided.
-#provision_logdna="false"
+#provision_logdna="true"
 # The name of the LogDNA instance. If you are provisioning LogDNA this value is optional and the
 # prefix_name/resource_group_name will be used for the LogDNA instance if not provided. However, if
 # you are not provisioning the LogDNA instance and would like to bind the cluster to an existing instance
@@ -48,9 +48,9 @@ vpc_zone_names=""
 # will default to the `region`
 #logdna_region=""
 
-# This flag is used to indicate that a Sysdig instance should be provisioned. The default is "false"
+# This flag is used to indicate that a Sysdig instance should be provisioned. The default is "true"
 # if this value is not provided.
-#provision_sysdig="false"
+#provision_sysdig="true"
 # The name of the Sysdig instance. If you are provisioning Sysdig this value is optional and the
 # prefix_name/resource_group_name will be used for the Sysdig instance if not provided. However, if
 # you are not provisioning the Sysdig instance and would like to bind the cluster to an existing instance

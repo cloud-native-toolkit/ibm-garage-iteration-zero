@@ -103,7 +103,7 @@
             {
               "key": "provision_logdna",
               "type": "string",
-              "default_value": "false",
+              "default_value": "true",
               "description": "Flag indicating that the a logdna instance should be provisioned",
               "required": false,
               "hidden": false
@@ -127,7 +127,7 @@
             {
               "key": "provision_sysdig",
               "type": "string",
-              "default_value": "false",
+              "default_value": "true",
               "description": "Flag indicating that a sysdig instance should be provisioned",
               "required": false,
               "hidden": false
