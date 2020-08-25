@@ -12,11 +12,11 @@ jobs:
     # The type of runner that the job will run on
     if: ${{ !contains( github.event.pull_request.labels.*.name, 'skip ci' ) }}
     runs-on: ubuntu-latest
-    container: ibmgaragecloud/cli-tools:0.6.0-lite
+    container: ibmgaragecloud/cli-tools:0.7.0-lite
 
     strategy:
       matrix:
-        platform: [iks118_vpc, ocp4_vpc, ocp44_vpc]
+        platform: [ocp4_vpc, ocp44_vpc]
       #      max-parallel: 1
       fail-fast: false
 
