@@ -38,7 +38,7 @@ mkdir -p "${WORKSPACE_DIR}"
 
 SRC_DIR="./terraform"
 
-ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment.tfvars"
+ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment-ibmcloud.tfvars"
 TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 cat "${ENVIRONMENT_TFVARS}" > "${TFVARS}"
 

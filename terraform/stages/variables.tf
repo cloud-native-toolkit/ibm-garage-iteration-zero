@@ -136,7 +136,7 @@ variable "vpc_cluster" {
 variable "provision_logdna" {
   type        = string
   description = "Flag indicating that a logdna instance should be provisioned"
-  default     = "false"
+  default     = "true"
 }
 
 variable "logdna_name" {
@@ -145,10 +145,16 @@ variable "logdna_name" {
   default     = ""
 }
 
+variable "logdna_region" {
+  type        = string
+  description = "The region where the logdna instance will be/has been provisioned. If not provided this will default to the overall region"
+  default     = ""
+}
+
 variable "provision_sysdig" {
   type        = string
   description = "Flag indicating that a sysdig instance should be provisioned"
-  default     = "false"
+  default     = "true"
 }
 
 variable "sysdig_name" {
@@ -157,8 +163,32 @@ variable "sysdig_name" {
   default     = ""
 }
 
+variable "sysdig_region" {
+  type        = string
+  description = "The region where the sysdig instance will be/has been provisioned. If not provided this will default to the overall region"
+  default     = ""
+}
+
 variable "vpc_zone_names" {
   type        = string
   description = "Comma-separated list of vpc zone names"
   default     = ""
+}
+
+variable "cluster_provision_cos" {
+  type = string
+  description = "Flag indicating that cos instance should be provisioned by cluster-platform module"
+  default = "true"
+}
+
+variable "cos_name" {
+  type        = string
+  description = "The name of the existing cos instance"
+  default     = ""
+}
+
+variable "provision_activity_tracker" {
+  type = string
+  description = "Flag indicating that the activity_tracker instance should be provisioned"
+  default = "false"
 }

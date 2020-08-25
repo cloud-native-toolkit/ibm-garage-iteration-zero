@@ -5,12 +5,12 @@
 # in the namespace when it runs, listed below. This script creates those resources from
 # the files available when it is run.
 #
-# - environment-tfvars ConfigMap with the contents of environment.tfvars
+# - environment-tfvars ConfigMap with the contents of environment-ibmcloud.tfvars
 # - vlan-tfvars ConfigMap with the contents of vlan.tfvars
 # - terraform-credentials Secret with the contents of credentials.properties
 #
 # The script is intended to be run from the terraform/settings directory after the
-# environment.tfvars and vlan.tfvars files have been configured to your liking for
+# environment-ibmcloud.tfvars and vlan.tfvars files have been configured to your liking for
 # the cluster that will be created. It also expects that the credentials.properties file
 # has been updated with the necessary credentials (e.g. the classic credentials are
 # provided if a new cluster will be created)

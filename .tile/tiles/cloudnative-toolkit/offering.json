@@ -93,9 +93,17 @@
               "hidden": false
             },
             {
+              "key": "logdna_region",
+              "type": "string",
+              "default_value": "",
+              "description": "The region where the logdna instance will be/has been provisioned. If not provided this will default to the overall region",
+              "required": false,
+              "hidden": false
+            },
+            {
               "key": "provision_logdna",
               "type": "string",
-              "default_value": "false",
+              "default_value": "true",
               "description": "Flag indicating that the a logdna instance should be provisioned",
               "required": false,
               "hidden": false
@@ -109,9 +117,17 @@
               "hidden": false
             },
             {
+              "key": "sysdig_region",
+              "type": "string",
+              "default_value": "",
+              "description": "The region where the sysdig instance will be/has been provisioned. If not provided this will default to the overall region",
+              "required": false,
+              "hidden": false
+            },
+            {
               "key": "provision_sysdig",
               "type": "string",
-              "default_value": "false",
+              "default_value": "true",
               "description": "Flag indicating that a sysdig instance should be provisioned",
               "required": false,
               "hidden": false

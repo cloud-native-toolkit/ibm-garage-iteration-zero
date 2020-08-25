@@ -30,21 +30,41 @@ cluster_name="<cluster name>"
 
 resource_group_name="<resource group>"
 region="us-east"
+# If provisioning a vpc cluster, list the zone name(s) where the worker nodes should be provisioned. Each value
+# should be separated by a comma. The zone names are based on the region names, so to provision the cluster in
+# two zones in us-east you would set the value to "us-east-1,us-east-2". To provision in a single zone in us-south
+# you would set the value to "us-south-1"
+vpc_zone_names=""
 
-# This flag is used to indicate that a LogDNA instance should be provisioned. The default is "false"
+# This flag is used to indicate that a LogDNA instance should be provisioned. The default is "true"
 # if this value is not provided.
-#provision_logdna="false"
+#provision_logdna="true"
 # The name of the LogDNA instance. If you are provisioning LogDNA this value is optional and the
 # prefix_name/resource_group_name will be used for the LogDNA instance if not provided. However, if
 # you are not provisioning the LogDNA instance and would like to bind the cluster to an existing instance
 # then this value is REQUIRED
 #logdna_name=""
+# The region where the LogDNA instance has been/will be provisioned. If the value is not provided then the value
+# will default to the `region`
+#logdna_region=""
 
-# This flag is used to indicate that a Sysdig instance should be provisioned. The default is "false"
+# This flag is used to indicate that a Sysdig instance should be provisioned. The default is "true"
 # if this value is not provided.
-#provision_sysdig="false"
+#provision_sysdig="true"
 # The name of the Sysdig instance. If you are provisioning Sysdig this value is optional and the
 # prefix_name/resource_group_name will be used for the Sysdig instance if not provided. However, if
 # you are not provisioning the Sysdig instance and would like to bind the cluster to an existing instance
 # then this value is REQUIRED
 #sysdig_name=""
+# The region where the Sysdig instance has been/will be provisioned. If the value is not provided then the value
+# will default to the `region`
+#sysdig_region=""
+
+# This flag is used to indicate that a Object Storage instance should be provisioned. The default is "false"
+# if this value is not provided.
+#cluster_provision_cos="false"
+# The name of the Object Storage instance. If you are provisioning Object Storage this value is optional and the
+# prefix_name/resource_group_name will be used for the Object Storage instance if not provided. However, if
+# you are not provisioning the Object Storage instance and would like to bind the cluster to an existing instance
+# then this value is REQUIRED
+#cos_name=""
