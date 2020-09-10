@@ -4,7 +4,7 @@
 
 ## Iteration Zero for IBM Cloud
 
-This repository contains infrastructure as code (IasC) scripting to create an IBM Garage Clout Native Toolkit 
+This repository contains infrastructure as code (IasC) scripting to create an IBM Garage Cloud Native Toolkit 
 development environment ready for cloud-native application development with IBM Cloud Kubernetes Service or 
 Red Hat OpenShift. 
 
