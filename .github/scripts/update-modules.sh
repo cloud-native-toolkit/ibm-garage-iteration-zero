@@ -9,7 +9,9 @@ fi
 
 set -e
 
+echo "Reading stages from dir: ${REPO_DIR}/terraform"
 find "${REPO_DIR}/terraform" -name "stages*" -d 1 | while read -r dir; do
+  echo " - Reading terraform stages: ${dir}"
   find "${dir}" "*.tf" -d 1 | while read -r stageFile; do
     echo "Updating stage: $stageFile"
     SOURCES=$(grep -E 'source *=' "${stageFile}" | sed -E 's/.*source *= *"(.*)"/\1/g')
