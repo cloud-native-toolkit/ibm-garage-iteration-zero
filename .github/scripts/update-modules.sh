@@ -10,7 +10,7 @@ fi
 set -e
 
 echo "Reading stages from dir: ${REPO_DIR}/terraform"
-find "${REPO_DIR}/terraform" -name "stages*" -d 1 | while read -r dir; do
+find -depth 1 "${REPO_DIR}/terraform" -name "stages*" | while read -r dir; do
   echo " - Reading terraform stages: ${dir}"
   find -depth 1 "${dir}" "*.tf" | while read -r stageFile; do
     echo "Updating stage: $stageFile"
