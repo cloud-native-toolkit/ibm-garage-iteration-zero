@@ -11,13 +11,20 @@ set -e
 
 echo "Reading stages from dir: ${REPO_DIR}/terraform"
 ls "${REPO_DIR}/terraform" | while read -r dir; do
-  if [[ ! -d "${dir} ]] || [[ ! "${dir}" =~ stages* ; then
-    echo "${dir} is not a stages directory"
+  if [[ ! -d "${REPO_DIR}/terraform/${dir}" ]] || [[ ! "${dir}" =~ stages* ]]; then
     continue
   fi
 
-  echo " - Reading terraform stages: ${dir}"
-  find -depth 1 "${dir}" "*.tf" | while read -r stageFile; do
+  STAGES_DIR="${REPO_DIR}/terraform/${dir}"
+
+  echo " - Reading terraform stages: ${STAGES_DIR}"
+  ls "${STAGES_DIR}" | while read -r file; do
+    stageFile="${STAGES_DIR}/${file}"
+
+    if [[ ! -f "${stageFile}" ]] || [[ ! "${stageFile}" =~ .*tf$ ]]; then
+      echo "Skipping non stage file: ${stageFile}"
+    fi
+
     echo "Updating stage: $stageFile"
     SOURCES=$(grep -E 'source *=' "${stageFile}" | sed -E 's/.*source *= *"(.*)"/\1/g')
 
