@@ -5,7 +5,7 @@
 SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
 SRC_DIR="$(cd "${SCRIPT_DIR}/terraform" ; pwd -P)"
 
-DOCKER_IMAGE="ibmgaragecloud/cli-tools:0.7.0-lite"
+DOCKER_IMAGE="ibmgaragecloud/cli-tools:0.8.0-lite"
 
 helpFunction()
 {
@@ -50,14 +50,10 @@ if [[ -f "${ENV}.properties" ]]; then
     CLASSIC_USERNAME=$(prop 'classic.username')
     LOGIN_USER=$(prop 'login.user')
     LOGIN_PASSWORD=$(prop 'login.password')
+    LOGIN_TOKEN=$(prop 'login.token')
+    SERVER_URL=$(prop 'server.url')
 else
     helpFunction "The ${ENV}.properties file is not found."
-fi
-
-# Print helpFunction in case parameters are empty
-if [[ -z "${IBMCLOUD_API_KEY}" ]]
-then
-    helpFunction "Some of the credentials values are empty. "
 fi
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
@@ -80,6 +76,8 @@ ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
    -e TF_VAR_ibmcloud_api_key="${IBMCLOUD_API_KEY}" \
    -e TF_VAR_login_user="${LOGIN_USER}" \
    -e TF_VAR_login_password="${LOGIN_PASSWORD}" \
+   -e TF_VAR_login_token="${LOGIN_TOKEN}" \
+   -e TF_VAR_server_url="${SERVER_URL}" \
    -e IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}" \
    -e IAAS_CLASSIC_USERNAME="${CLASSIC_USERNAME}" \
    -e IAAS_CLASSIC_API_KEY="${CLASSIC_API_KEY}" \
