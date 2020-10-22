@@ -1,5 +1,5 @@
 module "dev_infrastructure_sysdig" {
-  source = "github.com/ibm-garage-cloud/terraform-ibm-sysdig.git?ref=v2.1.2"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-sysdig.git?ref=v2.3.0"
 
   resource_group_name      = var.resource_group_name
   resource_location        = var.region
