@@ -33,7 +33,7 @@ ls "${REPO_DIR}/terraform" | while read -r dir; do
         continue
       fi
 
-      git_slug=$(echo "$source" | sed -E 's~github.com/(.*).git.*~\1~g')
+      git_slug=$(echo "$source" | sed -E 's~github.com/(.*)\?.*~\1~g' | sed "s/.git//g")
 
       git_release_url="https://api.github.com/repos/${git_slug}/releases/latest"
 

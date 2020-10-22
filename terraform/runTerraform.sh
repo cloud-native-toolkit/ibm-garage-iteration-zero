@@ -59,10 +59,15 @@ else
 
   if [[ -f "${ENVIRONMENT_TFVARS}" ]]; then
     CLUSTER_NAME=$(grep -E "^cluster_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+    SERVER_URL=$(grep -E "^server_url" "${ENVIRONMENT_TFVARS}" | sed -E "s/^server_url=\"(.*)\".*/\1/g")
   fi
 
   if [[ -z "${CLUSTER_NAME}" ]]; then
     CLUSTER_NAME="ocp-cluster"
+  fi
+
+  if [[ -z "${SERVER_URL}" ]]; then
+    SERVER_URL="${TF_VAR_server_url}"
   fi
 
   CLUSTER_EXISTS="true"
@@ -182,12 +187,16 @@ fi
 if [[ "${CLUSTER_EXISTS}" == "false" ]]; then
     echo -e "  - Create a new \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
 else
-    echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
+    if [[ -n "${SERVER_URL}" ]]; then
+      echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance at ${SERVER_URL}"
+    else
+      echo -e "  - Use an existing \033[1;33m${CLUSTER_TYPE}\033[0m cluster instance named \033[1;33m${CLUSTER_NAME}\033[0m${MANAGED_BY}"
+    fi
     echo ""
     echo -e "\033[1;31mBefore configuring the environment the following namespaces and their contents will be destroyed: tools and ibm-observe\033[0m"
 fi
 
-if [[ "o" ==  "${CLUSTER_MANAGEMENT}" ]]; then
+if [[ "o" == "${CLUSTER_MANAGEMENT}" ]]; then
 	STAGES_DIRECTORY="stages-ocp4"
 else
 	STAGES_DIRECTORY="stages"
