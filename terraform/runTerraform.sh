@@ -57,7 +57,10 @@ if [[ "${CLUSTER_MANAGEMENT}" == "i" ]]; then
 else
   ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment-ocp.tfvars"
 
-  CLUSTER_NAME=$(grep -E "^cluster_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+  if [[ -f "${ENVIRONMENT_TFVARS}" ]]; then
+    CLUSTER_NAME=$(grep -E "^cluster_name" "${ENVIRONMENT_TFVARS}" | sed -E "s/^cluster_name=\"(.*)\".*/\1/g")
+  fi
+
   if [[ -z "${CLUSTER_NAME}" ]]; then
     CLUSTER_NAME="ocp-cluster"
   fi
@@ -102,7 +105,11 @@ mkdir -p "${WORKSPACE_DIR}"
 
 TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 
-cat "${ENVIRONMENT_TFVARS}" > "${TFVARS}"
+rm -f "${TFVARS}"
+
+if [[ -f "${ENVIRONMENT_TFVARS}" ]]; then
+  cat "${ENVIRONMENT_TFVARS}" >> "${TFVARS}"
+fi
 cat "${SRC_DIR}/settings/vlan.tfvars" >> "${TFVARS}"
 echo "" >> "${TFVARS}"
 cp "${SRC_DIR}"/scripts-workspace/* "${WORKSPACE_DIR}"
