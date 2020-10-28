@@ -76,3 +76,30 @@ jobs:
           asset_path: ./dist/${{ matrix.offering }}.tar.gz
           asset_name: ${{ matrix.offering }}.tar.gz
           asset_content_type: application/gzip
+
+  release-install:
+    runs-on: ubuntu-latest
+
+    env:
+      DIST_DIR: ./dist
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Build install yaml
+        run: |
+          mkdir -p ${{ env.DIST_DIR }}
+          cat ./install/install-ibm-toolkit.yaml | sed "s/master/${{ github.event.release.tag_name }}/g"  > ${{ env.DIST_DIR }}/install-ibm-toolkit.yaml
+
+      - name: Upload install yaml
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./dist/install-ibm-toolkit.yaml
+          asset_name: install-ibm-toolkit.yaml
+          asset_content_type: text/plain
