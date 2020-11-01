@@ -44,8 +44,11 @@ jobs:
     strategy:
       matrix:
         offering:
-          - cloudnative-toolkit
           - sre-tools
+          - cluster-classic
+          - cluster-vpc
+          - cloudnative-toolkit
+          - cloudnative-toolkit-all-in-one
 
     steps:
       - name: Checkout

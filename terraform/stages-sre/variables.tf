@@ -63,14 +63,20 @@ variable "sysdig_name" {
   default     = ""
 }
 
-variable "provision_cluster_cos" {
+variable "provision_object_storage" {
   type = string
   description = "Flag indicating that cos instance should be provisioned by cluster-platform module"
   default = "true"
 }
 
-variable "cos_name" {
+variable "object_storage_name" {
   type        = string
   description = "The name of the existing cos instance"
   default     = ""
+}
+
+variable "provision_key_protect" {
+  type        = string
+  description = "Flag indicating that the key-protect instance should be provisioned"
+  default     = "false"
 }
