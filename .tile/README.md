@@ -7,7 +7,10 @@ provides a number of tiles to simplify Toolkit installation in IBM Cloud account
 ## Available tiles
 
 - [SRE Tools](./tiles/sre-tools)
-- [All-in-one Toolkit](./tiles/cloudnative-toolkit)
+- [VPC Cluster](./tiles/cluster-vpc)
+- [Classic Cluster](./tiles/cluster-classic)
+- [Cloud-Native Toolkit](./tiles/cloudnative-toolkit)
+- [All-in-one Toolkit](./tiles/cloudnative-toolkit-all-in-one)
 
 ## Install the Cloud-Native Toolkit tiles in an account
 
