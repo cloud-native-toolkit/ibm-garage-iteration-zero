@@ -42,8 +42,8 @@ SRC_DIR="./terraform"
 
 STAGES_DIRECTORY="stages-sre"
 
-cp "${SCRIPT_DIR}/${STAGES_DIRECTORY}/variables.tf" "${WORKSPACE_DIR}"
-cp "${SCRIPT_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
+cp "${SRC_DIR}/${STAGES_DIRECTORY}/variables.tf" "${WORKSPACE_DIR}"
+cp "${SRC_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
 cp "${SRC_DIR}"/scripts-workspace/* "${WORKSPACE_DIR}"
 cp README.md "${WORKSPACE_DIR}/SCRIPTS.md"
 cp "${SCRIPT_DIR}/README.md" "${WORKSPACE_DIR}"
