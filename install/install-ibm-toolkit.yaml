@@ -23,7 +23,7 @@ metadata:
   name: ibm-toolkit
   namespace: default
 data:
-  TF_VAR_tools_namespace: tools
+  tools_namespace: tools
 ---
 apiVersion: batch/v1
 kind: Job
@@ -46,6 +46,7 @@ spec:
         envFrom:
         - configMapRef:
             name: ibm-toolkit
+          prefix: TF_VAR_
         volumeMounts:
         - mountPath: /source
           name: source
