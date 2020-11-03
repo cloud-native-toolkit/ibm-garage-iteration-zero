@@ -54,6 +54,7 @@ spec:
         - /bin/bash
         - -c
         - |
+          set -ex
           git clone -b master --depth=1 https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero.git /source
           cd /source
 
@@ -71,7 +72,9 @@ spec:
           # Remove Optional addons not utilize during default pipeline runs
           # rm terraform/stages-ocp4/stage2-swagger-editor.tf
 
+          set +x
           export TF_VAR_login_token=$(oc whoami -t)
+          set -x
           export TF_VAR_server_url=$(oc whoami --show-server)
           ./terraform/runTerraform.sh --ocp -a
       restartPolicy: Never
