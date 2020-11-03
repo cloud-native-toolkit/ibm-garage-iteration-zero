@@ -97,7 +97,7 @@
             {
               "key": "flavor",
               "type": "string",
-              "default": "m3c.4x32",
+              "default_value": "m3c.4x32",
               "description": "The machine flavor that should be provisioned for each worker node",
               "options": [
                 {"label": "bx2.16x64", "value": "bx2.16x64"},
@@ -125,9 +125,27 @@
             {
               "key": "cluster_worker_count",
               "type": "int",
-              "default": 3,
+              "default_value": 3,
               "description": "The number of worker nodes that will be created in each VPC zone",
               "required": true,
+              "hidden": false
+            },
+            {
+              "key": "cluster_provision_cos",
+              "type": "string",
+              "description": "Flag indicating that a new Object Storage instance should be provisioned for the cluster. Select False to use an existing instance.",
+              "options": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+              ],
+              "required": false,
+              "hidden": false
+            },
+            {
+              "key": "cos_name",
+              "type": "string",
+              "description": "The name of an existing cloud storage object instance that should be used by the cluster (required if provision_object_storage is false)",
+              "required": false,
               "hidden": false
             },
             {
