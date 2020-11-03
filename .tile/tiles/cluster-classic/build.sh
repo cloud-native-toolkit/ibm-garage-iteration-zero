@@ -28,9 +28,11 @@ if [ -z "${VERSION}" ]; then
   VERSION="#VERSION"
 fi
 
-if [ -z "${REPO_URL}" ]; then
-  REPO_URL="ibm-garage-cloud/ibm-garage-iteration-zero"
+if [ -z "${REPO_SLUG}" ]; then
+  REPO_SLUG="ibm-garage-cloud/ibm-garage-iteration-zero"
 fi
+
+REPO_URL="https://github.com/${REPO_SLUG}"
 
 STAGES_DIRECTORY="stages-cluster"
 
