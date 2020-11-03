@@ -109,7 +109,6 @@
               "key": "registry_namespace",
               "type": "string",
               "description": "The namespace of the image registry (used for icr and other registry types)",
-              "default": "",
               "required": false,
               "hidden": false
             },
@@ -117,7 +116,7 @@
               "key": "registry_host",
               "type": "string",
               "description": "The host of the image registry (used for other registry types)",
-              "default": "",
+              "default_value": "",
               "required": false,
               "hidden": false
             },
@@ -125,7 +124,7 @@
               "key": "registry_user",
               "type": "string",
               "description": "The user to access the image registry (used for other registry types)",
-              "default": "",
+              "default_value": "",
               "required": false,
               "hidden": false
             },
@@ -133,7 +132,7 @@
               "key": "registry_password",
               "type": "password",
               "description": "The password to access the image registry (used for other registry types)",
-              "default": "",
+              "default_value": "",
               "required": false,
               "hidden": false
             },
@@ -141,7 +140,7 @@
               "key": "registry_url",
               "type": "string",
               "description": "The browser url to access the image registry (used for other registry types)",
-              "default": "",
+              "default_value": "",
               "required": false,
               "hidden": false
             },
@@ -256,7 +255,7 @@
             {
               "key": "flavor",
               "type": "string",
-              "default": "m3c.4x32",
+              "default_value": "m3c.4x32",
               "description": "The machine flavor that should be provisioned for each worker node",
               "required": true,
               "hidden": false
@@ -264,7 +263,7 @@
             {
               "key": "cluster_worker_count",
               "type": "int",
-              "default": 3,
+              "default_value": 3,
               "description": "The number of worker nodes that will be created in each zone",
               "required": true,
               "hidden": false
@@ -272,7 +271,7 @@
             {
               "key": "source_control_type",
               "type": "string",
-              "default": "github",
+              "default_value": "github",
               "options": [
                 {"label": "GitHub", "value": "github"},
                 {"label": "Gitlab", "value": "gitlab"},
@@ -285,7 +284,7 @@
             {
               "key": "source_control_url",
               "type": "string",
-              "default": "https://github.com",
+              "default_value": "https://github.com",
               "description": "The url of source control system to configure in the cluster",
               "required": false,
               "hidden": true

@@ -167,7 +167,7 @@
             {
               "key": "flavor",
               "type": "string",
-              "default": "mx2.4x32",
+              "default_value": "mx2.4x32",
               "description": "The machine flavor that should be provisioned for each worker node",
               "options": [
                 {"label": "b2c.16x64", "value":"b2c.16x64"},
@@ -219,7 +219,7 @@
             {
               "key": "cluster_worker_count",
               "type": "int",
-              "default": 3,
+              "default_value": 3,
               "description": "The number of worker nodes that will be created",
               "required": true,
               "hidden": false
