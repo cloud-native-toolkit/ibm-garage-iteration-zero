@@ -32,7 +32,14 @@
               "key": "region",
               "type": "string",
               "description": "The region where the SRE tools should be provisioned",
-              "options": ["us-south", "us-east", "eu-de", "eu-gb", "au-syd", "jp-tok"],
+              "options": [
+                {"label": "us-south", "value": "us-south"},
+                {"label": "us-east", "value": "us-east"},
+                {"label": "eu-de", "value": "eu-de"},
+                {"label": "eu-gb", "value": "eu-gb"},
+                {"label": "au-syd", "value": "au-syd"},
+                {"label": "jp-tok", "value": "jp-tok"}
+              ],
               "required": true,
               "hidden": false
             },
@@ -56,7 +63,10 @@
               "type": "string",
               "default_value": "true",
               "description": "Flag indicating that the LogDNA instance should be provisioned",
-              "options": ["true", "false"],
+              "options": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+              ],
               "required": false,
               "hidden": false
             },
@@ -65,7 +75,10 @@
               "type": "string",
               "default_value": "true",
               "description": "Flag indicating that the Sysdig instance should be provisioned",
-              "options": ["true", "false"],
+              "options": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+              ],
               "required": false,
               "hidden": false
             },
@@ -74,7 +87,10 @@
               "type": "string",
               "default_value": "false",
               "description": "Flag indicating that the Activity Tracker instance should be provisioned",
-              "options": ["true", "false"],
+              "options": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+              ],
               "required": false,
               "hidden": false
             },
@@ -83,7 +99,10 @@
               "type": "string",
               "default_value": "true",
               "description": "Flag indicating that the Key Protect instance should be provisioned",
-              "options": ["true", "false"],
+              "options": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+              ],
               "required": false,
               "hidden": false
             },
@@ -92,7 +111,10 @@
               "type": "string",
               "default_value": "true",
               "description": "Flag indicating that the Object Storage instance should be provisioned",
-              "options": ["true", "false"],
+              "options": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+              ],
               "required": false,
               "hidden": false
             },
