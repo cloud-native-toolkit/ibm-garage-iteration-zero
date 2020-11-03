@@ -42,7 +42,7 @@ variable "TF_VERSION" {
 variable "provision_logdna" {
   type        = string
   description = "Flag indicating that a logdna instance should be provisioned"
-  default     = "false"
+  default     = "true"
 }
 
 variable "logdna_name" {
@@ -54,7 +54,7 @@ variable "logdna_name" {
 variable "provision_sysdig" {
   type        = string
   description = "Flag indicating that a sysdig instance should be provisioned"
-  default     = "false"
+  default     = "true"
 }
 
 variable "sysdig_name" {
@@ -76,6 +76,12 @@ variable "object_storage_name" {
 }
 
 variable "provision_key_protect" {
+  type        = string
+  description = "Flag indicating that the key-protect instance should be provisioned"
+  default     = "true"
+}
+
+variable "provision_activity_tracker" {
   type        = string
   description = "Flag indicating that the key-protect instance should be provisioned"
   default     = "false"

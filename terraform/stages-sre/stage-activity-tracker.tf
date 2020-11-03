@@ -6,4 +6,5 @@ module "sre_activity-tracker" {
   tags                     = []
   name_prefix              = var.name_prefix
   plan                     = "7-day"
+  provision                = var.provision_activity_tracker == "true"
 }
