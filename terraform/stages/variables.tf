@@ -217,12 +217,6 @@ variable "cos_name" {
   default     = ""
 }
 
-variable "provision_activity_tracker" {
-  type = string
-  description = "Flag indicating that the activity_tracker instance should be provisioned"
-  default = "false"
-}
-
 variable "source_control_type" {
   type        = string
   description = "The type of source control system (github, gitlab, or none)"
