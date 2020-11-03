@@ -58,6 +58,9 @@ spec:
 
           # Customize Installation
 
+          # Add components
+          # cp terraform/stages-ocp4/catalog/stage2-jaeger.tf terraform/stages-ocp4/
+
           # Remove any of these if you already have them available outside the cluster
           # rm terraform/stages-ocp4/stage2-argocd.tf
           # rm terraform/stages-ocp4/stage2-artifactory.tf
@@ -65,7 +68,6 @@ spec:
           # rm terraform/stages-ocp4/stage2-pactbroker.tf
 
           # Remove Optional addons not utilize during default pipeline runs
-          # rm terraform/stages-ocp4/stage2-jaeger.tf
           # rm terraform/stages-ocp4/stage2-swagger-editor.tf
 
           export TF_VAR_login_token=$(oc whoami -t)
