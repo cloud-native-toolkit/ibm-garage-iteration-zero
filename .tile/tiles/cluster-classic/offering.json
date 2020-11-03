@@ -1,0 +1,264 @@
+{
+  "label": "Cloud-Native Classic cluster",
+  "name": "#OFFERING",
+  "offering_icon_url": "https://globalcatalog.cloud.ibm.com/api/v1/1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc/artifacts/terraform.svg",
+  "tags": [
+    "terraform",
+    "dev_ops"
+  ],
+  "rating": {},
+  "short_description": "Provisions a cluster in an IBM Cloud resource group with classic networking. Supports provisioning IKS or OCP clusters.",
+  "kinds": [
+    {
+      "format_kind": "terraform",
+      "install_kind": "terraform",
+      "target_kind": "terraform",
+      "versions": [
+        {
+          "version": "#VERSION",
+          "catalog_id": "#CATALOG_ID",
+          "repo_url": "https://github.com/#REPO_URL/",
+          "tgz_url": "https://github.com/#REPO_URL/releases/download/#VERSION/#OFFERING.tar.gz",
+          "configuration": [
+            {
+              "key": "cluster_exists",
+              "type": "string",
+              "default_value": "false",
+              "description": "Flag indicating that the cluster already exists (true or false)",
+              "required": false,
+              "hidden": true
+            },
+            {
+              "key": "cluster_type",
+              "type": "string",
+              "default_value": "ocp45",
+              "description": "The type of cluster that will be provisioned",
+              "options": [
+                "kubernetes",
+                "ocp3",
+                "ocp43",
+                "ocp44",
+                "ocp45"
+              ],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "ibmcloud_api_key",
+              "type": "password",
+              "description": "The IBM Cloud API key that has permission to create the classic networking and provision the cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "resource_group_name",
+              "type": "string",
+              "description": "Existing resource group where the cluster will be provisioned",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "region",
+              "type": "string",
+              "description": "The region where the cluster will be provisioned",
+              "options": [
+                "us-south",
+                "us-east",
+                "eu-de",
+                "eu-gb",
+                "au-syd",
+                "jp-tok"
+              ],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "cluster_name",
+              "type": "string",
+              "default_value": "",
+              "description": "The name of the cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "vpc_cluster",
+              "type": "string",
+              "default_value": "false",
+              "description": "Flag indicating that the cluster has been built on VPC infrastructure",
+              "required": false,
+              "hidden": true
+            },
+            {
+              "key": "private_vlan_id",
+              "type": "string",
+              "description": "The existing private VLAN id for the cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "public_vlan_id",
+              "type": "string",
+              "description": "The existing public VLAN id for the cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "vlan_datacenter",
+              "type": "string",
+              "description": "The VLAN datacenter where the cluster will be provisioned",
+              "options": [
+                "ams01",
+                "ams03",
+                "che01",
+                "dal05",
+                "dal06",
+                "dal07",
+                "dal09",
+                "dal10",
+                "dal12",
+                "dal13",
+                "fra02",
+                "fra04",
+                "fra05",
+                "hkg02",
+                "hou02",
+                "lon02",
+                "lon04",
+                "lon05",
+                "lon06",
+                "mel01",
+                "mex01",
+                "mil01",
+                "mon01",
+                "osa21",
+                "osa22",
+                "osa23",
+                "osl01",
+                "par01",
+                "par04",
+                "par05",
+                "par06",
+                "sao01",
+                "sao04",
+                "sao05",
+                "sea01",
+                "seo01",
+                "sjc01",
+                "sjc03",
+                "sjc04",
+                "sng01",
+                "syd01",
+                "syd04",
+                "syd05",
+                "tok02",
+                "tok04",
+                "tok05",
+                "tor01",
+                "tor04",
+                "tor05",
+                "wdc01",
+                "wdc04",
+                "wdc06",
+                "wdc07"
+              ],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "flavor",
+              "type": "string",
+              "default": "mx2.4x32",
+              "description": "The machine flavor that should be provisioned for each worker node",
+              "options": [
+                "b2c.16x64",
+                "b2c.32x128",
+                "b2c.4x16",
+                "b2c.56x242",
+                "b2c.8x32",
+                "b3c.16x64",
+                "b3c.32x128",
+                "b3c.4x16",
+                "b3c.56x242",
+                "b3c.8x32",
+                "c2c.16x16",
+                "c2c.16x32",
+                "c2c.32x32",
+                "c2c.32x64",
+                "c3c.16x16",
+                "c3c.16x32",
+                "c3c.32x32",
+                "c3c.32x64",
+                "m2c.16x128",
+                "m2c.30x240",
+                "m2c.48x384",
+                "m2c.56x448",
+                "m2c.64x512",
+                "m2c.8x64",
+                "m3c.16x128",
+                "m3c.30x240",
+                "m3c.48x384",
+                "m3c.4x32",
+                "m3c.56x448",
+                "m3c.64x512",
+                "m3c.8x64",
+                "mb1c.16x64",
+                "mb2c.4x32",
+                "mb3c.16x64",
+                "mb3c.4x32",
+                "mb4c.20x192",
+                "mb4c.20x384",
+                "mb4c.20x64",
+                "mb4c.20x64.2x1.9tb.ssd",
+                "mb4c.32x384.3.8tb.ssd",
+                "mb4c.32x384.6x3.8tb.ssd",
+                "mb4c.32x768.3.8tb.ssd"
+              ],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "cluster_worker_count",
+              "type": "int",
+              "default": 3,
+              "description": "The number of worker nodes that will be created",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "TF_VERSION",
+              "type": "string",
+              "default_value": "0.12",
+              "description": "The version of terraform that should be used",
+              "required": true,
+              "hidden": false
+            }
+          ],
+          "install": {
+            "instructions": "Some ContentN/A"
+          },
+          "entitlement": {
+            "provider_name": "free",
+            "provider_id": "free"
+          },
+          "install": {
+            "instructions": "N/A"
+          },
+          "licenses": [
+            {
+              "name": "LICENSE",
+              "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+          ],
+          "deprecated": false,
+          "long_description": "#LONG_DESCRIPTION"
+        }
+      ]
+    }
+  ],
+  "catalog_id": "#CATALOG_ID",
+  "hidden": false,
+  "provider": "IBM",
+  "repo_info": {
+    "type": "public_git"
+  }
+}

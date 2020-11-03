@@ -32,7 +32,7 @@ if [ -z "${REPO_URL}" ]; then
   REPO_URL="ibm-garage-cloud/ibm-garage-iteration-zero"
 fi
 
-STAGES_DIRECTORY="stages"
+STAGES_DIRECTORY="stages-cluster"
 
 WORKSPACE_BASE="./workspace"
 WORKSPACE_DIR="${WORKSPACE_BASE}/${OFFERING_NAME}"

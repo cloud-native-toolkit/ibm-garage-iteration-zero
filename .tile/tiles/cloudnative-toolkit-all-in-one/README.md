@@ -27,14 +27,13 @@ An IBM Cloud API key for a user with sufficient authority to provision the SRE t
 specific to an account, so a new API key will be needed for each account. Instructions for creating an API key can be 
 found at [https://cloud.ibm.com/docs/account?topic=account-userapikey#create_user_key](https://cloud.ibm.com/docs/account?topic=account-userapikey#create_user_key)
 
-### Cluster
+### Cluster provisioning
 
-A managed cluster must have already been provisioned. The tile will need four pieces of information about the cluster:
+#### Public and private vlans for Classic infrastructure
 
-- **cluster name** - the name given to the cluster
-- **cluster type** - the type of cluster that was provisioned (kubernetes or ocp4)
-- **region** - the region where the cluster was provisioned
-- **vpc_cluster** - a flag indicating if the cluster uses VPC infrastructure (true) or Classic infrastruture (false)
+Virtual local area networks (VLANs) are used by IBM Cloud® to isolate broadcast traffic on the public and private 
+networks. Public and private vlans are needed to provision a cluster with classic infrastructure. Instructions for creating
+a vlan can be found at [https://cloud.ibm.com/docs/cli?topic=cli-manage-classic-vlans#sl_vlan_create](https://cloud.ibm.com/docs/cli?topic=cli-manage-classic-vlans#sl_vlan_create) 
 
 ### (Optional) LogDNA instance
 
@@ -85,6 +84,12 @@ the source control repository:
 |logdna_name               |The name of the existing LogDNA instance to which the cluster should be connected|my-resource-group-logdna|
 |sysdig_region             |The region where the Sysdig instance has been provisioned                        |us-south|
 |sysdig_name               |The name of the existing Sysdig instance to which the cluster should be connected|my-resource-group-sysdig|
+|private_vlan_id           |The existing private vlan id that should be used by the cluster                  |2440701|
+|public_vlan_id            |The existing public vlan id that should be used by the cluster                   |2440699|
+|vlan_datacenter           |The datacenter where the public and private vlans exist                          |dal10|
+|vpc_zone_names            |Comma-separated list of the vpc zones where the cluster will be provisioned.     |us-south-1,us-south-2,us-south-3|
+|flavor                    |The machine flavor that should be provisioned for each worker node               |m3c.4x32|
+|cluster_worker_count      |The number of worker nodes that will be created in each VPC zone                 |3|
 |registry_type             |The type of image registry (icr, ocp, other, none)                               |ocp|
 |registry_namespace        |The namespace for image in the image registry                                    |test|
 |registry_host             |The host for the image registry (needed for other registry types)                |docker.io|

@@ -11,9 +11,39 @@ variable "resource_group_name" {
   description = "Existing resource group where the IKS cluster will be provisioned."
 }
 
+variable "registry_type" {
+  type        = string
+  description = "The type of image registry (icr, ocp, other, none)"
+  default     = "icr"
+}
+
+variable "registry_host" {
+  type        = string
+  description = "The host that should be used for the image registry"
+  default     = ""
+}
+
 variable "registry_namespace" {
   type        = string
-  description = "The namespace that should be used in the IBM Container Registry. If not provided the value will default to the resource group name."
+  description = "The namespace that should be used for the image registry"
+  default     = ""
+}
+
+variable "registry_user" {
+  type        = string
+  description = "The username for accessing the image registry"
+  default     = ""
+}
+
+variable "registry_password" {
+  type        = string
+  description = "The password for accessing the image registry"
+  default     = ""
+}
+
+variable "registry_url" {
+  type        = string
+  description = "The browser url to view the images in the registry"
   default     = ""
 }
 
@@ -191,4 +221,16 @@ variable "provision_activity_tracker" {
   type = string
   description = "Flag indicating that the activity_tracker instance should be provisioned"
   default = "false"
+}
+
+variable "source_control_type" {
+  type        = string
+  description = "The type of source control system (github, gitlab, or none)"
+  default     = "github"
+}
+
+variable "source_control_url" {
+  type        = string
+  description = "The url to the source control system"
+  default     = "https://github.com"
 }

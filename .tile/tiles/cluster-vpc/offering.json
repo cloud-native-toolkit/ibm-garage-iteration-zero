@@ -1,0 +1,157 @@
+{
+  "label": "Cloud-Native VPC cluster",
+  "name": "#OFFERING",
+  "offering_icon_url": "https://globalcatalog.cloud.ibm.com/api/v1/1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc/artifacts/terraform.svg",
+  "tags": [
+    "terraform",
+    "dev_ops"
+  ],
+  "rating": {},
+  "short_description": "Provisions a cluster in an IBM Cloud resource group with VPC networking. Supports provisioning IKS or OCP clusters",
+  "kinds": [
+    {
+      "format_kind": "terraform",
+      "install_kind": "terraform",
+      "target_kind": "terraform",
+      "versions": [
+        {
+          "version": "#VERSION",
+          "catalog_id": "#CATALOG_ID",
+          "repo_url": "https://github.com/#REPO_URL/",
+          "tgz_url": "https://github.com/#REPO_URL/releases/download/#VERSION/#OFFERING.tar.gz",
+          "configuration": [
+            {
+              "key": "cluster_exists",
+              "type": "string",
+              "default_value": "false",
+              "description": "Flag indicating that the cluster already exists (true or false)",
+              "required": false,
+              "hidden": true
+            },
+            {
+              "key": "cluster_type",
+              "type": "string",
+              "default_value": "ocp45",
+              "description": "The type of cluster that will be provisioned",
+              "options": ["kubernetes", "ocp3", "ocp43", "ocp44", "ocp45"],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "ibmcloud_api_key",
+              "type": "password",
+              "description": "The IBM Cloud API key that has permission to create the classic networking and provision the cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "resource_group_name",
+              "type": "string",
+              "description": "Existing resource group where the cluster will be provisioned",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "region",
+              "type": "string",
+              "description": "The region where the cluster will be provisioned",
+              "options": ["us-south", "us-east", "eu-de", "eu-gb", "au-syd", "jp-tok"],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "cluster_name",
+              "type": "string",
+              "description": "The name of the cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "vpc_cluster",
+              "type": "string",
+              "default_value": "true",
+              "description": "Flag indicating that the cluster has been built on VPC infrastructure",
+              "required": false,
+              "hidden": true
+            },
+            {
+              "key": "vpc_zone_names",
+              "type": "string",
+              "description": "Comma-separated list of VPC zones where the cluster will be provisioned",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "flavor",
+              "type": "string",
+              "default": "m3c.4x32",
+              "description": "The machine flavor that should be provisioned for each worker node",
+              "options": [
+                "bx2.16x64",
+                "bx2.2x8",
+                "bx2.32x128",
+                "bx2.48x192",
+                "bx2.4x16",
+                "bx2.8x32",
+                "cx2.16x32",
+                "cx2.2x4",
+                "cx2.32x64",
+                "cx2.48x96",
+                "cx2.4x8",
+                "cx2.8x16",
+                "mx2.16x128",
+                "mx2.2x16",
+                "mx2.32x256",
+                "mx2.48x384",
+                "mx2.4x32",
+                "mx2.8x64"
+              ],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "cluster_worker_count",
+              "type": "int",
+              "default": 3,
+              "description": "The number of worker nodes that will be created in each VPC zone",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "TF_VERSION",
+              "type": "string",
+              "default_value": "0.12",
+              "description": "The version of terraform that should be used",
+              "required": true,
+              "hidden": false
+            }
+          ],
+          "install": {
+            "instructions": "Some ContentN/A"
+          },
+          "entitlement": {
+            "provider_name": "free",
+            "provider_id": "free"
+          },
+          "install": {
+            "instructions": "N/A"
+          },
+          "licenses": [
+            {
+              "name": "LICENSE",
+              "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+          ],
+          "deprecated": false,
+          "long_description": "#LONG_DESCRIPTION"
+        }
+      ]
+    }
+  ],
+  "catalog_id": "#CATALOG_ID",
+  "hidden": false,
+  "provider": "IBM",
+  "repo_info": {
+    "type": "public_git"
+  }
+}
