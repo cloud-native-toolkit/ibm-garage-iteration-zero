@@ -33,7 +33,11 @@
               "type": "string",
               "default_value": "ocp4",
               "description": "The type of cluster into which the #OFFERING will be installed (ocp4, ocp3 or kubernetes)",
-              "options": ["kubernetes", "ocp3", "ocp4"],
+              "options": [
+                {"label": "Kubernetes", "value": "kubernetes"},
+                {"label": "OpenShift 3.x", "value": "ocp3"},
+                {"label": "OpenShift 4.x", "value": "ocp4"}
+              ],
               "required": true,
               "hidden": false
             },
@@ -55,7 +59,14 @@
               "key": "region",
               "type": "string",
               "description": "The region where the cluster has been provisioned",
-              "options": ["us-south", "us-east", "eu-de", "eu-gb", "au-syd", "jp-tok"],
+              "options": [
+                {"label": "us-south", "value": "us-south"},
+                {"label": "us-east", "value": "us-east"},
+                {"label": "eu-de", "value": "eu-de"},
+                {"label": "eu-gb", "value": "eu-gb"},
+                {"label": "au-syd", "value": "au-syd"},
+                {"label": "jp-tok", "value": "jp-tok"}
+              ],
               "required": true,
               "hidden": false
             },
@@ -70,7 +81,10 @@
               "key": "vpc_cluster",
               "type": "string",
               "description": "Flag indicating that the cluster has been built on VPC infrastructure",
-              "options": ["true", "false"],
+              "options": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+              ],
               "required": false,
               "hidden": false
             },
@@ -78,7 +92,12 @@
               "key": "registry_type",
               "type": "string",
               "description": "The type of the image registry",
-              "options": ["icr", "ocp", "other", "none"],
+              "options": [
+                {"label": "IBM Container Registry", "value": "icr"},
+                {"label": "OCP Internal", "value": "ocp"},
+                {"label": "Other", "value": "other"},
+                {"label": "None", "value": "none"}
+              ],
               "required": false,
               "hidden": false
             },
@@ -133,7 +152,14 @@
               "key": "logdna_region",
               "type": "string",
               "description": "The region where the logdna instance has been provisioned. If not provided this will default to cluster region",
-              "options": ["us-south", "us-east", "eu-de", "eu-gb", "au-syd", "jp-tok"],
+              "options": [
+                {"label": "us-south", "value": "us-south"},
+                {"label": "us-east", "value": "us-east"},
+                {"label": "eu-de", "value": "eu-de"},
+                {"label": "eu-gb", "value": "eu-gb"},
+                {"label": "au-syd", "value": "au-syd"},
+                {"label": "jp-tok", "value": "jp-tok"}
+              ],
               "required": false,
               "hidden": false
             },
@@ -156,7 +182,14 @@
               "key": "sysdig_region",
               "type": "string",
               "description": "The region where the sysdig instance will be/has been provisioned. If not provided this will default to the overall region",
-              "options": ["us-south", "us-east", "eu-de", "eu-gb", "au-syd", "jp-tok"],
+              "options": [
+                {"label": "us-south", "value": "us-south"},
+                {"label": "us-east", "value": "us-east"},
+                {"label": "eu-de", "value": "eu-de"},
+                {"label": "eu-gb", "value": "eu-gb"},
+                {"label": "au-syd", "value": "au-syd"},
+                {"label": "jp-tok", "value": "jp-tok"}
+              ],
               "required": false,
               "hidden": false
             },
@@ -172,7 +205,11 @@
               "key": "source_control_type",
               "type": "string",
               "default": "github",
-              "options": ["github", "gitlab", "none"],
+              "options": [
+                {"label": "GitHub", "value": "github"},
+                {"label": "Gitlab", "value": "gitlab"},
+                {"label": "None", "value": "none"}
+              ],
               "description": "The type of source control system to configure in the cluster",
               "required": false,
               "hidden": true
