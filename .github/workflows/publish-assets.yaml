@@ -58,6 +58,7 @@ jobs:
 
       - name: Build offering
         run: |
+          jq --version
           ./.tile/tiles/${{ matrix.offering }}/build.sh ${{ env.DIST_DIR }} ${{ matrix.offering }} ${{ github.event.release.tag_name }} ${{ github.repository }}
 
       - name: Upload offering json
