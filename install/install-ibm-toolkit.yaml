@@ -76,5 +76,8 @@ spec:
           export TF_VAR_login_token=$(oc whoami -t)
           set -x
           export TF_VAR_server_url=$(oc whoami --show-server)
+          STARTTIME=$(date +%s)
           ./terraform/runTerraform.sh --ocp -a
+          DURATION=$(($(date +%s) - $STARTTIME))
+          echo -e "\033[0;92m Toolkit install took: $(($DURATION / 60))m$(($DURATION % 60))s \033[0m"
       restartPolicy: Never
