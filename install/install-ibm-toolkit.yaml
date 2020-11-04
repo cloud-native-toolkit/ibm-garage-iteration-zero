@@ -72,10 +72,9 @@ spec:
           # Remove Optional addons not utilize during default pipeline runs
           # rm terraform/stages-ocp4/stage2-swagger-editor.tf
 
+          export TF_VAR_server_url=$(oc whoami --show-server)
           set +x
           export TF_VAR_login_token=$(oc whoami -t)
-          set -x
-          export TF_VAR_server_url=$(oc whoami --show-server)
           STARTTIME=$(date +%s)
           ./terraform/runTerraform.sh --ocp -a
           DURATION=$(($(date +%s) - $STARTTIME))
