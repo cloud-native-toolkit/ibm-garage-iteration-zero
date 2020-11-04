@@ -23,7 +23,7 @@ metadata:
   name: ibm-toolkit
   namespace: default
 data:
-  TF_VAR_tools_namespace: tools
+  tools_namespace: tools
 ---
 apiVersion: batch/v1
 kind: Job
@@ -46,6 +46,7 @@ spec:
         envFrom:
         - configMapRef:
             name: ibm-toolkit
+          prefix: TF_VAR_
         volumeMounts:
         - mountPath: /source
           name: source
@@ -53,9 +54,27 @@ spec:
         - /bin/bash
         - -c
         - |
-          export TF_VAR_login_token=$(oc whoami -t)
-          export TF_VAR_server_url=$(oc whoami --show-server)
+          set -ex
           git clone -b master --depth=1 https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero.git /source
           cd /source
+
+          # Customize Installation
+
+          # Add components
+          # cp terraform/stages-ocp4/catalog/stage2-jaeger.tf terraform/stages-ocp4/
+
+          # Remove any of these if you already have them available outside the cluster
+          # rm terraform/stages-ocp4/stage2-argocd.tf
+          # rm terraform/stages-ocp4/stage2-artifactory.tf
+          # rm terraform/stages-ocp4/stage2-sonarqube.tf
+          # rm terraform/stages-ocp4/stage2-pactbroker.tf
+
+          # Remove Optional addons not utilize during default pipeline runs
+          # rm terraform/stages-ocp4/stage2-swagger-editor.tf
+
+          set +x
+          export TF_VAR_login_token=$(oc whoami -t)
+          set -x
+          export TF_VAR_server_url=$(oc whoami --show-server)
           ./terraform/runTerraform.sh --ocp -a
       restartPolicy: Never
