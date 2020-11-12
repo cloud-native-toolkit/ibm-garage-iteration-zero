@@ -95,6 +95,7 @@
             {
               "key": "registry_type",
               "type": "string",
+              "default_value": "icr",
               "description": "The type of the image registry",
               "options": [
                 {"label": "IBM Container Registry", "value": "icr"},

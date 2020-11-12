@@ -68,3 +68,26 @@ vpc_zone_names=""
 # you are not provisioning the Object Storage instance and would like to bind the cluster to an existing instance
 # then this value is REQUIRED
 #cos_name=""
+
+# The type of container registry that should be configured for the cluster.
+# Valid options are icr, ocp, other, or none. The default value is icr
+#registry_type="icr"
+
+# The namespace in the image registry where images will be stored. If the registry_type is
+# set to "icr" and the namespace is not provided then the value will default to the resource
+# group name
+#registry_namespace=""
+
+# The host name of the image registry (e.g. us.icr.io or quay.io). This value is only used
+# if the registry_type is set to "other".
+#registry_host=""
+
+# The username needed to access the image registry. This value is only used if the registry_type
+# is set to "other"
+#registry_user=""
+
+# The password needed to access the image registry. This value is required if the registry_type is
+# set to "other". If the registry_type is set to "icr" this value should be an API KEY that will be
+# used to access the registry and if not provided will default to the ibmcloud_api_key used
+# during the toolkit installation
+#registry_password=""

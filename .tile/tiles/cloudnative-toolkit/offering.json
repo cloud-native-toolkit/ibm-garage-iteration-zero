@@ -81,6 +81,7 @@
               "key": "vpc_cluster",
               "type": "string",
               "description": "Flag indicating that the cluster has been built on VPC infrastructure",
+              "default_value": "true",
               "options": [
                 {"label": "True", "value": "true"},
                 {"label": "False", "value": "false"}
@@ -92,13 +93,14 @@
               "key": "registry_type",
               "type": "string",
               "description": "The type of the image registry",
+              "default_value": "icr",
               "options": [
                 {"label": "IBM Container Registry", "value": "icr"},
                 {"label": "OCP Internal", "value": "ocp"},
                 {"label": "Other", "value": "other"},
                 {"label": "None", "value": "none"}
               ],
-              "required": false,
+              "required": true,
               "hidden": false
             },
             {

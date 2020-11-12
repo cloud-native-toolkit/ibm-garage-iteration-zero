@@ -6,7 +6,8 @@ module "dev_tools_ibm_image_registry" {
   cluster_type_code   = module.dev_cluster.type_code
   config_file_path    = module.dev_cluster.config_file_path
   cluster_namespace   = module.dev_tools_namespace.name
-  ibmcloud_api_key    = var.registry_password
+  ibmcloud_api_key    = var.ibmcloud_api_key
+  registry_password   = var.registry_password
   registry_namespace  = var.registry_namespace
   apply               = var.registry_type == "icr"
 }
