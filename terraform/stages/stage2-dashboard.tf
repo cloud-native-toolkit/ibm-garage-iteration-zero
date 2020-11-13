@@ -6,5 +6,4 @@ module "dev_tools_dashboard" {
   cluster_type             = module.dev_cluster.type_code
   tls_secret_name          = module.dev_cluster.tls_secret_name
   releases_namespace       = module.dev_tools_namespace.name
-  image_tag                = "1.1.8"
 }
