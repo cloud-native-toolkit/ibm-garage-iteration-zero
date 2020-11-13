@@ -91,3 +91,9 @@ vpc_zone_names=""
 # used to access the registry and if not provided will default to the ibmcloud_api_key used
 # during the toolkit installation
 #registry_password=""
+
+# The type of source control system (github, gitlab, bitbucket, etc)
+#source_control_type="github"
+
+# The url to the source control system
+#source_control_url="https://github.com"
