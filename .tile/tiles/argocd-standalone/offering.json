@@ -1,0 +1,134 @@
+{
+  "label": "260. ArgoCD Standalone",
+  "name": "#OFFERING",
+  "offering_icon_url": "https://globalcatalog.cloud.ibm.com/api/v1/1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc/artifacts/terraform.svg",
+  "tags": [
+    "terraform",
+    "dev_ops"
+  ],
+  "rating": {},
+  "short_description": "Install a standalone version of ArgoCD for production grade GitOps",
+  "kinds": [
+    {
+      "format_kind": "terraform",
+      "install_kind": "terraform",
+      "target_kind": "terraform",
+      "versions": [
+        {
+          "version": "#VERSION",
+          "catalog_id": "#CATALOG_ID",
+          "repo_url": "https://github.com/#REPO_URL/",
+          "tgz_url": "https://github.com/#REPO_URL/releases/download/#VERSION/#OFFERING.tar.gz",
+          "configuration": [
+            {
+              "key": "cluster_exists",
+              "type": "string",
+              "default_value": "true",
+              "description": "Flag indicating that the cluster already exists (true or false)",
+              "required": false,
+              "hidden": true
+            },
+            {
+              "key": "cluster_type",
+              "type": "string",
+              "default_value": "ocp4",
+              "description": "The type of cluster into which the #OFFERING will be installed (ocp4, ocp3 or kubernetes)",
+              "options": [
+                {"label": "Kubernetes", "value": "kubernetes"},
+                {"label": "OpenShift 3.x", "value": "ocp3"},
+                {"label": "OpenShift 4.x", "value": "ocp4"}
+              ],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "ibmcloud_api_key",
+              "type": "password",
+              "description": "The IBM Cloud API key that has ClusterAdmin access",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "resource_group_name",
+              "type": "string",
+              "description": "Existing resource group that contains the cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "region",
+              "type": "string",
+              "description": "The region where the cluster has been provisioned",
+              "options": [
+                {"label":"Sydney","value":,"au-syd"},
+                {"label":"Chennai","value":,"in-che"},
+                {"label":"Osaka","value":,"jp-osa"},
+                {"label":"Tokyo","value":,"jp-tok"},
+                {"label":"Seoul","value":,"kr-seo"},
+                {"label":"Frankfurt","value":,"eu-de"},
+                {"label":"London","value":,"eu-gb"},
+                {"label":"Toronto","value":,"ca-tor"},
+                {"label":"Dallas","value":,"us-south"},
+                {"label":"Washington DC","value":,"us-east"},
+                {"label":"Sao Paolo","value":"br-sao"}
+              ],
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "cluster_name",
+              "type": "string",
+              "description": "The name of the existing cluster",
+              "required": true,
+              "hidden": false
+            },
+            {
+              "key": "vpc_cluster",
+              "type": "string",
+              "description": "Flag indicating that the cluster has been built on VPC infrastructure",
+              "default_value": "true",
+              "options": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+              ],
+              "required": false,
+              "hidden": false
+            },
+            {
+              "key": "TF_VERSION",
+              "type": "string",
+              "default_value": "0.12",
+              "description": "The version of terraform that should be used",
+              "required": true,
+              "hidden": false
+            }
+          ],
+          "install": {
+            "instructions": "Some ContentN/A"
+          },
+          "entitlement": {
+            "provider_name": "free",
+            "provider_id": "free"
+          },
+          "install": {
+            "instructions": "N/A"
+          },
+          "licenses": [
+            {
+              "name": "LICENSE",
+              "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+          ],
+          "deprecated": false,
+          "long_description": "#LONG_DESCRIPTION"
+        }
+      ]
+    }
+  ],
+  "catalog_id": "#CATALOG_ID",
+  "hidden": false,
+  "provider": "IBM",
+  "repo_info": {
+    "type": "public_git"
+  }
+}

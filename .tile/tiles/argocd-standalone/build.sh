@@ -1,0 +1,92 @@
+#!/usr/bin/env sh
+
+SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
+
+set -e
+
+echo 'Building new version of Tile from Iteration Zero Terraform Modules'
+
+OUTPUT_DIR="$1"
+OFFERING_NAME="$2"
+VERSION="$3"
+REPO_URL="$4"
+
+if [ -z "${OUTPUT_DIR}" ]; then
+  echo "The output dir is required as the first argument"
+  exit 1
+fi
+
+mkdir -p "${OUTPUT_DIR}"
+OUTPUT_DIR=$(cd "$OUTPUT_DIR"; pwd -P)
+
+if [ -z "${OFFERING_NAME}" ]; then
+  echo "The offering name is required as the second argument"
+  exit 1
+fi
+
+if [ -z "${VERSION}" ]; then
+  VERSION="#VERSION"
+fi
+
+if [ -z "${REPO_SLUG}" ]; then
+  REPO_SLUG="ibm-garage-cloud/ibm-garage-iteration-zero"
+fi
+
+REPO_URL="https://github.com/${REPO_SLUG}"
+
+STAGES_DIRECTORY="stages"
+
+WORKSPACE_BASE="./workspace"
+WORKSPACE_DIR="${WORKSPACE_BASE}/${OFFERING_NAME}"
+mkdir -p "${WORKSPACE_DIR}"
+
+SRC_DIR="./terraform"
+
+ENVIRONMENT_TFVARS="${SRC_DIR}/settings/environment-ibmcloud.tfvars"
+TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
+cat "${ENVIRONMENT_TFVARS}" > "${TFVARS}"
+
+# Read terraform.tfvars to see if cluster_exists, postgres_server_exists, and cluster_type are set
+# If not, get them from the user and write them to a file
+
+CLUSTER_MANAGEMENT="ibmcloud"
+CLUSTER_TYPE="openshift"
+
+# Copy stages over
+cp "${SRC_DIR}/${STAGES_DIRECTORY}/variables.tf" "${WORKSPACE_DIR}"
+cp "${SRC_DIR}/${STAGES_DIRECTORY}"/stage*.tf "${WORKSPACE_DIR}"
+
+# Remove the stages we do not need for stand alone ArgoCD
+rm "${WORKSPACE_DIR}"/stage2-artifactory.tf
+rm "${WORKSPACE_DIR}"/stage2-dashboard.tf
+rm "${WORKSPACE_DIR}"/stage2-image-registry.tf
+rm "${WORKSPACE_DIR}"/stage2-jenkins.tf
+rm "${WORKSPACE_DIR}"/stage2-pactbroker.tf
+rm "${WORKSPACE_DIR}"/stage2-sonarqube.tf
+rm "${WORKSPACE_DIR}"/stage2-sourcecontrol.tf
+rm "${WORKSPACE_DIR}"/stage2-swagger.tf
+rm "${WORKSPACE_DIR}"/stage2-tekton.tf
+rm "${WORKSPACE_DIR}"/stage3-logdna.tf
+rm "${WORKSPACE_DIR}"/stage3-sysdig.tf
+
+cp "${SRC_DIR}"/scripts-workspace/* "${WORKSPACE_DIR}"
+cp README.md "${WORKSPACE_DIR}/SCRIPTS.md"
+cp "${SCRIPT_DIR}/README.md" "${WORKSPACE_DIR}"
+
+echo "  - Creating offering - ${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz"
+cd "${WORKSPACE_BASE}" && tar czf "${OUTPUT_DIR}/${OFFERING_NAME}.tar.gz" "${OFFERING_NAME}"
+cd - 1> /dev/null
+rm -rf "${WORKSPACE_BASE}"
+
+echo "  - Creating offering json - ${OUTPUT_DIR}/offering-${OFFERING_NAME}.json"
+jq \
+  --arg OFFERING "${OFFERING_NAME}" \
+  --arg VERSION "${VERSION}" \
+  --arg REPO_URL "${REPO_URL}" \
+  --arg TGZ_URL "${REPO_URL}/releases/download/${VERSION}/${OFFERING_NAME}.tar.gz" \
+  --rawfile LONG_DESCRIPTION "${SCRIPT_DIR}/README.md" \
+  '.name = $OFFERING | .kinds[0].versions[0] += {version: $VERSION, repo_url: $REPO_URL, tgz_url: $TGZ_URL, long_description: $LONG_DESCRIPTION}' \
+  "${SCRIPT_DIR}/offering.json" \
+  > "${OUTPUT_DIR}/offering-${OFFERING_NAME}.json"
+
+echo 'Build complete .......'

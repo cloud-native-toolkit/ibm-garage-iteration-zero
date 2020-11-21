@@ -60,12 +60,17 @@
               "type": "string",
               "description": "The region where the cluster has been provisioned",
               "options": [
-                {"label": "us-south", "value": "us-south"},
-                {"label": "us-east", "value": "us-east"},
-                {"label": "eu-de", "value": "eu-de"},
-                {"label": "eu-gb", "value": "eu-gb"},
-                {"label": "au-syd", "value": "au-syd"},
-                {"label": "jp-tok", "value": "jp-tok"}
+                {"label":"Sydney","value":,"au-syd"},
+                {"label":"Chennai","value":,"in-che"},
+                {"label":"Osaka","value":,"jp-osa"},
+                {"label":"Tokyo","value":,"jp-tok"},
+                {"label":"Seoul","value":,"kr-seo"},
+                {"label":"Frankfurt","value":,"eu-de"},
+                {"label":"London","value":,"eu-gb"},
+                {"label":"Toronto","value":,"ca-tor"},
+                {"label":"Dallas","value":,"us-south"},
+                {"label":"Washington DC","value":,"us-east"},
+                {"label":"Sao Paolo","value":"br-sao"}
               ],
               "required": true,
               "hidden": false
@@ -154,12 +159,16 @@
               "type": "string",
               "description": "The region where the logdna instance has been provisioned. If not provided this will default to cluster region",
               "options": [
-                {"label": "us-south", "value": "us-south"},
-                {"label": "us-east", "value": "us-east"},
-                {"label": "eu-de", "value": "eu-de"},
-                {"label": "eu-gb", "value": "eu-gb"},
-                {"label": "au-syd", "value": "au-syd"},
-                {"label": "jp-tok", "value": "jp-tok"}
+                {"label":"Sydney","value":,"au-syd"},
+                {"label":"Chennai","value":,"in-che"},
+                {"label":"Tokyo","value":,"jp-tok"},
+                {"label":"Seoul","value":,"kr-seo"},
+                {"label":"Frankfurt","value":,"eu-de"},
+                {"label":"London","value":,"eu-gb"},
+                {"label":"Toronto","value":,"ca-tor"},
+                {"label":"Dallas","value":,"us-south"},
+                {"label":"Washington DC","value":,"us-east"},
+                {"label":"Sao Paolo","value":"br-sao"}
               ],
               "required": false,
               "hidden": false
@@ -184,12 +193,16 @@
               "type": "string",
               "description": "The region where the sysdig instance will be/has been provisioned. If not provided this will default to the overall region",
               "options": [
-                {"label": "us-south", "value": "us-south"},
-                {"label": "us-east", "value": "us-east"},
-                {"label": "eu-de", "value": "eu-de"},
-                {"label": "eu-gb", "value": "eu-gb"},
-                {"label": "au-syd", "value": "au-syd"},
-                {"label": "jp-tok", "value": "jp-tok"}
+                {"label":"Sydney","value":,"au-syd"},
+                {"label":"Chennai","value":,"in-che"},
+                {"label":"Tokyo","value":,"jp-tok"},
+                {"label":"Seoul","value":,"kr-seo"},
+                {"label":"Frankfurt","value":,"eu-de"},
+                {"label":"London","value":,"eu-gb"},
+                {"label":"Toronto","value":,"ca-tor"},
+                {"label":"Dallas","value":,"us-south"},
+                {"label":"Washington DC","value":,"us-east"},
+                {"label":"Sao Paolo","value":"br-sao"}
               ],
               "required": false,
               "hidden": false
