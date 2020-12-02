@@ -1,5 +1,5 @@
 module "dev_infrastructure_logdna" {
-  source = "github.com/ibm-garage-cloud/terraform-ibm-logdna.git?ref=v2.4.0"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-logdna.git?ref=v2.4.3"
 
   cluster_name             = module.dev_cluster.name
   cluster_id               = module.dev_cluster.id
