@@ -228,3 +228,9 @@ variable "source_control_url" {
   description = "The url to the source control system"
   default     = "https://github.com"
 }
+
+variable "storage_class" {
+  type        = string
+  description = "The storage class of the persistence volume claim"
+  default     = ""
+}
