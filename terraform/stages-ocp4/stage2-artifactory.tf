@@ -7,4 +7,5 @@ module "dev_tools_artifactory" {
   tls_secret_name          = module.dev_cluster.tls_secret_name
   releases_namespace       = module.dev_tools_namespace.name
   service_account          = "artifactory-artifactory"
+  storage_class            = var.storage_class
 }
