@@ -1,5 +1,5 @@
 module "dev_tools_tekton_release" {
-  source = "github.com/ibm-garage-cloud/terraform-tools-tekton.git?ref=v2.0.1"
+  source = "github.com/ibm-garage-cloud/terraform-tools-tekton.git?ref=v2.0.2"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
@@ -8,7 +8,7 @@ module "dev_tools_tekton_release" {
 }
 
 module "dev_tools_tekton_resources" {
-  source = "github.com/ibm-garage-cloud/terraform-tools-tekton-resources.git?ref=v2.1.11"
+  source = "github.com/ibm-garage-cloud/terraform-tools-tekton-resources.git?ref=v2.2.0"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path

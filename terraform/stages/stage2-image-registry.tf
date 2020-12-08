@@ -13,7 +13,7 @@ module "dev_tools_ibm_image_registry" {
 }
 
 module "dev_tools_ocp_image_registry" {
-  source = "github.com/ibm-garage-cloud/terraform-ocp-image-registry.git?ref=v1.2.1"
+  source = "github.com/ibm-garage-cloud/terraform-ocp-image-registry.git?ref=v1.2.2"
 
   cluster_type_code   = module.dev_cluster.type_code
   config_file_path    = module.dev_cluster.config_file_path
@@ -22,7 +22,7 @@ module "dev_tools_ocp_image_registry" {
 }
 
 module "dev_tools_k8s_image_registry" {
-  source = "github.com/ibm-garage-cloud/terraform-k8s-image-registry.git?ref=v1.1.4"
+  source = "github.com/ibm-garage-cloud/terraform-k8s-image-registry.git?ref=v1.1.5"
 
   cluster_type_code   = module.dev_cluster.type_code
   config_file_path    = module.dev_cluster.config_file_path
