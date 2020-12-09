@@ -3,7 +3,7 @@ name: Create PR
 # Controls when the action will run. Triggered when another module posts a repository_dispatch event
 on:
   repository_dispatch:
-    types: [new_version]
+    types: [new_release]
 
 jobs:
   update-modules:
