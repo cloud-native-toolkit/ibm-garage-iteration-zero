@@ -1,0 +1,46 @@
+name: Create PR
+
+# Controls when the action will run. Triggered when another module posts a repository_dispatch event
+on:
+  repository_dispatch:
+    types: [new_version]
+
+jobs:
+  update-modules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Update modules
+        run: ./.github/scripts/update-modules.sh ${{ github.event.client_payload.repo }}
+        env:
+          GITHUB_USERNAME: ${{ secrets.USERNAME }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
+      - name: Generate commit message
+        id: setup
+        run: |
+          TAG=$(echo "${{ github.event.client_payload.ref }}" | sed -E "s~refs/tags/(.*)~\1~g")
+          PATCH=$(echo "$TAG" | sed -E "s/v{0,1}[0-9]+[.][0-9]+[.]([0-9]+)/\1/g")
+
+          if [[ "$PATCH" -eq 0 ]]; then
+            CHANGE="feature"
+          else
+            CHANGE="bug"
+          fi
+
+          MESSAGE="Updates ${{ github.event.client_payload.repo }} to $TAG ${{ github.event.client_payload.repo }}#${{ github.event.client_payload.sha }}"
+
+          echo "::set-output name=message::${MESSAGE}"
+          echo "::set-output name=change::${CHANGE}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: "${{ steps.setup.outputs.message }}"
+          token: ${{ secrets.TOKEN }}
+          branch: "${{ github.event.client_payload.ref }}"
+          delete-branch: true
+          labels: ${{ steps.setup.outputs.change }},minor,automerge
+          reviewers: ${{ secrets.ASSIGNEES }}
