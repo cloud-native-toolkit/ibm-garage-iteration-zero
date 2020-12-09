@@ -54,5 +54,5 @@ jobs:
           token: ${{ secrets.TOKEN }}
           branch: "${{ github.event.client_payload.repo }}"
           delete-branch: true
-          labels: ${{ steps.setup.outputs.change }},minor,automerge
+          labels: ${{ steps.setup.outputs.change }},minor
           reviewers: ${{ secrets.ASSIGNEES }}
