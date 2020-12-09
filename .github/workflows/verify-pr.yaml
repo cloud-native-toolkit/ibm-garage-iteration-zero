@@ -90,6 +90,7 @@ jobs:
 #          fi
   label:
     # The type of runner that the job will run on
+    needs: verify
     runs-on: ubuntu-latest
 
     steps:
