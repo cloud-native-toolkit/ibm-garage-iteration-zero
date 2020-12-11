@@ -13,16 +13,46 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Update modules
-        run: ./.github/scripts/update-modules.sh
+        run: ./.github/scripts/update-modules.sh ${{ github.event.client_payload.repo }}
         env:
           GITHUB_USERNAME: ${{ secrets.USERNAME }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
+      - name: Generate commit message
+        id: setup
+        run: |
+          TAG=$(echo "${{ github.event.client_payload.ref }}" | sed -E "s~refs/tags/(.*)~\1~g")
+          PATCH=$(echo "$TAG" | sed -E "s/v{0,1}[0-9]+[.][0-9]+[.]([0-9]+)/\1/g")
+
+          if [[ "$PATCH" -eq 0 ]]; then
+            CHANGE="feature"
+          else
+            CHANGE="bug"
+          fi
+
+          if [[ -n "${TAG}" ]]; then
+            MESSAGE="Updates ${{ github.event.client_payload.repo }} module to $TAG"
+          else
+            MESSAGE="Updates ${{ github.event.client_payload.repo }} module"
+          fi
+          BODY="${{ github.event.client_payload.repo }}#${{ github.event.client_payload.sha }}"
+
+          echo "TAG: $TAG"
+          echo "CHANGE: $CHANGE"
+          echo "MESSAGE: $MESSAGE"
+
+          echo "::set-output name=message::${MESSAGE}"
+          echo "::set-output name=body::${BODY}"
+          echo "::set-output name=change::${CHANGE}"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
+          title: "${{ steps.setup.outputs.message }}"
+          body: "${{ steps.setup.outputs.body }}"
+          commit-message: "${{ steps.setup.outputs.message }}"
           token: ${{ secrets.TOKEN }}
-          branch: patch
+          branch: "${{ github.event.client_payload.repo }}"
           delete-branch: true
-          labels: chore,patch,automerge
+          labels: ${{ steps.setup.outputs.change }},minor
           reviewers: ${{ secrets.ASSIGNEES }}

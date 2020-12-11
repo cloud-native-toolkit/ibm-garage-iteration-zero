@@ -1,5 +1,5 @@
 module "dev_tools_sonarqube" {
-  source = "github.com/ibm-garage-cloud/terraform-tools-sonarqube.git?ref=v1.9.1"
+  source = "github.com/ibm-garage-cloud/terraform-tools-sonarqube.git?ref=v1.9.2"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file      = module.dev_cluster.config_file_path

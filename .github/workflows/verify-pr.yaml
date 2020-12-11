@@ -88,3 +88,12 @@ jobs:
 #            diff $PWD/cluster-state/before $PWD/cluster-state/after
 #            exit 1
 #          fi
+  label:
+    # The type of runner that the job will run on
+    needs: verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/labeler@main
+        with:
+          repo-token: "${{ secrets.TOKEN }}"
