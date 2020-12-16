@@ -97,7 +97,7 @@
             {
               "key": "flavor",
               "type": "string",
-              "default_value": "m3c.4x32",
+              "default_value": "mx2.4x32",
               "description": "The machine flavor that should be provisioned for each worker node",
               "options": [
                 {"label": "bx2.16x64", "value": "bx2.16x64"},
