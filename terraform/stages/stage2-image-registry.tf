@@ -1,5 +1,5 @@
 module "dev_tools_ibm_image_registry" {
-  source = "github.com/ibm-garage-cloud/terraform-ibm-image-registry.git?ref=v1.3.1"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-image-registry.git?ref=v1.3.2"
 
   resource_group_name = module.dev_cluster.resource_group_name
   cluster_region      = module.dev_cluster.region
