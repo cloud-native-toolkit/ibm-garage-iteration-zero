@@ -29,11 +29,13 @@ if [ -z "${CATALOG_NAME}" ]; then
 fi
 
 if [ -z "${GIT_REPO}" ]; then
-  GIT_REPO="#GIT_REPO"
+  #GIT_REPO="#GIT_REPO"
+  GIT_REPO="ibm-garage-cloud/ibm-garage-iteration-zero"
 fi
 
 if [ -z "${OFFERINGS}" ]; then
-  OFFERINGS="#OFFERINGS"
+  #OFFERINGS="#OFFERINGS"
+  OFFERINGS="offering-cloudnative-toolkit,offering-cloudnative-toolkit-all-in-one,offering-cluster-classic,offering-cluster-vpc,offering-sre-tools"
 fi
 
 # input validation, Version is provided when the packaged release of this repository is created
@@ -42,8 +44,8 @@ if [ -z "${VERSION}" ]; then
 fi
 
 if [ "$VERSION" == "latest" ]; then
-  VERSION=$(curl -s "https://api.github.com/repos/${GIT_REPO}/releases/latest" | grep "tag_name" | sed -E "s/.*\"tag_name\": \"(.*)\".*/\1/")
-  echo "The latest version is $VERSION"
+  VERSION=$(curl -sL "https://api.github.com/repos/${GIT_REPO}/releases/latest" | grep "tag_name" | sed -E "s/.*\"tag_name\": \"(.*)\".*/\1/")
+  echo "  The latest version is $VERSION"
 fi
 
 # Get a Bearer Token from IBM Cloud IAM
@@ -59,8 +61,14 @@ TOKEN=$(echo $IAM_AUTH |  jq '.access_token' | tr -d '"')
 BEARER_TOKEN="Bearer ${TOKEN}"
 
 # credentials to post data to cloudant for bulk document upload
-ACURL="curl -s -g -H 'Authorization: ${BEARER_TOKEN}'"
+ACURL="curl -s -g -H 'Authorization: ${BEARER_TOKEN}' -H 'Content-Type: application/json'"
 HOST="https://cm.globalcatalog.cloud.ibm.com/api/v1-beta"
+
+TMP_DIR="./offerings-tmp"
+if ! mkdir -p "${TMP_DIR}"; then
+  echo "Error creating tmp dir: ${TMP_DIR}"
+  exit 1
+fi
 
 # Get List of Catalogs and match to Catalog name
 # If the catalog does not exist create it and use that GUID for the Offering Registration
@@ -77,24 +85,56 @@ for row in $(echo "${CATALOGS}" | jq -r '.resources[] | @base64'); do
 
   if [[ "$(_jq '.label')" == ${CATALOG_NAME} ]]; then
     CATALOG_ID=$(_jq '.id')
-    echo "Found ${CATALOG_NAME} creating offering inside this one"
+    echo "  Found catalog: ${CATALOG_NAME}"
   fi
 done
 
 # Lets check if we have a Catalog
 if [ -z "${CATALOG_ID}" ]; then
   echo "Catalog does not exist, please create one with the IBM Console->Manage->Catalogs view "
-  exit
+  exit 1
 fi
+
+eval "${ACURL}" -X GET "${HOST}/catalogs/${CATALOG_ID}/offerings" | jq -r '.resources' > "${TMP_DIR}/existing-offerings.json"
 
 # Define the Offering and relationship to the Catalog
 IFS=','; for OFFERING in ${OFFERINGS}; do
+  echo "Retrieving offering: https://github.com/${GIT_REPO}/releases/download/${VERSION}/${OFFERING}.json"
   curl -sL "https://github.com/${GIT_REPO}/releases/download/${VERSION}/${OFFERING}.json" | \
     jq --arg CATALOG_ID "${CATALOG_ID}" '.catalog_id = $CATALOG_ID | .kinds[0].versions[0].catalog_id = $CATALOG_ID' \
-    > offering.json
+    > "${TMP_DIR}/${OFFERING}.json"
 
-  echo "Creating ${OFFERING} offering in catalog ${CATALOG_ID}"
-  CATALOGS=$(eval ${ACURL} -location -request POST "${HOST}/catalogs/${CATALOG_ID}/offerings" -H 'Content-Type: application/json' --data "@offering.json")
+  OFFERING_NAME=$(cat "${TMP_DIR}/${OFFERING}.json" | jq -r '.name')
+  OFFERING_VERSION=$(cat "${TMP_DIR}/${OFFERING}.json" | jq -r '.kinds | .[] | .versions | .[] | .version' | head -1)
+  echo "  Processing offering: ${OFFERING_NAME}"
+
+  EXISTING_OFFERING=$(cat "${TMP_DIR}/existing-offerings.json" | jq -r --arg NAME "${OFFERING_NAME}" '.[] | select(.name == $NAME)')
+
+  MATCHING_VERSION=$(echo "${EXISTING_OFFERING}" | jq -r --arg VERSION "${OFFERING_VERSION}" '.kinds | .[] | .versions | .[] | select(.version == $VERSION) | .version')
+
+  if [[ -n "${MATCHING_VERSION}" ]]; then
+    echo "  Nothing to do. Offering version already registered: ${OFFERING_VERSION}"
+  elif [[ -n "${EXISTING_OFFERING}" ]]; then
+    OFFERING_ID=$(echo "${EXISTING_OFFERING}" | jq -r '.id')
+
+    NEW_VERSION=$(cat "${TMP_DIR}/${OFFERING}.json" | jq -r '.kinds | .[] | .versions')
+    echo "${EXISTING_OFFERING}" | jq --argjson NEW_VERSION "${NEW_VERSION}" '.kinds[0].versions += $NEW_VERSION' > "${TMP_DIR}/${OFFERING}-update.json"
+
+    echo "  Updating existing offering ${OFFERING_ID} in catalog ${CATALOG_ID} with new version: ${OFFERING_VERSION}"
+    if eval ${ACURL} -L -X PUT "${HOST}/catalogs/${CATALOG_ID}/offerings/${OFFERING_ID}" --data "@${TMP_DIR}/${OFFERING}-update.json" 1> /dev/null 2> /dev/null; then
+      echo "  Offering updated successfully"
+    else
+      echo "  Error updating offering: ${OFFERING_NAME} ${OFFERING_ID}"
+    fi
+  else
+    echo "  Creating new ${OFFERING} offering in catalog ${CATALOG_ID}"
+    if eval ${ACURL} -L -X POST "${HOST}/catalogs/${CATALOG_ID}/offerings" --data "@${TMP_DIR}/${OFFERING}.json" 1> /dev/null 2> /dev/null; then
+      echo "  Offering created successfully"
+    else
+      echo "  Error creating offering: ${OFFERING_NAME}"
+    fi
+  fi
 done
 
 echo "Offering Registration Complete ...!"
+rm -rf "${TMP_DIR}"
