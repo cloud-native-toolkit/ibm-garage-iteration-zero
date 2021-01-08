@@ -29,13 +29,11 @@ if [ -z "${CATALOG_NAME}" ]; then
 fi
 
 if [ -z "${GIT_REPO}" ]; then
-  #GIT_REPO="#GIT_REPO"
-  GIT_REPO="ibm-garage-cloud/ibm-garage-iteration-zero"
+  GIT_REPO="#GIT_REPO"
 fi
 
 if [ -z "${OFFERINGS}" ]; then
-  #OFFERINGS="#OFFERINGS"
-  OFFERINGS="offering-cloudnative-toolkit,offering-cloudnative-toolkit-all-in-one,offering-cluster-classic,offering-cluster-vpc,offering-sre-tools"
+  OFFERINGS="#OFFERINGS"
 fi
 
 # input validation, Version is provided when the packaged release of this repository is created
