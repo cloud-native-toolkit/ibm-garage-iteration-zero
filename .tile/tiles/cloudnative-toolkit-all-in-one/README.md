@@ -87,7 +87,7 @@ the source control repository:
 |private_vlan_id           |The existing private vlan id that should be used by the cluster                  |2440701|
 |public_vlan_id            |The existing public vlan id that should be used by the cluster                   |2440699|
 |vlan_datacenter           |The datacenter where the public and private vlans exist                          |dal10|
-|vpc_zone_names            |Comma-separated list of the vpc zones where the cluster will be provisioned.     |us-south-1,us-south-2,us-south-3|
+|vpc_zone_count            |The number of vpc zones to include in the cluster.                               |3|
 |flavor                    |The machine flavor that should be provisioned for each worker node               |m3c.4x32|
 |cluster_worker_count      |The number of worker nodes that will be created in each VPC zone                 |3|
 |registry_type             |The type of image registry (icr, ocp, other, none)                               |ocp|

@@ -199,10 +199,10 @@ variable "sysdig_region" {
   default     = ""
 }
 
-variable "vpc_zone_names" {
+variable "vpc_zone_count" {
   type        = string
-  description = "Comma-separated list of vpc zone names"
-  default     = ""
+  description = "The number of vpc zones (0-3)"
+  default     = "0"
 }
 
 variable "cluster_provision_cos" {
