@@ -15,7 +15,7 @@ module "dev_cluster" {
   ibmcloud_api_key        = var.ibmcloud_api_key
   name_prefix             = var.name_prefix
   is_vpc                  = var.vpc_cluster == "true"
-  vpc_zone_names          = split(",", var.vpc_zone_names)
+  vpc_zone_count          = tonumber(var.vpc_zone_count)
   provision_cos           = var.cluster_provision_cos == "true"
   cos_name                = var.cos_name
 }

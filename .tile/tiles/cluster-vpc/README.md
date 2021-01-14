@@ -36,6 +36,6 @@ found at [https://cloud.ibm.com/docs/account?topic=account-userapikey#create_use
 |region                    |The region where the cluster will be provisioned                                | "us-south", "us-east", "eu-de", "eu-gb", "au-syd", or "jp-tok" |
 |cluster_name              |The name that will be given to the cluster                                      |my-cluster|
 |cluster_type              |The type of cluster that will be provisioned                                    |ocp45
-|vpc_zone_names            |Comma-separated list of the vpc zones where the cluster will be provisioned.    |us-south-1,us-south-2,us-south-3|
+|vpc_zone_count            |The number of vpc zones that will be provisioned in the cluster.                |3|
 |flavor                    |The machine flavor that should be provisioned for each worker node              |m3c.4x32|
 |cluster_worker_count      |The number of worker nodes that will be created in each VPC zone                |3|
