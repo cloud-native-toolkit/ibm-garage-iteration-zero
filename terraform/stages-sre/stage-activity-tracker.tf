@@ -1,5 +1,5 @@
 module "sre_activity-tracker" {
-  source = "github.com/ibm-garage-cloud/terraform-ibm-activity-tracker.git?ref=v1.1.3"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-activity-tracker.git?ref=v1.1.4"
 
   resource_group_name      = var.resource_group_name
   resource_location        = var.region
