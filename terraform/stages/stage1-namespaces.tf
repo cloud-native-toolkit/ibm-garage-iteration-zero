@@ -1,5 +1,5 @@
 module "dev_tools_namespace" {
-  source = "github.com/ibm-garage-cloud/terraform-k8s-namespace.git?ref=v2.6.0"
+  source = "github.com/ibm-garage-cloud/terraform-k8s-namespace.git?ref=v2.7.1"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
@@ -8,7 +8,7 @@ module "dev_tools_namespace" {
 }
 
 module "dev_sre_namespace" {
-  source = "github.com/ibm-garage-cloud/terraform-k8s-namespace.git?ref=v2.6.0"
+  source = "github.com/ibm-garage-cloud/terraform-k8s-namespace.git?ref=v2.7.1"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
