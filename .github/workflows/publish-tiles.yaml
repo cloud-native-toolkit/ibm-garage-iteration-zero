@@ -11,7 +11,7 @@ jobs:
 
     env:
       DIST_DIR: ./dist
-      OFFERINGS: offering-cloudnative-toolkit,offering-sre-tools,offering-cluster-classic,offering-cluster-vpc,offering-cloudnative-toolkit-all-in-one,offering-resource-group,offering-access-group
+      OFFERINGS: offering-cloudnative-toolkit,offering-sre-tools,offering-cluster-classic,offering-cluster-vpc,offering-cloudnative-toolkit-all-in-one,offering-resource-group,offering-access-group,offering-invite-users
 
     steps:
       - name: Checkout
@@ -46,6 +46,7 @@ jobs:
         offering:
           - resource-group
           - access-group
+          - invite-users
           - sre-tools
           - cluster-classic
           - cluster-vpc
