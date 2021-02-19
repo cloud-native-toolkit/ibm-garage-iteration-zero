@@ -38,12 +38,26 @@ Once a catalog has been created, offerings can be added to the catalog.
 ---
 
 Run the following command to install the offering tiles into an existing catalog. You will be prompted for your IBM Cloud API Key. Alternatively, the IBM Cloud API Key can be provided to the script by setting the value in an environment variable named `API_KEY`.
-    
-```shell script
-CATALOG_NAME="Team Catalog"
-curl -Ls https://raw.githubusercontent.com/ibm-garage-cloud/ibm-garage-iteration-zero/master/install/install-tiles.sh | bash - "${CATALOG_NAME}"
-```
 
+1. Download the install script:
+
+    ```shell script
+    curl -Lso install-tiles.sh https://raw.githubusercontent.com/ibm-garage-cloud/ibm-garage-iteration-zero/master/install/install-tiles.sh     
+    ```
+
+2. Make the script executable:
+
+    ```shell
+    chmod +x install-tiles.sh
+    ```
+   
+3. Execute the script to install the tiles:
+
+    ```shell
+    CATALOG_NAME="Team Catalog"
+    ./install-tiles.sh "${CATALOG_NAME}"
+    ```
+   
 ## Install using a Private Catalog tile
 
 Once a tile has been installed into the IBM Cloud account, it can be executed to provision services and/or 
