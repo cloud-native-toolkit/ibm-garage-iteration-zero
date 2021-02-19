@@ -37,24 +37,12 @@ Once a catalog has been created, offerings can be added to the catalog.
 
 ---
 
-1. Download the current release of `create-catalog-offering.sh` from [latest releases link](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/releases/latest)
+Run the following command to install the offering tiles into an existing catalog. You will be prompted for your IBM Cloud API Key. Alternatively, the IBM Cloud API Key can be provided to the script by setting the value in an environment variable named `API_KEY`.
     
-    ```shell script
-    RELEASE=$(curl -s https://api.github.com/repos/ibm-garage-cloud/ibm-garage-iteration-zero/releases/latest | jq -r '.tag_name')
-    curl -LO "https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/releases/download/${RELEASE}/create-catalog-offering.sh"
-    ```
-
-2. Make the shell script executable
- 
-    ```shell script
-    chmod +x create-catalog-offering.sh
-    ```
-
-3. Run the `create-catalog-offering.sh` script. The script requires two arguments: the API Key and the name of the catalog created previously
-
-    ```shell script
-    ./create-catalog-offering.sh {API_KEY} "Team Catalog"
-    ```
+```shell script
+CATALOG_NAME="Team Catalog"
+curl -Ls https://raw.githubusercontent.com/ibm-garage-cloud/ibm-garage-iteration-zero/master/scripts/install-tiles.sh | bash - "${CATALOG_NAME}"
+```
 
 ## Install using a Private Catalog tile
 
