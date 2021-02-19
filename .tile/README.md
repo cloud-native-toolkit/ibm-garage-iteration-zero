@@ -41,7 +41,7 @@ Run the following command to install the offering tiles into an existing catalog
     
 ```shell script
 CATALOG_NAME="Team Catalog"
-curl -Ls https://raw.githubusercontent.com/ibm-garage-cloud/ibm-garage-iteration-zero/master/scripts/install-tiles.sh | bash - "${CATALOG_NAME}"
+curl -Ls https://raw.githubusercontent.com/ibm-garage-cloud/ibm-garage-iteration-zero/master/install/install-tiles.sh | bash - "${CATALOG_NAME}"
 ```
 
 ## Install using a Private Catalog tile
