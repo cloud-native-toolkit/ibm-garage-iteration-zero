@@ -5,9 +5,9 @@ variable "resource_group_names" {
 }
 
 variable "create_resource_groups" {
-  type        = bool
+  type        = string
   description = "Flag indicating that the resource groups should be created"
-  default     = false
+  default     = "false"
 }
 
 variable "ibmcloud_api_key" {
