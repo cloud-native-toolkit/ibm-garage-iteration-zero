@@ -37,9 +37,13 @@
             },
             {
               "key": "create_resource_groups",
-              "type": "boolean",
+              "type": "string",
               "description": "Flag indicating that the resource groups should be created first",
-              "default_value": false,
+              "default_value": "false",
+              "options": [
+                {"label": "true", "value": "true"},
+                {"label": "false", "value": "false"}
+              ],
               "required": true,
               "hidden": false
             },
