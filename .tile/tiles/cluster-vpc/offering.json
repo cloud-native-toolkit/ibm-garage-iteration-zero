@@ -31,14 +31,15 @@
             {
               "key": "cluster_type",
               "type": "string",
-              "default_value": "ocp45",
+              "default_value": "ocp46",
               "description": "The type of cluster that will be provisioned",
               "options": [
                 {"label": "Kubernetes", "value": "kubernetes"},
                 {"label": "OpenShift 3.x", "value": "ocp3"},
                 {"label": "OpenShift 4.3", "value": "ocp43"},
                 {"label": "OpenShift 4.4", "value": "ocp44"},
-                {"label": "OpenShift 4.5", "value": "ocp45"}
+                {"label": "OpenShift 4.5", "value": "ocp45"},
+                {"label": "OpenShift 4.6", "value": "ocp46"}
               ],
               "required": true,
               "hidden": false
