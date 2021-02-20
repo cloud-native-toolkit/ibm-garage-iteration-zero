@@ -38,7 +38,7 @@
                 {"label": "OpenShift 3.x", "value": "ocp3"},
                 {"label": "OpenShift 4.3", "value": "ocp43"},
                 {"label": "OpenShift 4.4", "value": "ocp44"},
-                {"label": "OpenShift 4.5", "value": "ocp45"}
+                {"label": "OpenShift 4.5", "value": "ocp45"},
                 {"label": "OpenShift 4.6", "value": "ocp46"}
               ],
               "required": true,
