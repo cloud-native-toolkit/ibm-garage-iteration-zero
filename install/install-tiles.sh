@@ -8,52 +8,66 @@
 #
 ###################################################################################
 echo "IBM Cloud Private Catalog Offering Creation!"
-echo "This will create or update a set of offering tiles in an existing catalog"
+echo ""
+echo "This will create or update a set of offering tiles in an existing catalog."
+echo "  CATALOG_NAME, API_KEY, GIT_REPO, VERSION, and OFFERINGS can all be provided via environment variables"
 echo ""
 
-# the API_KEY and Catalog Name are required to run this script
-CATALOG_NAME="$1"
-VERSION="$2"
-OFFERINGS="$3"
+# CATALOG_NAME input
+if [[ -z "${CATALOG_NAME}" ]]; then
+  read -rp "Please provide the CATALOG_NAME: " CATALOG_NAME
 
-# input validation
-if [ -z "${CATALOG_NAME}" ]; then
-    echo "Please provide your CATALOG_NAME as the first parameter"
-    exit
+  if [[ -n "${CATALOG_NAME}" ]]; then
+    echo ""
+  fi
+else
+  echo "Using CATALOG_NAME: ${CATALOG_NAME}"
 fi
 
-# input validation
-if [ -z "${API_KEY}" ]; then
-    read -rsp "Please provide your API_KEY: " API_KEY
+while [[ -z "${CATALOG_NAME}" ]]; do
+  read -rp "  The CATALOG_NAME cannot be empty. Try again: " CATALOG_NAME
+
+  if [[ -n "${CATALOG_NAME}" ]]; then
     echo ""
-
-    if [ -n "${API_KEY}" ]; then
-      echo ""
-    fi
-fi
-
-while [ -z "${API_KEY}" ]; do
-    read -rsp "  The API_KEY cannot be empty. Try again: " API_KEY
-    echo ""
-
-    if [ -n "${API_KEY}" ]; then
-      echo ""
-    fi
+  fi
 done
 
-if [ -z "${GIT_REPO}" ]; then
+# input validation
+if [[ -z "${API_KEY}" ]]; then
+  read -rsp "Please provide your API_KEY: " API_KEY
+  echo ""
+
+  if [[ -n "${API_KEY}" ]]; then
+    echo ""
+  fi
+fi
+
+while [[ -z "${API_KEY}" ]]; do
+  read -rsp "  The API_KEY cannot be empty. Try again: " API_KEY
+  echo ""
+
+  if [[ -n "${API_KEY}" ]]; then
+    echo ""
+  fi
+done
+
+if [[ -z "${GIT_REPO}" ]]; then
   GIT_REPO="ibm-garage-cloud/ibm-garage-iteration-zero"
 fi
 
+echo "Using GIT_REPO: ${GIT_REPO}"
+
 # input validation, Version is provided when the packaged release of this repository is created
-if [ -z "${VERSION}" ]; then
+if [[ -z "${VERSION}" ]]; then
   VERSION="latest"
 fi
 
-if [ "$VERSION" == "latest" ] || [ -z "${OFFERINGS}" ]; then
+echo "Using VERSION: ${VERSION}"
+
+if [[ "${VERSION}" == "latest" ]] || [[ -z "${OFFERINGS}" ]]; then
   echo "Retrieving version and offerings"
 
-  if [ "$VERSION" == "latest" ]; then
+  if [[ "${VERSION}" == "latest" ]]; then
     RELEASE_URL="https://api.github.com/repos/${GIT_REPO}/releases/latest"
   else
     RELEASE_URL="https://api.github.com/repos/${GIT_REPO}/releases/tags/${VERSION}"
@@ -61,12 +75,12 @@ if [ "$VERSION" == "latest" ] || [ -z "${OFFERINGS}" ]; then
 
   RELEASE_JSON=$(curl -sL "${RELEASE_URL}" | jq -c '{tag_name, assets}')
 
-  if [ "$VERSION" == "latest" ]; then
+  if [[ "${VERSION}" == "latest" ]]; then
     VERSION=$(echo "${RELEASE_JSON}" | jq -r '.tag_name')
     echo "  The latest version is $VERSION"
   fi
 
-  if [ -z "${OFFERINGS}" ]; then
+  if [[ -z "${OFFERINGS}" ]]; then
     OFFERINGS=$(echo "$RELEASE_JSON" | jq -r '.assets | .[] | .name' | grep -E "offering-.*json" | sed -E "s/.json$//g" | paste -sd "," -)
 
     echo "  Found offerings: ${OFFERINGS}"
@@ -82,7 +96,7 @@ IAM_AUTH=$(curl -s -k -X POST \
   "https://iam.cloud.ibm.com/identity/token")
 
 # Extract the Bearer Token from IAM response
-TOKEN=$(echo $IAM_AUTH |  jq '.access_token' | tr -d '"')
+TOKEN=$(echo "${IAM_AUTH}" |  jq '.access_token' | tr -d '"')
 BEARER_TOKEN="Bearer ${TOKEN}"
 
 # credentials to post data to cloudant for bulk document upload
@@ -100,22 +114,27 @@ fi
 echo "Retrieving Catalogs"
 CATALOGS=$(eval "${ACURL}" -X GET "${HOST}/catalogs")
 
+if [ -z "${CATALOGS}" ]; then
+  echo "  Unable to retrieve catalogs. Check your API_KEY."
+  exit 1
+fi
+
 # Lets find the Catalog Label and match it to the one we have passed in
 for row in $(echo "${CATALOGS}" | jq -r '.resources[] | @base64'); do
   _jq() {
-   echo ${row} | base64 --decode | jq -r ${1}
+    echo "${row}" | base64 --decode | jq -r "${1}"
   }
 
 #  echo $(_jq '.label')
 
-  if [[ "$(_jq '.label')" == ${CATALOG_NAME} ]]; then
+  if [[ "$(_jq '.label')" == "${CATALOG_NAME}" ]]; then
     CATALOG_ID=$(_jq '.id')
     echo "  Found catalog: ${CATALOG_NAME}"
   fi
 done
 
 # Lets check if we have a Catalog
-if [ -z "${CATALOG_ID}" ]; then
+if [[ -z "${CATALOG_ID}" ]]; then
   echo "Catalog does not exist, please create one with the IBM Console->Manage->Catalogs view "
   exit 1
 fi
