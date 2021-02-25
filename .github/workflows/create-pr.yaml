@@ -56,3 +56,4 @@ jobs:
           delete-branch: true
           labels: ${{ steps.setup.outputs.change }},minor
           reviewers: ${{ secrets.ASSIGNEES }}
+          signoff: true
