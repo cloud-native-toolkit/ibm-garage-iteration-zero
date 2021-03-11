@@ -32,6 +32,7 @@ jobs:
         with:
           clusterId: ${{ matrix.platform }}
           validateDeployScript: .github/scripts/validate-deploy.sh
+          testStagesDir: ./terraform/stages
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
@@ -41,6 +42,7 @@ jobs:
         if: ${{ always() }}
         with:
           clusterId: ${{ matrix.platform }}
+          testStagesDir: ./terraform/stages
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
