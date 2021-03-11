@@ -1,7 +1,7 @@
 name: Verify PR
 
 # Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# events but only for the main branch
 on:
   pull_request:
     branches: [ master ]
@@ -9,85 +9,42 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   verify:
-    # The type of runner that the job will run on
     if: ${{ !contains( github.event.pull_request.labels.*.name, 'skip ci' ) }}
     runs-on: ubuntu-latest
     container: quay.io/ibmgaragecloud/cli-tools:v0.10.0-lite
 
     strategy:
       matrix:
-        platform: [ocp44_vpc]
+        platform: [ocp4_latest]
       #      max-parallel: 1
       fail-fast: false
 
     env:
       HOME: /home/devops
-      NAMESPACE: ${{ secrets.NAMESPACE }}
-      TF_VAR_tools_namespace: ${{ secrets.NAMESPACE }}
-      TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
-      IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
-      TF_VAR_resource_group_name: ${{ secrets.TEST_RESOURCE_GROUP }}
-      TF_VAR_region: ${{ secrets.TEST_REGION }}
-      TF_VAR_cluster_name: ${{ secrets[format('TEST_CLUSTER_{0}', matrix.platform)] }}
-      TF_VAR_cluster_type: ${{ matrix.platform }}
-      TF_VAR_vpc_cluster: ${{ endswith(matrix.platform, 'vpc') }}
-      TF_VAR_logdna_exists: "true"
-      TF_VAR_sysdig_exists: "true"
-      TF_VAR_cluster_exists: "true"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Validate config
-        run: |
-          echo "Github sha: ${{ github.sha }}"
-          echo "Github ref: ${{ github.ref }}"
-          if [ -z "${NAMESPACE}" ]; then
-            echo "The NAMESPACE secret has not been set within the Git repo"
-            exit 1
-          fi
-
       - name: Checkout
         uses: actions/checkout@v1
 
-      # Setups up the task
-      - name: Setup ${{ matrix.platform }}
-        run: |
-          ls -lA
-          mkdir -p /tmp/workspace
-          cp -R ./terraform/scripts-workspace/* /tmp/workspace
-          cp -R ./terraform/stages/* /tmp/workspace
-          cp -R ./test/stages/* /tmp/workspace
+      - name: Verify deploy on ${{ matrix.platform }}
+        uses: ibm-garage-cloud/action-module-verify-deploy@main
+        with:
+          clusterId: ${{ matrix.platform }}
+          validateDeployScript: .github/scripts/validate-deploy.sh
+        env:
+          TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+          IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
-      # Deploy
-      - name: Deploy ${{ matrix.platform }}
-        run: |
-          cd /tmp/workspace
-          ./apply.sh
+      - name: Verify destroy on ${{ matrix.platform }}
+        uses: ibm-garage-cloud/action-module-verify-destroy@main
+        if: ${{ always() }}
+        with:
+          clusterId: ${{ matrix.platform }}
+        env:
+          TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+          IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
-      # Test deploy
-#      - name: Validate deploy ${{ matrix.platform }}
-#        run: |
-#          cd /tmp/workspace
-#          ./validate-deploy.sh ${{ matrix.platform }} ${{ env.NAMESPACE }}
-
-      # Destroy
-#      - name: Destroy ${{ matrix.platform }}
-#        run: |
-#          cd /tmp/workspace
-#          ./destroy.sh
-
-      # Test destroy
-#      - name: Validate destroy ${{ matrix.platform }}
-#        run: |
-#          cd /tmp/workspace
-#          ./capture-cluster-state.sh ${{ matrix.platform }} $PWD/cluster-state/before $PWD/cluster-state/after
-#          if diff -q $PWD/cluster-state/before $PWD/cluster-state/after 1> /dev/null; then
-#            echo "Destroy completed successfully"
-#          else
-#            echo "Resources don't match"
-#            diff $PWD/cluster-state/before $PWD/cluster-state/after
-#            exit 1
-#          fi
   label:
     # The type of runner that the job will run on
     needs: verify
