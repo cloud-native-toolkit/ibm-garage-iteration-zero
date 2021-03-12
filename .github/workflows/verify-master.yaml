@@ -1,0 +1,57 @@
+name: Verify PR
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  schedule:
+    - cron: "0 7 * * *"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    container: quay.io/ibmgaragecloud/cli-tools:v0.10.0-lite
+
+    strategy:
+      matrix:
+        platform: [ocp4_latest]
+      fail-fast: false
+
+    env:
+      HOME: /home/devops
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Verify deploy on ${{ matrix.platform }}
+        uses: ibm-garage-cloud/action-module-verify-deploy@main
+        with:
+          clusterId: ${{ matrix.platform }}
+          validateDeployScript: .github/scripts/validate-deploy.sh
+          testStagesDir: ./terraform/stages
+        env:
+          TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+          IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+
+      - name: Verify destroy on ${{ matrix.platform }}
+        uses: ibm-garage-cloud/action-module-verify-destroy@main
+        if: ${{ always() }}
+        with:
+          clusterId: ${{ matrix.platform }}
+          testStagesDir: ./terraform/stages
+        env:
+          TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+          IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+
+      - name: Slack Notification
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2.0.2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: "cntkBot"
+          SLACK_ICON_EMOJI: ":cloudwb:"
+          SLACK_TITLE: "iZero verify failed"
+          SLACK_MESSAGE: "Scheduled Iteration Zero verification failed"
+          MSG_MINIMAL: true
