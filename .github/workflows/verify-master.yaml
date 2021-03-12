@@ -56,5 +56,5 @@ jobs:
           SLACK_USERNAME: "cntkBot"
           SLACK_ICON_EMOJI: ":cloudwb:"
           SLACK_TITLE: "iZero verify failed"
-          SLACK_MESSAGE: "Scheduled Iteration Zero verification failed"
+          SLACK_MESSAGE: "Iteration Zero deploy verification failed"
           MSG_MINIMAL: true
