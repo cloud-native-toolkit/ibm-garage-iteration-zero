@@ -4,6 +4,8 @@
 
 ![Verify workflow](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/actions/workflows/verify-master.yaml/badge.svg)
 
+![](https://byob.yarr.is/ibm-garage-cloud/ibm-garage-iteration-zero/time)
+
 ## Iteration Zero for IBM Cloud
 
 This repository contains infrastructure as code (IasC) scripting to create an IBM Garage Cloud Native Toolkit 
