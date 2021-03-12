@@ -2,6 +2,8 @@
 
 ![Latest release](https://img.shields.io/github/v/release/ibm-garage-cloud/ibm-garage-iteration-zero?sort=semver)
 
+![Verify workflow](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/workflows/verify-master.yml/badge.svg)
+
 ## Iteration Zero for IBM Cloud
 
 This repository contains infrastructure as code (IasC) scripting to create an IBM Garage Cloud Native Toolkit 
