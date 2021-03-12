@@ -1,22 +1,23 @@
-name: Verify PR
+name: Verify
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
 on:
-  pull_request:
-    branches: [ master ]
+  push:
+    branches:
+    - master
+  schedule:
+    - cron: "0 7 * * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   verify:
-    if: ${{ !contains( github.event.pull_request.labels.*.name, 'skip ci' ) }}
     runs-on: ubuntu-latest
     container: quay.io/ibmgaragecloud/cli-tools:v0.10.0-lite
 
     strategy:
       matrix:
         platform: [ocp4_latest]
-      #      max-parallel: 1
       fail-fast: false
 
     env:
@@ -47,12 +48,13 @@ jobs:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
-  label:
-    # The type of runner that the job will run on
-    needs: verify
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/labeler@main
-        with:
-          repo-token: "${{ secrets.TOKEN }}"
+      - name: Slack Notification
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2.0.2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: "cntkBot"
+          SLACK_ICON_EMOJI: ":cloudwb:"
+          SLACK_TITLE: "iZero verify failed"
+          SLACK_MESSAGE: "Iteration Zero deploy verification failed"
+          MSG_MINIMAL: true
