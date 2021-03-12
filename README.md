@@ -2,7 +2,7 @@
 
 ![Latest release](https://img.shields.io/github/v/release/ibm-garage-cloud/ibm-garage-iteration-zero?sort=semver)
 
-![Verify workflow](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/workflows/verify-master.yaml/badge.svg)
+![Verify workflow](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/actions/workflows/verify-master.yaml/badge.svg)
 
 ## Iteration Zero for IBM Cloud
 
