@@ -41,7 +41,7 @@ spec:
       - name: source
         emptyDir: {}
       containers:
-      - image: docker.io/ibmgaragecloud/cli-tools:0.10.0-lite
+      - image: docker.io/ibmgaragecloud/cli-tools@sha256:fce3067e639464e8c2a2a478ac441588691afa9195af40b7b949e52d322f33cd
         name: toolkit
         envFrom:
         - configMapRef:
@@ -80,3 +80,4 @@ spec:
           DURATION=$(($(date +%s) - $STARTTIME))
           echo -e "\033[0;92m Toolkit install took: $(($DURATION / 60))m$(($DURATION % 60))s \033[0m"
       restartPolicy: Never
+
