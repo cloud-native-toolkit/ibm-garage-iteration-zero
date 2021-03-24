@@ -1,5 +1,5 @@
 module "dev_infrastructure_cos" {
-  source = "github.com/ibm-garage-cloud/terraform-ibm-object-storage?ref=v2.0.1"
+  source = "github.com/ibm-garage-cloud/terraform-ibm-object-storage?ref=v2.0.2"
 
   resource_group_name = var.resource_group_name
   resource_location   = "global"
