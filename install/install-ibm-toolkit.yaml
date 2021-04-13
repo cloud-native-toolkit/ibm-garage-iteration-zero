@@ -41,7 +41,7 @@ spec:
       - name: source
         emptyDir: {}
       containers:
-      - image: docker.io/ibmgaragecloud/cli-tools:0.10.0-lite
+      - image: quay.io/ibmgaragecloud/cli-tools:v0.10.0-lite
         name: toolkit
         envFrom:
         - configMapRef:
