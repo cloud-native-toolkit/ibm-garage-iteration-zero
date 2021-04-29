@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Verify deploy on ${{ matrix.platform }}
-        uses: ibm-garage-cloud/action-module-verify-deploy@main
+        uses: cloud-native-toolkit/action-module-verify-deploy@main
         with:
           clusterId: ${{ matrix.platform }}
           validateDeployScript: .github/scripts/validate-deploy.sh
@@ -38,7 +38,7 @@ jobs:
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
       - name: Verify destroy on ${{ matrix.platform }}
-        uses: ibm-garage-cloud/action-module-verify-destroy@main
+        uses: cloud-native-toolkit/action-module-verify-destroy@main
         if: ${{ always() }}
         with:
           clusterId: ${{ matrix.platform }}

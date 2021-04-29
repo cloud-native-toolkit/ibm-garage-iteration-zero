@@ -1,10 +1,10 @@
 # IBM Garage Solution Engineering
 
-![Latest release](https://img.shields.io/github/v/release/ibm-garage-cloud/ibm-garage-iteration-zero?sort=semver)
+![Latest release](https://img.shields.io/github/v/release/cloud-native-toolkit/ibm-garage-iteration-zero?sort=semver)
 
-![Verify workflow](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/actions/workflows/verify-master.yaml/badge.svg)
+![Verify workflow](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/actions/workflows/verify-master.yaml/badge.svg)
 
-![](https://byob.yarr.is/ibm-garage-cloud/ibm-garage-iteration-zero/time)
+![](https://byob.yarr.is/cloud-native-toolkit/ibm-garage-iteration-zero/time)
 
 ## Iteration Zero for IBM Cloud
 
@@ -59,7 +59,7 @@ This repo contains Terraform resources that will create an environment containin
 
 The stages provided in this repository provide the configuration for a set of terraform modules that have been
 provided as part of the Cloud-Native Toolkit. A full listing of those modules can be found in the 
-[Garage Terraform Modules](https://github.com/ibm-garage-cloud/garage-terraform-modules) repository. In addition to the
+[Garage Terraform Modules](https://github.com/cloud-native-toolkit/garage-terraform-modules) repository. In addition to the
 modules provided with the Cloud-Native Toolkit, any Terraform modules or scripts can be incorporated into the 
 Iteration Zero installation configuration.
 
@@ -110,7 +110,7 @@ how to configure an IBM Cloud Private Catalog tile and complete an installation 
 
 ### Developer Dashboard
 
-[Developer Dashboard](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/getting-started/dashboard/)
+[Developer Dashboard](https://cloud-native-toolkit.github.io/ibm-garage-developer-guide/getting-started/dashboard/)
 explains how to open the dashboard for using the Cloud Developer Tools environment.
 
 ### Destroying
@@ -169,39 +169,39 @@ The repository uses GitHub Actions to automate the steps to validate, release, a
 #### Verify PR
 
 When a pull request is created or a change is pushed to an existing PR, the 
-[Verify PR](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/actions?query=workflow%3A%22Verify+PR%22) 
+[Verify PR](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/actions?query=workflow%3A%22Verify+PR%22) 
 workflow runs to execute the full Iteration Zero workflow against existing IKS, OCP3, and OCP4 clusters.
  
-![Verify PR](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/workflows/Verify%20PR/badge.svg)
+![Verify PR](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/workflows/Verify%20PR/badge.svg)
 
 Labels added to the Pull Request will impact the behavior of the following `Release` workflow when the PR is merged.
 
 #### Release
 
 Pushing changes to the `master` branch, either by merging a PR (ideally) or by a direct push, triggers the 
-[Release](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/actions?query=workflow%3ARelease) workflow. 
+[Release](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/actions?query=workflow%3ARelease) workflow. 
 The workflow *should* validate the build by running through the entire terraform process to existing cluster, 
 although that has been turned off for the time being. If the verification completes successfully, the workflow creates
 (or appends to) a draft release containing the changes. Each commit to the repository will be added to the draft release 
 until someone manually publishes the release. 
 
-![Release](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/workflows/Release/badge.svg?event=push)
+![Release](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/workflows/Release/badge.svg?event=push)
 
 #### Publish assets
 
-Publishing a new release will trigger the [Publish assets](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/actions?query=workflow%3A%22Publish+assets%22)
+Publishing a new release will trigger the [Publish assets](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/actions?query=workflow%3A%22Publish+assets%22)
 workflow. The workflow generates any assets that should be published with the release (currently the IBM Private Catalog tile assets)
 based on the released version of the repository.
 
-![Publish assets](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/workflows/Publish%20assets/badge.svg)
+![Publish assets](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/workflows/Publish%20assets/badge.svg)
 
 #### Create PR
 
 The upstream terraform module repositories have been configured to trigger a `repository_dispatch` event when a new
-release of the module has been published. An incoming `repository_dispatch` event triggers the [Create PR](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/actions?query=workflow%3A%22Create+PR%22)
+release of the module has been published. An incoming `repository_dispatch` event triggers the [Create PR](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/actions?query=workflow%3A%22Create+PR%22)
 workflow to update the version of each module in the repository and create a Pull Request if there are any changes.
 
-![Create PR](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero/workflows/Create%20PR/badge.svg)
+![Create PR](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero/workflows/Create%20PR/badge.svg)
 
 ## Summary
 

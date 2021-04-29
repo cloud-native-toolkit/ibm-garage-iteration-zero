@@ -1,5 +1,5 @@
 module "dev_tools_argocd" {
-  source = "github.com/ibm-garage-cloud/terraform-tools-argocd.git?ref=v2.10.1"
+  source = "github.com/cloud-native-toolkit/terraform-tools-argocd.git?ref=v2.10.1"
 
   cluster_config_file = module.dev_cluster.config_file_path
   cluster_type        = module.dev_cluster.type_code
