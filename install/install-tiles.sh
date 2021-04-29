@@ -52,7 +52,7 @@ while [[ -z "${API_KEY}" ]]; do
 done
 
 if [[ -z "${GIT_REPO}" ]]; then
-  GIT_REPO="ibm-garage-cloud/ibm-garage-iteration-zero"
+  GIT_REPO="cloud-native-toolkit/ibm-garage-iteration-zero"
 fi
 
 echo "Using GIT_REPO: ${GIT_REPO}"

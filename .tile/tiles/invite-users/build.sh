@@ -31,7 +31,7 @@ if [ -z "${VERSION}" ]; then
 fi
 
 if [ -z "${REPO_SLUG}" ]; then
-  REPO_SLUG="ibm-garage-cloud/ibm-garage-iteration-zero"
+  REPO_SLUG="cloud-native-toolkit/ibm-garage-iteration-zero"
 fi
 
 REPO_URL="https://github.com/${REPO_SLUG}"

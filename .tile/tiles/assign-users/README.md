@@ -7,7 +7,7 @@ This tile adds existing users to existing access groups.
 You can find out more information about the Cloud-Native Toolkit and the Iteration Zero terraform here:
     
 - [IBM Garage Cloud Native Toolkit](https://cloudnativetoolkit.dev/)
-- [Toolkit Iteration Zero Terraform](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero)
+- [Toolkit Iteration Zero Terraform](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero)
 
 ## Prerequisites
 

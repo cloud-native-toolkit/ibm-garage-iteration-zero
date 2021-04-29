@@ -14,9 +14,9 @@ Once obtained, the VLAN information will need to be written to a variables file 
 ### Step 1. Install the Catalyst Tools CLI
 To make getting this information as simple as possible we have added a command to the helper CLI tool that will create this information in a format that is easy to cut/paste into the `terraform.tfvars` settings file. 
 
-- Install the [IBM Garage Catalyst Tools CLI](https://www.npmjs.com/package/@garage-catalyst/ibm-garage-cloud-cli):
+- Install the [IBM Garage Catalyst Tools CLI](https://www.npmjs.com/package/@ibmgaragecloud/cloud-native-toolkit-cli):
     ```bash
-    npm i -g @garage-catalyst/ibm-garage-cloud-cli
+    npm i -g @ibmgaragecloud/cloud-native-toolkit-cli
     ````
 - Log into your IBM Cloud Account with the correct region and resource group:
     ```bash

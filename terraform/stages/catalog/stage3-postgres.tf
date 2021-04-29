@@ -1,5 +1,5 @@
 module "dev_infrastructure_postgres" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//cloud-managed/services/postgres?ref=v2.2.4"
+  source = "github.com/cloud-native-toolkit/garage-terraform-modules.git//cloud-managed/services/postgres?ref=v2.2.4"
 
   resource_group_name = var.resource_group_name
   resource_location   = var.region

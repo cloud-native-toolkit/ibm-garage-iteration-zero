@@ -8,11 +8,11 @@ or ROKS 3.11, 4.3, 4.4, or 4.5 clusters.
 You can find out more information about the Cloud-Native Toolkit and the Iteration Zero terraform here:
     
 - [IBM Garage Cloud Native Toolkit](https://cloudnativetoolkit.dev/)
-- [Toolkit Iteration Zero Terraform](https://github.com/ibm-garage-cloud/ibm-garage-iteration-zero)
+- [Toolkit Iteration Zero Terraform](https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero)
 
 This tile is a piece of a larger Cloud-Native Software Development LifeCycle (SDLC) to enable end-to-end development and management of Cloud-Native applications
 
-![CNCF DevOps Tools](https://raw.githubusercontent.com/ibm-garage-cloud/ibm-garage-iteration-zero/master/docs/images/catalyst-provisioned-environment.png)
+![CNCF DevOps Tools](https://raw.githubusercontent.com/cloud-native-toolkit/ibm-garage-iteration-zero/master/docs/images/catalyst-provisioned-environment.png)
 
 ## Prerequisites
 

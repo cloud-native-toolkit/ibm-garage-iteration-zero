@@ -12,7 +12,7 @@ A clear and concise description of what the bug is.
 
 **Version**
 What version of Iteration Zero are you using? If you are running from the cloned repo, then
-provide the latest commit hash from ibm-garage-cloud/ibm-garage-iteration-zero or the tag if
+provide the latest commit hash from cloud-native-toolkit/ibm-garage-iteration-zero or the tag if
 working off of a tagged version. If you are running from a tile, provide the tile version. 
 
 **Environment configuration**

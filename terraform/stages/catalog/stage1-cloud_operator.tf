@@ -1,5 +1,5 @@
 module "dev_software_cloud_operator" {
-  source = "github.com/ibm-garage-cloud/garage-terraform-modules.git//self-managed/software/cloud_operator?ref=v2.2.0"
+  source = "github.com/cloud-native-toolkit/garage-terraform-modules.git//self-managed/software/cloud_operator?ref=v2.2.0"
 
   resource_group_name = var.resource_group_name
   resource_location   = var.vlan_region != "" ? var.vlan_region : var.region

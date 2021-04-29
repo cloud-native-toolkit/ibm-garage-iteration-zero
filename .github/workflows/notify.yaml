@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        slug: ["ibm-garage-cloud/cloudnative-toolkit"]
+        slug: ["cloud-native-toolkit/cloudnative-toolkit"]
 
     steps:
       - name: Repository dispatch ${{matrix.slug}}
