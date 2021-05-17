@@ -1,5 +1,5 @@
 module "dev_software_olm" {
-  source = "github.com/cloud-native-toolkit/terraform-k8s-olm.git?ref=v1.2.6"
+  source = "github.com/cloud-native-toolkit/terraform-k8s-olm.git?ref=v1.3.0"
 
   cluster_config_file      = module.dev_cluster.config_file_path
   cluster_version          = ""
