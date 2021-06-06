@@ -1,5 +1,5 @@
 module "dev_infrastructure_cos" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-object-storage?ref=v3.3.0"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-object-storage?ref=v3.3.2"
 
   resource_group_name = var.resource_group_name
   resource_location   = "global"
