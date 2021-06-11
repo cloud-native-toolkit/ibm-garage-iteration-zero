@@ -55,7 +55,7 @@ spec:
         - -c
         - |
           set -ex
-          git clone -b master --depth=1 https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero.git /source
+          git clone -b remove-tekton --depth=1 https://github.com/cloud-native-toolkit/ibm-garage-iteration-zero.git /source
           cd /source
 
           # Customize Installation
