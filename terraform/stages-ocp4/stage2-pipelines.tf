@@ -1,5 +1,5 @@
 module "dev_tools_tekton_release" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-tekton.git?ref=v2.2.0"
+  source = "github.com/cloud-native-toolkit/terraform-tools-tekton.git?ref=v2.2.1"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
