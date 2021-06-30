@@ -1,5 +1,5 @@
 module "dev_tools_jenkins" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-jenkins.git?ref=v1.4.3"
+  source = "github.com/cloud-native-toolkit/terraform-tools-jenkins.git?ref=v1.4.4"
 
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname
   cluster_config_file      = module.dev_cluster.config_file_path
