@@ -1,5 +1,5 @@
 module "dev_tools_dashboard" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-dashboard.git?ref=v1.10.12"
+  source = "github.com/cloud-native-toolkit/terraform-tools-dashboard.git?ref=v1.10.13"
 
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname
   cluster_config_file      = module.dev_cluster.config_file_path
