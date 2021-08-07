@@ -1,5 +1,5 @@
 module "dev_infrastructure_sysdig" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-sysdig.git?ref=v2.3.3"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-sysdig.git?ref=v3.4.0"
 
   resource_group_name      = var.resource_group_name
   resource_location        = var.region
