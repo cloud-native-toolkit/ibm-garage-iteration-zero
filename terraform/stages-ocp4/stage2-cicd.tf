@@ -1,5 +1,5 @@
 module "cicd" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-openshift-cicd.git?ref=v1.5.5"
+  source = "github.com/cloud-native-toolkit/terraform-tools-openshift-cicd.git?ref=issue-45"
 
   cluster_config_file = module.dev_cluster.config_file_path
   cluster_type        = module.dev_cluster.type_code
