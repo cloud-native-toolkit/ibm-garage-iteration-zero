@@ -1,5 +1,5 @@
-module "dev_infrastructure_sysdig" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-sysdig.git?ref=v2.3.3"
+module "sysdig" {
+  source = "github.com/cloud-native-toolkit/terraform-ibm-sysdig.git?ref=v4.0.0"
 
   cluster_name             = module.dev_cluster.name
   cluster_id               = module.dev_cluster.id
@@ -13,5 +13,5 @@ module "dev_infrastructure_sysdig" {
   tags                     = [module.dev_cluster.tag]
   provision                = var.provision_sysdig == "true"
   name                     = var.sysdig_name
-  sync                     = module.dev_infrastructure_logdna.sync
+  sync                     = module.logdna.sync
 }

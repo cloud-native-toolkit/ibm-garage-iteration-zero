@@ -11,6 +11,11 @@ variable "resource_group_name" {
   description = "Existing resource group where the IKS cluster will be provisioned."
 }
 
+variable "resource_group_provision" {
+  type        = string
+  description = "Flag indicating that the resource group should be provisioned. If set to false then resource group is expected to already exist"
+}
+
 variable "registry_type" {
   type        = string
   description = "The type of image registry (icr, ocp, other, none)"
@@ -233,4 +238,14 @@ variable "storage_class" {
   type        = string
   description = "The storage class of the persistence volume claim"
   default     = ""
+}
+
+variable "private_endpoint" {
+  type       = bool
+  default    = false
+}
+
+variable "observe_namespace" {
+  default    = "ibm-observe"
+  type       = "string"
 }
