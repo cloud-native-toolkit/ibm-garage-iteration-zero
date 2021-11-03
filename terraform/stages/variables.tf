@@ -247,5 +247,5 @@ variable "private_endpoint" {
 
 variable "observe_namespace" {
   default    = "ibm-observe"
-  type       = "string"
+  type       = string
 }
