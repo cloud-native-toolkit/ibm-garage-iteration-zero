@@ -246,6 +246,16 @@ variable "private_endpoint" {
 }
 
 variable "observe_namespace" {
-  default    = "ibm-observe"
-  type       = string
+  default     = "ibm-observe"
+  type        = string
+}
+
+variable "toolkit_namespace" {
+  default     = "cntk"
+  type        = string
+}
+
+variable "access_group_provision" {
+  type        = bool
+  description = "Flag to provision the access group"
 }
