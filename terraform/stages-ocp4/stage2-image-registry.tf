@@ -1,5 +1,5 @@
 module "dev_tools_ibm_image_registry" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-image-registry.git?ref=v1.4.0"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-image-registry.git?ref=v2.0.3"
 
   resource_group_name = module.dev_cluster.resource_group_name
   cluster_region      = module.dev_cluster.region

@@ -1,5 +1,5 @@
 module "dev_tools_sourcecontrol" {
-  source = "github.com/cloud-native-toolkit/terraform-k8s-source-control.git?ref=v1.2.3"
+  source = "github.com/cloud-native-toolkit/terraform-k8s-source-control.git?ref=v1.3.0"
 
   config_file_path  = module.dev_cluster.config_file_path
   cluster_type_code = module.dev_cluster.type_code
