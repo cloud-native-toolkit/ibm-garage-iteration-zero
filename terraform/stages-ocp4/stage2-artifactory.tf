@@ -1,5 +1,5 @@
 module "dev_tools_artifactory" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-artifactory.git?ref=v1.11.0"
+  source = "github.com/cloud-native-toolkit/terraform-tools-artifactory.git?ref=v1.12.0"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_ingress_hostname = module.dev_cluster.ingress_hostname
