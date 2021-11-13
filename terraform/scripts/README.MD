@@ -32,9 +32,9 @@ Edit the file `tools.yaml` and manually update your LogDNA, Sysdig and Github
 ./config-console-tools gsi-learning-ocp43-clus-7ec5d722a0ab3f463fdc90eeb94dbc70-0000.us-east.containers.appdomain.cloud
 ```
  
-### acp-admin,acp-mgr and acp-user
+### acp-mgr, acp-admin, acp-user, and acp-iaas
 
-Use this link to understand this script https://cloudnativetoolkit.dev/admin/config-account#access-group-for-environment-administrators
+[Prepare an IBM Cloud account](https://cloudnativetoolkit.dev/adopting/setup/ibmcloud-setup/) explains how the account owner can use the `acp` scripts to create the IAM access groups for the [IBM Cloud account management](https://cloudnativetoolkit.dev/resources/ibm-cloud/ibm-cloud-roles/) roles: account managers, environment administrators, and environment users, plus the account's IaaS functional ID. [IBM Cloud: Resource Access Management](https://cloudnativetoolkit.dev/resources/ibm-cloud/access-control/) explains in detail how IAM works and includes videos that show how to use the scripts.
 
 ### dataload.sh
 
