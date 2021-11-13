@@ -36,12 +36,12 @@ spec:
       labels:
         run: ibm-toolkit
     spec:
-      serviceAccount: ibm-toolkit
+      serviceAccountName: ibm-toolkit
       volumes:
       - name: source
         emptyDir: {}
       containers:
-      - image: quay.io/ibmgaragecloud/cli-tools:v0.10.0-lite
+      - image: quay.io/ibmgaragecloud/cli-tools:v0.15
         name: toolkit
         envFrom:
         - configMapRef:
