@@ -1,5 +1,5 @@
 module "dev_tools_sonarqube" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-sonarqube.git?ref=v1.9.2"
+  source = "github.com/cloud-native-toolkit/terraform-tools-sonarqube.git?ref=v1.9.4"
 
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file      = module.dev_cluster.config_file_path
