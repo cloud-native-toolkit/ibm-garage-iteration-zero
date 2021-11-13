@@ -1,5 +1,5 @@
 module "dev_cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-container-platform.git?ref=v1.20.8"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-container-platform.git?ref=v1.21.0"
 
   resource_group_name     = var.resource_group_name
   cluster_name            = var.cluster_name
