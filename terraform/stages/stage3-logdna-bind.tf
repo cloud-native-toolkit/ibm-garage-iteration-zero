@@ -3,8 +3,6 @@ module "ibm-logdna-bind" {
 
   cluster_id = module.dev_cluster.id
   cluster_name = module.dev_cluster.name
-  cluster_config_file_path = module.dev_cluster.platform.kubeconfig
-  tools_namespace = module.dev_tools_namespace.name
   resource_group_name = module.resource_group.name
   sync = module.sysdig-bind.sync
   logdna_id = module.logdna.guid
