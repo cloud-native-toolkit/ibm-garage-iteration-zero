@@ -86,3 +86,8 @@ variable "storage_class" {
   description = "The storage class of the persistence volume claim"
   default     = ""
 }
+
+variable "toolkit_namespace" {
+  default     = "cntk"
+  type        = string
+}
