@@ -1,5 +1,5 @@
 module "dev_infrastructure_logdna" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-logdna.git?ref=v2.4.3"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-logdna.git?ref=v4.0.0"
 
   resource_group_name      = var.resource_group_name
   resource_location        = var.region
