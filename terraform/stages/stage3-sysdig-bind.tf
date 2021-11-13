@@ -1,5 +1,5 @@
 module "sysdig-bind" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-sysdig-bind?ref=v1.1.1"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-sysdig-bind?ref=v1.2.2"
 
   resource_group_name = module.resource_group.name
   cluster_id = module.dev_cluster.id
