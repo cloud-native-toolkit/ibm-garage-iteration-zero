@@ -4,4 +4,5 @@ module "dev_tools_tekton_resources" {
   cluster_type             = module.dev_cluster.type_code
   cluster_config_file_path = module.dev_cluster.config_file_path
   resource_namespace       = module.dev_tools_namespace.name
+  support_namespace        = module.buildah-unprivileged.namespace
 }
