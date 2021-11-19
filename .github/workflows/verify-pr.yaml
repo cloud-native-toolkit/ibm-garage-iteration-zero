@@ -40,6 +40,7 @@ jobs:
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           TF_VAR_login_password: ${{ secrets.IBMCLOUD_API_KEY }}
+          TF_VAR_registry_password: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
       - name: Verify destroy of ${{ matrix.stage }} on ${{ matrix.platform }}
@@ -51,6 +52,7 @@ jobs:
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           TF_VAR_login_password: ${{ secrets.IBMCLOUD_API_KEY }}
+          TF_VAR_registry_password: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
   label:
