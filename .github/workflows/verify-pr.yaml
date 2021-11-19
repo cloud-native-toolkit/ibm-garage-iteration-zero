@@ -15,9 +15,13 @@ jobs:
 
     strategy:
       matrix:
-        platform: [ocp4_latest]
-      #      max-parallel: 1
+        platform:
+          - ocp4_latest
+        stage:
+          - stages
+          - stages-ocp4
       fail-fast: false
+      max-parallel: 1
 
     env:
       HOME: /home/devops
@@ -27,22 +31,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Verify deploy on ${{ matrix.platform }}
+      - name: Verify deploy of ${{ matrix.stage }} on ${{ matrix.platform }}
         uses: cloud-native-toolkit/action-module-verify-deploy@main
         with:
           clusterId: ${{ matrix.platform }}
           validateDeployScript: .github/scripts/validate-deploy.sh
-          testStagesDir: ./terraform/stages
+          testStagesDir: ./terraform/${{ matrix.stage }}
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
-      - name: Verify destroy on ${{ matrix.platform }}
+      - name: Verify destroy of ${{ matrix.stage }} on ${{ matrix.platform }}
         uses: cloud-native-toolkit/action-module-verify-destroy@main
         if: ${{ always() }}
         with:
           clusterId: ${{ matrix.platform }}
-          testStagesDir: ./terraform/stages
+          testStagesDir: ./terraform/${{ matrix.stage }}
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
