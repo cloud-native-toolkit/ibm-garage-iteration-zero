@@ -19,3 +19,13 @@ module "dev_cluster" {
   provision_cos           = var.cluster_provision_cos == "true"
   cos_name                = var.cos_name
 }
+
+resource null_resource write_kubeconfig {
+  triggers = {
+    always = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command = "echo -n '${module.dev_cluster.platform.kubeconfig}' > .kubeconfig"
+  }
+}

@@ -8,3 +8,13 @@ module "dev_cluster" {
   cluster_region          = var.region
   resource_group_name     = var.resource_group_name
 }
+
+resource null_resource write_kubeconfig {
+  triggers = {
+    always = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command = "echo -n '${module.dev_cluster.platform.kubeconfig}' > .kubeconfig"
+  }
+}

@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 
-export KUBECONFIG="${PWD}/.kube/config"
+export KUBECONFIG="${cat .kubeconfig}"
 
 set -e
 
