@@ -91,3 +91,11 @@ variable "toolkit_namespace" {
   default     = "cntk"
   type        = string
 }
+
+variable "region" {
+  default     = "N/A"
+}
+
+variable "resource_group_name" {
+  default     = "N/A"
+}
