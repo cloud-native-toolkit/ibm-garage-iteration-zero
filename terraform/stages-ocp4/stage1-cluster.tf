@@ -1,5 +1,5 @@
 module "dev_cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-k8s-ocp-cluster?ref=v2.4.5"
+  source = "github.com/cloud-native-toolkit/terraform-k8s-ocp-cluster?ref=v2.4.6"
 
   login_user              = var.login_user
   login_password          = var.login_password
