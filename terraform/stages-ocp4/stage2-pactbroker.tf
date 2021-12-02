@@ -1,5 +1,5 @@
 module "dev_tools_pactbroker_release" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-pactbroker.git?ref=v1.5.1"
+  source = "github.com/cloud-native-toolkit/terraform-tools-pactbroker.git?ref=v1.5.3"
 
   cluster_ingress_hostname                      = module.dev_cluster.ingress_hostname
   cluster_config_file                           = module.dev_cluster.config_file_path
