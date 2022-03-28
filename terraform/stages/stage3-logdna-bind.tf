@@ -1,5 +1,5 @@
 module "ibm-logdna-bind" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-logdna-bind?ref=v1.2.2"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-logdna-bind?ref=v1.2.4"
 
   cluster_id = module.dev_cluster.id
   cluster_name = module.dev_cluster.name
