@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        platform: [ibm_ocp48]
+        platform: [ocp4_latest]
       fail-fast: false
 
     env:
