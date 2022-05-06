@@ -6,5 +6,4 @@ module "dev_tools_cicd" {
   olm_namespace       = module.dev_software_olm.olm_namespace
   operator_namespace  = module.dev_software_olm.target_namespace
   ingress_subdomain   = module.dev_cluster.ingress_hostname
-  app_namespace       = module.dev_tools_namespace.name
 }
