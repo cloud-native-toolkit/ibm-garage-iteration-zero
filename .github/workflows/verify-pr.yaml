@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         platform:
-          - ocp4_latest
+          - ibm_ocp48
         stage:
           - stages-ocp4
           - stages
