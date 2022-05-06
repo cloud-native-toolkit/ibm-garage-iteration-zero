@@ -13,5 +13,5 @@ elif [ "$REPLY" == "N" ] || [ "$REPLY" == "n" ] || [ -z "$REPLY" ]; then
 fi
 oc apply -f https://raw.githubusercontent.com/cloud-native-toolkit/ibm-garage-iteration-zero/master/install/install-ibm-toolkit.yaml
 sleep 5
-oc wait pod -l job-name=ibm-toolkit --for=condition=Ready -n default
+oc wait pod -l job-name=ibm-toolkit --for=condition=Ready -n default --timeout=360s
 oc logs job/ibm-toolkit -f -n default
