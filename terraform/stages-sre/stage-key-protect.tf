@@ -1,5 +1,5 @@
 module "sre_key-protect" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-key-protect.git?ref=v2.3.0"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-key-protect.git?ref=v2.3.1"
 
   resource_group_name      = var.resource_group_name
   resource_location        = var.region
