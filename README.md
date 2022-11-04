@@ -28,8 +28,12 @@ tools, and services, these Infrastructure-as-Code (IasC) scripts automate the pr
 environment as needed that embodies these best practices. The scripts are modular so tools can be easily added or removed.
 This combination of tools have been proven in the industry to deliver real value for modern cloud-native development. 
 
-The Red Hat [Open Innovation Labs](https://github.com/rht-labs/labs-ci-cd) has a very similar approach to how they 
-deliver success with OpenShift.
+The Red Hat [Open Innovation Labs](https://red.ht/labs) has a very similar approach to how they 
+kick start cloud-native development on OpenShift. The Labs accelerator 
+[🦄 Ubiquitous Journey 🔥](https://github.com/rht-labs/ubiquitous-journey) is a Helm chart that deploys 
+a similar suite of tooling (Tekton / Jenkins / ArgoCD / SonarQube /etc) and has an opinionated example called 
+[pet-battle](https://github.com/rht-labs/ubiquitous-journey/blob/main/pet-battle/test/values.yaml) 
+showing how to do GitOps using ArgoCD's App of Apps pattern.
 
 You can jump straight to the [Developers Guide](https://cloudnativetoolkit.dev/) if you 
 want more detail on how the Cloud-Native Toolkit fits into the end-to-end development story.
